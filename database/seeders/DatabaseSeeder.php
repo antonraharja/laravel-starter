@@ -35,13 +35,14 @@ class DatabaseSeeder extends Seeder
 		\App\Models\Profile::factory()->create(['user_id' => $user->id]);
 
 		$permission = \App\Models\Permission::factory()->create([
-			'name' => 'ADMIN_DEFAULT',
-			'description' => 'Admin default permissions',
+			'name' => 'ADMIN_DEFAULT_POLICY',
+			'description' => 'Default permissions for Administrator',
 			'type' => 'POLICY',
 			'content' => [
-				'users',
-				'roles',
-				'permissions',
+				'user',
+				'role',
+				'permission',
+				'token',
 			]
 		]);
 
