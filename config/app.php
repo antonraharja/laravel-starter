@@ -171,7 +171,7 @@ return [
 		App\Providers\RouteServiceProvider::class,
 
 		// All Base providers
-		App\Base\ACL\Providers\ACLServiceProvider::class,
+		Base\ACL\Providers\ACLServiceProvider::class,
 	])->toArray(),
 
 	/*
@@ -189,7 +189,7 @@ return [
 		// 'Example' => App\Facades\Example::class,
 
 		// ACL
-		'ACL' => \App\Base\ACL\Facades\ACL::class,
+		'ACL' => \Base\ACL\Facades\ACL::class,
 	])->toArray(),
 
 ];

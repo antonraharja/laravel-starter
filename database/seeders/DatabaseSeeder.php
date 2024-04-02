@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
 
 		\App\Models\Profile::factory()->create(['user_id' => $user->id]);
 
-		$permission = \App\Models\Permission::factory()->create([
+		$permission = \Base\ACL\Models\Permission::factory()->create([
 			'name' => 'ADMIN_DEFAULT_POLICY',
 			'description' => 'Default permissions for Administrator',
 			'type' => 'POLICY',
@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
 			]
 		]);
 
-		$role = \App\Models\Role::factory()->create([
+		$role = \Base\ACL\Models\Role::factory()->create([
 			'name' => 'ADMIN',
 			'description' => 'Administrator role',
 		]);

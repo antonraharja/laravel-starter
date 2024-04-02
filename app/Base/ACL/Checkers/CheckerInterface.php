@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Base\ACL\Checkers;
+namespace Base\ACL\Checkers;
 
-use App\Base\ACL\Config;
+use Base\ACL\Config;
 
 interface CheckerInterface
 {

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Base\ACL\Facades\ACL;
+use Base\ACL\Facades\ACL;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Route;
 

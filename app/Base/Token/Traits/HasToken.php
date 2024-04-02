@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Base\Token\Traits;
+namespace Base\Token\Traits;
 
 use Exception;
 use Filament\Forms\Form;
-use App\Base\Token\Result;
+use Base\Token\Result;
 use Illuminate\Support\Carbon;
 
 trait HasToken

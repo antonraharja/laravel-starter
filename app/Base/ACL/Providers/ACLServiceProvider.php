@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Base\ACL\Providers;
+namespace Base\ACL\Providers;
 
-use App\Base\ACL\Services\ACLServices;
+use Base\ACL\Services\ACLServices;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Foundation\Application;
 

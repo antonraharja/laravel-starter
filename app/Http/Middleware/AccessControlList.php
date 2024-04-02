@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use App\Base\ACL\Facades\ACL;
+use Base\ACL\Facades\ACL;
 use App\Providers\RouteServiceProvider;
 use Symfony\Component\HttpFoundation\Response;
 

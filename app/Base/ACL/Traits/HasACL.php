@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Base\ACL\Traits;
+namespace Base\ACL\Traits;
 
-use App\Base\ACL\Config;
+use Base\ACL\Config;
 
 trait HasACL
 {

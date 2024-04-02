@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Base\Token\Policies;
+namespace Base\Token\Policies;
 
-use App\Base\ACL\Facades\ACL;
-use App\Base\TOken\Models\Token;
+use Base\ACL\Facades\ACL;
+use Base\TOken\Models\Token;
 use App\Models\User;
 
 class TokenPolicy

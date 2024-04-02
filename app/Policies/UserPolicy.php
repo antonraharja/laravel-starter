@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Base\ACL\Facades\ACL;
+use Base\ACL\Facades\ACL;
 
 class UserPolicy
 {

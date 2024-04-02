@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Base\ACL\Services;
+namespace Base\ACL\Services;
 
-use App\Base\ACL\Traits\HasACL;
+use Base\ACL\Traits\HasACL;
 
 class ACLServices
 {

@@ -6,7 +6,7 @@ use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use App\Base\ACL\Models\Role;
+use Base\ACL\Models\Role;
 use Filament\Resources\Resource;
 use App\Filament\Clusters\Settings;
 use Filament\Forms\Components\Select;

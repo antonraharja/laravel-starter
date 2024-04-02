@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Base\ACL\Policies;
+namespace Base\ACL\Policies;
 
-use App\Base\ACL\Facades\ACL;
-use App\Base\ACL\Models\Role;
+use Base\ACL\Facades\ACL;
+use Base\ACL\Models\Role;
 use App\Models\User;
 
 class RolePolicy

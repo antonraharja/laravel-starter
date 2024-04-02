@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Models\User;
 use Filament\Forms\Form;
-use App\Base\ACL\Facades\ACL;
+use Base\ACL\Facades\ACL;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use App\Filament\Clusters\Settings;

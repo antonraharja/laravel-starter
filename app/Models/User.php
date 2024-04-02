@@ -4,8 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\API;
-use App\Base\ACL\Models\Role;
-use App\Base\ACL\Traits\HasACL;
+use Base\ACL\Models\Role;
+use Base\ACL\Traits\HasACL;
 use Laravel\Sanctum\HasApiTokens;
 use Filament\Models\Contracts\HasName;
 use Filament\Models\Contracts\HasAvatar;

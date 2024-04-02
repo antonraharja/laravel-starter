@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Base\ACL\Facades;
+namespace Base\ACL\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

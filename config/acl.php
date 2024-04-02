@@ -17,9 +17,9 @@ return [
 	 * Policy types
 	 */
 	'permissions' => [
-		'POLICY' => \App\Base\ACL\Checkers\Policy::class,
-		'METHOD' => \App\Base\ACL\Checkers\Label::class,
-		'TAG' => \App\Base\ACL\Checkers\Label::class,
+		'POLICY' => \Base\ACL\Checkers\Policy::class,
+		'METHOD' => \Base\ACL\Checkers\Label::class,
+		'TAG' => \Base\ACL\Checkers\Label::class,
 	],
 
 	/**

@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Base\ACL\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Permission>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Base\ACL\Models\Permission>
  */
 class PermissionFactory extends Factory
 {
@@ -28,4 +28,14 @@ class PermissionFactory extends Factory
 			]
 		];
 	}
+
+	public function modelName()
+	{
+		return \Base\ACL\Models\Permission::class;
+	}
+
+	// public static function factoryForModel(string $modelName)
+	// {
+	// 	return static::new();
+	// }
 }

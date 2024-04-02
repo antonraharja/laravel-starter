@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Base\ACL;
+namespace Base\ACL;
 
 class Config
 {

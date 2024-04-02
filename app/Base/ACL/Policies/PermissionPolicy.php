@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Base\ACL\Policies;
+namespace Base\ACL\Policies;
 
-use App\Base\ACL\Facades\ACL;
-use App\Base\ACL\Models\Permission;
+use Base\ACL\Facades\ACL;
+use Base\ACL\Models\Permission;
 use App\Models\User;
 
 class PermissionPolicy

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Base\Token;
+namespace Base\Token;
 
 class Result
 {
