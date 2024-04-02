@@ -8,6 +8,7 @@ use Base\ACL\Models\Role;
 use Base\ACL\Traits\HasACL;
 use Laravel\Sanctum\HasApiTokens;
 use Filament\Models\Contracts\HasName;
+use Illuminate\Support\Facades\Storage;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -73,7 +74,11 @@ class User extends Authenticatable implements HasAvatar, HasName
 
 	public function getFilamentAvatarUrl(): ?string
 	{
-		return asset('storage/' . $this->profile->photo);
+		if (isset($this->profile->photo) && Storage::disk('local')->exists($this->profile->photo)) {
+			return asset('storage/' . $this->profile->photo);
+		} else {
+			return null;
+		}
 	}
 
 	public function getFilamentName(): string

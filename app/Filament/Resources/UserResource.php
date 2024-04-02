@@ -118,6 +118,8 @@ class UserResource extends Resource
 											->tel(),
 										FileUpload::make('photo')
 											->label(__('Profile picture'))
+											->disk('local')
+											->directory('avatars')
 											->avatar()
 											->image(),
 										DatePicker::make('dob')
