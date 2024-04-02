@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-	if (ACL::permit('users.view')) {
+	if (ACL::permit('user.view')) {
 		return $request->user();
 	} else {
 		return Response::deny('Forbidden');
@@ -46,5 +46,4 @@ Route::get('/permissions', function (Request $request) {
 	$permissions = trim($permissions);
 
 	return Response::allow($permissions);
-})->middleware(['auth:sanctum', 'acl:permissions.viewany']);
-
+})->middleware(['auth:sanctum', 'acl:permission.viewany']);
