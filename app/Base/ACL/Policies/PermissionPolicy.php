@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Base\ACL\Policies;
+
+use App\Base\ACL\Facades\ACL;
+use App\Base\ACL\Models\Permission;
+use App\Models\User;
+
+class PermissionPolicy
+{
+	/**
+	 * Determine whether the user can view any models.
+	 */
+	public function viewAny(User $user): bool
+	{
+		return ACL::permit('permission.viewany');
+	}
+
+	/**
+	 * Determine whether the user can view the model.
+	 */
+	public function view(User $user, Permission $permission): bool
+	{
+		return ACL::permit('permission.view');
+	}
+
+	/**
+	 * Determine whether the user can create models.
+	 */
+	public function create(User $user): bool
+	{
+		return ACL::permit('permission.create');
+	}
+
+	/**
+	 * Determine whether the user can update the model.
+	 */
+	public function update(User $user, Permission $permission): bool
+	{
+		return ACL::permit('permission.update');
+	}
+
+	/**
+	 * Determine whether the user can delete the model.
+	 */
+	public function delete(User $user, Permission $permission): bool
+	{
+		return ACL::permit('permission.delete');
+	}
+
+	/**
+	 * Determine whether the user can restore the model.
+	 */
+	public function restore(User $user, Permission $permission): bool
+	{
+		return ACL::permit('permission.restore');
+	}
+
+	/**
+	 * Determine whether the user can permanently delete the model.
+	 */
+	public function forceDelete(User $user, Permission $permission): bool
+	{
+		return ACL::permit('permission.forcedelete');
+	}
+}
