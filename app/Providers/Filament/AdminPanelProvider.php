@@ -2,12 +2,11 @@
 
 namespace App\Providers\Filament;
 
-use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use Base\General\Facades\General;
 use App\Filament\Pages\Auth\Login;
-use Filament\Support\Colors\Color;
 use Filament\Support\Enums\MaxWidth;
 use App\Filament\Pages\Auth\EditProfile;
 use Filament\Http\Middleware\Authenticate;
@@ -32,8 +31,11 @@ class AdminPanelProvider extends PanelProvider
 			->login(Login::class)
 			->profile(EditProfile::class, isSimple: true)
 			->colors([
-				'primary' => Color::Zinc,
+				'primary' => General::getColor(),
 			])
+			->brandName(General::getContent('themes', 'brand_name'))
+			->brandLogo(asset('storage/' . General::getContent('themes', 'brand_logo')))
+			->favicon(asset('storage/' . General::getContent('themes', 'favico')))
 			->maxContentWidth(MaxWidth::Full)
 			->topNavigation()
 			->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
