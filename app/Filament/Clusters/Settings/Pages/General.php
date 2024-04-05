@@ -59,12 +59,6 @@ class General extends Page
 									->aside()
 									->schema([
 										Group::make([
-											TextInput::make('site_title')
-												->label(__('Site title'))
-												->hint(__('Max. 60 chars'))
-												->required()
-												->minLength(3)
-												->maxLength(60),
 											TextInput::make('brand_name')
 												->label(__('Brand name'))
 												->hint(__('Max. 30 chars'))

@@ -35,11 +35,6 @@ class General extends Models\General
 		return $this->getGroup('themes');
 	}
 
-	public function getSiteTitle(): ?string
-	{
-		return $this->getThemes()->get('site_title');
-	}
-
 	public function getBrandName(): ?string
 	{
 		return $this->getThemes()->get('brand_name');
