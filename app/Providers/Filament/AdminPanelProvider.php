@@ -33,9 +33,9 @@ class AdminPanelProvider extends PanelProvider
 			->colors([
 				'primary' => General::getColor(),
 			])
-			->brandName(General::getContent('themes', 'brand_name'))
-			->brandLogo(asset('storage/' . General::getContent('themes', 'brand_logo')))
-			->favicon(asset('storage/' . General::getContent('themes', 'favico')))
+			->brandName(General::getBrandName())
+			->brandLogo(General::getBrandLogo())
+			->favicon(General::getFavico())
 			->maxContentWidth(MaxWidth::Full)
 			->topNavigation()
 			->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

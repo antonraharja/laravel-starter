@@ -3,6 +3,7 @@
 namespace Base\General;
 
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Collection;
 
 class General extends Models\General
 {
@@ -10,12 +11,58 @@ class General extends Models\General
 
 	private string $defaultTimezone = 'UTC';
 
+	public function getGroup(string $group): Collection
+	{
+		$returns = [];
+
+		foreach ( $this->where(['group' => $group])->get(['keyword', 'content'])->toArray() as $row ) {
+			$returns[$row['keyword']] = $row['content'];
+		}
+
+		return collect($returns);
+	}
+
 	public function getContent(string $group, string $keyword): ?string
 	{
 		return $this->where([
 			'group' => $group,
 			'keyword' => $keyword,
 		])->get('content')->value('content');
+	}
+
+	public function getThemes(): Collection
+	{
+		return $this->getGroup('themes');
+	}
+
+	public function getSiteTitle(): ?string
+	{
+		return $this->getThemes()->get('site_title');
+	}
+
+	public function getBrandName(): ?string
+	{
+		return $this->getThemes()->get('brand_name');
+	}
+
+	public function getBrandLogo(): ?string
+	{
+		$brandLogo = $this->getThemes()->get('brand_logo');
+		if ($brandLogo && file_exists(storage_path('app/' . $brandLogo))) {
+			return asset('storage/' . $brandLogo);
+		}
+
+		return null;
+	}
+
+	public function getFavico(): ?string
+	{
+		$favico = $this->getThemes()->get('favico');
+		if ($favico && file_exists(storage_path('app/' . $favico))) {
+			return asset('storage/' . $favico);
+		}
+
+		return null;
 	}
 
 	public function getColor()
@@ -27,6 +74,11 @@ class General extends Models\General
 		$const = "$class::$method";
 
 		return constant($const);
+	}
+
+	public function getTimezoneList(): array
+	{
+		return (new \Base\Timezone\Timezone)->get();
 	}
 
 	public function getUserTimezone(): ?string
