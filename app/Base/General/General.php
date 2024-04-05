@@ -29,13 +29,41 @@ class General extends Models\General
 		return constant($const);
 	}
 
-	public function getTimezone()
+	public function getUserTimezone(): ?string
 	{
-		return $this->getContent('timezones', 'timezone') ?? $this->defaultTimezone;
+		if ($timezone = auth()->user()->timezone) {
+			if ((new \Base\Timezone\Timezone)->getLabel($timezone)) {
+				return $timezone;
+			}
+		}
+
+		return null;
 	}
 
-	public function getSystemTimezone(): string
+	public function getAppTimezone(): string
 	{
-		return (string) config('app.timezone');
+		if ($timezone = $this->getContent('timezones', 'timezone')) {
+			if ((new \Base\Timezone\Timezone)->getLabel($timezone)) {
+				return $timezone;
+			}
+		}
+
+		return $this->defaultTimezone;
+	}
+
+	public function getSystemTimezone(): ?string
+	{
+		if ($timezone = config('app.timezone')) {
+			if ((new \Base\Timezone\Timezone)->getLabel($timezone)) {
+				return $timezone;
+			}
+		}
+
+		return null;
+	}
+
+	public function getTimezone(): string
+	{
+		return $this->getUserTimezone() ?? $this->getAppTimezone();
 	}
 }
