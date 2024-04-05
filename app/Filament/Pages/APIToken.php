@@ -5,8 +5,8 @@ namespace App\Filament\Pages;
 use App\Models\User;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
-use Filament\Tables\Table;
 use Base\ACL\Facades\ACL;
+use Filament\Tables\Table;
 use Base\Token\Models\Token;
 use Base\Token\Traits\HasToken;
 use App\Filament\Clusters\Settings;
@@ -21,6 +21,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\DeleteAction;
+use Illuminate\Contracts\Support\Htmlable;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -56,6 +57,7 @@ class APIToken extends Page implements HasForms, HasTable
 		return $form
 			->schema([
 				Section::make(__('API Token'))
+					->description(__('Create new API token'))
 					->schema([
 						Grid::make()
 							->schema([
@@ -268,5 +270,10 @@ class APIToken extends Page implements HasForms, HasTable
 	public static function getPluralModelLabel(): string
 	{
 		return __('API Tokens');
+	}
+
+	public function getTitle(): string|Htmlable
+	{
+		return __('API Token');
 	}
 }
