@@ -58,7 +58,7 @@ class UserResource extends Resource
 										DateTimePicker::make('email_verified_at')
 											->label(__('Verified'))
 											->native(false)
-											->maxDate(now())
+											->maxDate(now()->timezone(\Base\General\Facades\General::getTimezone()))
 											->timezone(\Base\General\Facades\General::getTimezone())
 											->disabled(fn(string $operation): bool => !ACL::role('ADMIN'))
 											->dehydrated(fn(string $operation): bool => !ACL::role('ADMIN'))
@@ -125,7 +125,6 @@ class UserResource extends Resource
 											->image(),
 										DatePicker::make('dob')
 											->label(__('Date of birth'))
-											->timezone(\Base\General\Facades\General::getTimezone())
 											->native(false),
 										TextInput::make('country')
 											->label(__('Country'))
