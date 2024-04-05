@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
 			'description' => 'Default permissions for Administrator',
 			'type' => 'POLICY',
 			'content' => [
+				'general',
 				'user',
 				'role',
 				'permission',
