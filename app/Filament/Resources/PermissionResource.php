@@ -90,11 +90,13 @@ class PermissionResource extends Resource
 				TextColumn::make('created_at')
 					->label(__('Created'))
 					->dateTime()
+					->timezone(\Base\General\Facades\General::getTimezone())
 					->sortable()
 					->toggleable(isToggledHiddenByDefault: true),
 				TextColumn::make('updated_at')
 					->label(__('Updated'))
 					->dateTime()
+					->timezone(\Base\General\Facades\General::getTimezone())
 					->sortable()
 					->toggleable(isToggledHiddenByDefault: true),
 			])

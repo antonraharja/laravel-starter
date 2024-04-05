@@ -14,6 +14,7 @@ return new class extends Migration {
 			$table->string('name')->nullable()->change();
 			$table->string('username', 20)->after('name')->unique();
 			$table->tinyInteger('order_column')->nullable();
+			$table->string('timezone')->nullable();
 		});
 	}
 

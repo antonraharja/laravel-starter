@@ -59,6 +59,7 @@ class UserResource extends Resource
 											->label(__('Verified'))
 											->native(false)
 											->maxDate(now())
+											->timezone(\Base\General\Facades\General::getTimezone())
 											->disabled(fn(string $operation): bool => !ACL::role('ADMIN'))
 											->dehydrated(fn(string $operation): bool => !ACL::role('ADMIN'))
 									]),
@@ -124,6 +125,7 @@ class UserResource extends Resource
 											->image(),
 										DatePicker::make('dob')
 											->label(__('Date of birth'))
+											->timezone(\Base\General\Facades\General::getTimezone())
 											->native(false),
 										TextInput::make('country')
 											->label(__('Country'))
@@ -137,6 +139,24 @@ class UserResource extends Resource
 										Textarea::make('bio')
 											->label(__('Bio'))
 											->maxLength(255),
+									])
+							]),
+						Tab::make('Settings')
+							->schema([
+								Section::make(__('Settings'))
+									->description(__('Account settings available for this account'))
+									->aside()
+									->schema([
+										Select::make('timezone')
+											->label(__('Timezone'))
+											->options(function () {
+												return (new \Base\Timezone\Timezone)->get();
+											})
+											->placeholder(\Base\General\Facades\General::getTimezone())
+											->disablePlaceholderSelection(false)
+											->preload()
+											->searchable(true)
+											->native(false)
 									])
 							]),
 					])

@@ -35,6 +35,7 @@ class User extends Authenticatable implements HasAvatar, HasName
 		'email',
 		'password',
 		'email_verified_at',
+		'timezone',
 	];
 
 	/**

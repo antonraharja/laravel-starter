@@ -2,19 +2,19 @@
 
 namespace App\Filament\Resources\UserResource\Pages;
 
-use App\Filament\Resources\UserResource;
-use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
-use Filament\Forms\Components\DatePicker;
+use Carbon\Carbon;
 use Filament\Tables;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions;
 use Filament\Tables\Table;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Indicator;
+use Filament\Tables\Columns\TextColumn;
+use App\Filament\Resources\UserResource;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\DatePicker;
+use Filament\Resources\Pages\ListRecords;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Carbon\Carbon;
 
 class ListUsers extends ListRecords
 {
@@ -56,16 +56,19 @@ class ListUsers extends ListRecords
 				TextColumn::make('email_verified_at')
 					->label(__('Verified'))
 					->dateTime()
+					->timezone(\Base\General\Facades\General::getTimezone())
 					->searchable()
 					->toggleable(isToggledHiddenByDefault: true),
 				TextColumn::make('created_at')
 					->label(__('Created'))
 					->dateTime()
+					->timezone(\Base\General\Facades\General::getTimezone())
 					->sortable()
 					->toggleable(isToggledHiddenByDefault: true),
 				TextColumn::make('updated_at')
 					->label(__('Updated'))
 					->dateTime()
+					->timezone(\Base\General\Facades\General::getTimezone())
 					->sortable()
 					->toggleable(isToggledHiddenByDefault: true),
 			])

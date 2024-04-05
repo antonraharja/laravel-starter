@@ -166,16 +166,19 @@ class APIToken extends Page implements HasForms, HasTable
 				TextColumn::make('expires_at')
 					->label(__('Expire'))
 					->dateTime()
+					->timezone(\Base\General\Facades\General::getTimezone())
 					->sortable()
 					->searchable(),
 				TextColumn::make('last_used_at')
 					->label(__('Last use'))
 					->dateTime()
+					->timezone(\Base\General\Facades\General::getTimezone())
 					->sortable()
 					->searchable(),
 				TextColumn::make('created_at')
 					->label(__('Created'))
 					->dateTime()
+					->timezone(\Base\General\Facades\General::getTimezone())
 					->sortable()
 					->searchable()
 					->toggleable(isToggledHiddenByDefault: true),
