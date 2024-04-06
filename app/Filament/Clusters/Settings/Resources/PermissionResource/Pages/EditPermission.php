@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\PermissionResource\Pages;
+namespace App\Filament\Clusters\Settings\Resources\PermissionResource\Pages;
 
-use App\Filament\Resources\PermissionResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\Clusters\Settings\Resources\PermissionResource;
 
 class EditPermission extends EditRecord
 {

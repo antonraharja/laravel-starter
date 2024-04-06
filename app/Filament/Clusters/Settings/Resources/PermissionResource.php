@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Clusters\Settings\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
 use Base\ACL\Facades\ACL;
-use Filament\Resources\Resource;
+use Filament\Tables\Table;
 use Base\ACL\Models\Permission;
+use Filament\Resources\Resource;
 use App\Filament\Clusters\Settings;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
@@ -17,7 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\SelectColumn;
-use App\Filament\Resources\PermissionResource\Pages;
+use App\Filament\Clusters\Settings\Resources\PermissionResource\Pages;
 
 class PermissionResource extends Resource
 {

@@ -3,8 +3,8 @@
 namespace App\Filament\Pages\Auth;
 
 use Filament\Forms\Form;
-use App\Filament\Resources\UserResource;
 use Filament\Pages\Auth\EditProfile as BaseEditProfile;
+use App\Filament\Clusters\Settings\Resources\UserResource;
 
 class EditProfile extends BaseEditProfile
 {

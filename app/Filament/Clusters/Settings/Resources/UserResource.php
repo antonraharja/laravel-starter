@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Clusters\Settings\Resources;
 
 use App\Models\User;
 use Filament\Forms\Form;
@@ -20,8 +20,8 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Infolists\Components\ImageEntry;
-use App\Filament\Resources\UserResource\Pages;
 use Filament\Infolists\Components\Section as SectionList;
+use App\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
 class UserResource extends Resource
 {

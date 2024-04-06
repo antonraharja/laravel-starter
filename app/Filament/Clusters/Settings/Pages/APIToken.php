@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Pages;
+namespace App\Filament\Clusters\Settings\Pages;
 
 use App\Models\User;
 use Filament\Forms\Form;

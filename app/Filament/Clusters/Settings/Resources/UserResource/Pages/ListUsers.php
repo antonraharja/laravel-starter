@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\UserResource\Pages;
+namespace App\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
 use Carbon\Carbon;
 use Filament\Tables;
@@ -9,12 +9,12 @@ use Filament\Tables\Table;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Columns\TextColumn;
-use App\Filament\Resources\UserResource;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\DatePicker;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Clusters\Settings\Resources\UserResource;
 
 class ListUsers extends ListRecords
 {
