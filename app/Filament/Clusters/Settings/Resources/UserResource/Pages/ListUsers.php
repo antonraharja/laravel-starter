@@ -3,9 +3,11 @@
 namespace App\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
 use Carbon\Carbon;
+use App\Models\User;
 use Filament\Tables;
 use Filament\Actions;
 use Filament\Tables\Table;
+use Base\General\Facades\General;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Columns\TextColumn;
@@ -23,7 +25,13 @@ class ListUsers extends ListRecords
 	protected function getHeaderActions(): array
 	{
 		return [
-			Actions\CreateAction::make(),
+			Actions\CreateAction::make()
+				->model(User::class)
+				->form(CreateUser::getCreateForm())
+				->modal()
+				->mutateFormDataUsing(function (array $data): array {
+					return CreateUser::mutateFormData($data);
+				})
 		];
 	}
 
@@ -56,19 +64,19 @@ class ListUsers extends ListRecords
 				TextColumn::make('email_verified_at')
 					->label(__('Verified'))
 					->dateTime()
-					->timezone(\Base\General\Facades\General::getTimezone())
+					->timezone(General::getTimezone())
 					->searchable()
 					->toggleable(isToggledHiddenByDefault: true),
 				TextColumn::make('created_at')
 					->label(__('Created'))
 					->dateTime()
-					->timezone(\Base\General\Facades\General::getTimezone())
+					->timezone(General::getTimezone())
 					->sortable()
 					->toggleable(isToggledHiddenByDefault: true),
 				TextColumn::make('updated_at')
 					->label(__('Updated'))
 					->dateTime()
-					->timezone(\Base\General\Facades\General::getTimezone())
+					->timezone(General::getTimezone())
 					->sortable()
 					->toggleable(isToggledHiddenByDefault: true),
 			])
@@ -114,13 +122,24 @@ class ListUsers extends ListRecords
 			->actions([
 				Tables\Actions\ViewAction::make()
 					->label('')
-					->tooltip(__('View')),
+					->tooltip(__('View'))
+					->infolist(ViewUser::getViewInfolist())
+					->modal()
+					->mutateFormDataUsing(function (array $data): array {
+						return ViewUser::mutateFormData($data);
+					}),
 				Tables\Actions\DeleteAction::make()
 					->label('')
 					->tooltip(_('Delete')),
 				Tables\Actions\EditAction::make()
 					->label('')
-					->tooltip(__('Edit')),
+					->tooltip(__('Edit'))
+					->model(User::class)
+					->form(EditUser::getEditForm())
+					->modal()
+					->mutateFormDataUsing(function (array $data): array {
+						return EditUser::mutateFormData($data);
+					}),
 			])
 			->bulkActions([
 				Tables\Actions\BulkActionGroup::make([
