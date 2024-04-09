@@ -32,6 +32,11 @@ trait HasACL
 		return $check;
 	}
 
+	public function deny(string $permissions): bool
+	{
+		return !$this->permit($permissions);
+	}
+
 	public function role(string $role): bool
 	{
 		return (bool) in_array(strtoupper($role), $this->getRoles());
