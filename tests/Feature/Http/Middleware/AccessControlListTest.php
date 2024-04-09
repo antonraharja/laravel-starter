@@ -13,9 +13,9 @@ class AccessControlListTest extends TestCase
 	 */
 	public function test_example(): void
 	{
-		$token = '35|cjFkcdMS1Fxjmz2aShBMlY6xz6EFSNuzXBcMPCOQ9c3f222a';
+		$token = '4|3kE7wP1EMfTXqxV1IraTFkBn9AS0w6CslfRDPNpe67794b99';
 
-		$response = $this->json('get', '/api/permissions', [], [
+		$response = $this->json('get', '/user', [], [
 			'Accept' => 'application/json',
 			'Authorization' => 'Bearer ' . $token,
 		]);

@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Models\User;
 use Base\ACL\Facades\ACL;
+use Illuminate\Http\Request;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -16,12 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-	if (ACL::permit('user.view')) {
-		return $request->user();
-	} else {
-		return Response::deny('Forbidden');
-	}
+Route::middleware(['auth:sanctum', 'acl:user.view'])->get('/profile', function (Request $request) {
+	return $request->user()->profile;
 });
 
 Route::middleware('auth:sanctum')->get('/roles', function (Request $request) {
