@@ -21,6 +21,10 @@ class Config
 
 	public array $allPermissions = [];
 
+	public array $allRolesSelect = [];
+
+	public array $allPermissionsSelect = [];
+
 	public function populate(): Config
 	{
 		$data = config('acl.permissions');
@@ -44,6 +48,8 @@ class Config
 		$this->getUpdatedRolesPermissions();
 
 		$this->getAllRolesPermissions();
+
+		$this->getAllRolesPermissionsSelect();
 
 		return $this;
 	}
@@ -101,6 +107,19 @@ class Config
 		$this->allPermissions = array_unique($permissions);
 
 		sort($this->allPermissions);
+
+		return $this;
+	}
+
+	private function getAllRolesPermissionsSelect(): Config
+	{
+		foreach ( $this->allRoles as $role ) {
+			$this->allRolesSelect[$role] = $role;
+		}
+
+		foreach ( $this->allPermissions as $permission ) {
+			$this->allPermissionsSelect[$permission] = $permission;
+		}
 
 		return $this;
 	}
