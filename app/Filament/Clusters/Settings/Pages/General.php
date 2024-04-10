@@ -32,7 +32,7 @@ class General extends Page
 
 	public static function canAccess(): bool
 	{
-		return auth()->user()->permit('general.viewany general.edit');
+		return auth()->user()->have('general.viewany general.edit');
 	}
 
 	public function mount(): void
@@ -118,7 +118,7 @@ class General extends Page
 					Action::make('edit')
 						->label(__('Save changes'))
 						->submit('edit')
-						->visible(ACL::permit('general.edit')),
+						->visible(ACL::have('general.edit')),
 				])
 			])->statePath('data');
 	}

@@ -12,7 +12,7 @@ class UserPolicy
 	 */
 	public function viewAny(User $user): bool
 	{
-		return ACL::permit('user.viewany');
+		return ACL::have('user.viewany');
 	}
 
 	/**
@@ -20,7 +20,7 @@ class UserPolicy
 	 */
 	public function view(User $user, User $model): bool
 	{
-		return ACL::permit('user.view');
+		return ACL::have('user.view');
 	}
 
 	/**
@@ -28,7 +28,7 @@ class UserPolicy
 	 */
 	public function create(User $user): bool
 	{
-		return ACL::permit('user.create');
+		return ACL::have('user.create');
 	}
 
 	/**
@@ -36,7 +36,7 @@ class UserPolicy
 	 */
 	public function update(User $user, User $model): bool
 	{
-		return ACL::permit('user.update');
+		return ACL::have('user.update');
 	}
 
 	/**
@@ -44,7 +44,7 @@ class UserPolicy
 	 */
 	public function delete(User $user, User $model): bool
 	{
-		return ACL::permit('user.delete');
+		return ACL::have('user.delete');
 	}
 
 	/**
@@ -52,7 +52,7 @@ class UserPolicy
 	 */
 	public function restore(User $user, User $model): bool
 	{
-		return ACL::permit('user.restore');
+		return ACL::have('user.restore');
 	}
 
 	/**
@@ -60,6 +60,6 @@ class UserPolicy
 	 */
 	public function forceDelete(User $user, User $model): bool
 	{
-		return ACL::permit('user.forcedelete');
+		return ACL::have('user.forcedelete');
 	}
 }

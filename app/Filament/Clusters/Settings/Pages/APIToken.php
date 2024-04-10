@@ -44,7 +44,7 @@ class APIToken extends Page implements HasForms, HasTable
 
 	public static function canAccess(): bool
 	{
-		return auth()->user()->permit('token.viewany token.create');
+		return auth()->user()->have('token.viewany token.create');
 	}
 
 	public function mount(): void
@@ -72,7 +72,7 @@ class APIToken extends Page implements HasForms, HasTable
 									->placeholder(__('Select a user'))
 									->options(function () {
 										$returns = [];
-										$q = ACL::permit('token.viewany')
+										$q = ACL::have('token.viewany')
 											? User::with('profile')->get()
 											: User::with('profile')->where('id', auth()->user()->id)->get();
 										foreach ( $q as $user ) {
@@ -83,7 +83,7 @@ class APIToken extends Page implements HasForms, HasTable
 									->searchable()
 									->preload()
 									->native(false)
-									->visible(ACL::permit('token.viewany')),
+									->visible(ACL::have('token.viewany')),
 								DateTimePicker::make('expires_at')
 									->label(__('Expire'))
 									->hint(__('Default 60 days'))
@@ -94,7 +94,7 @@ class APIToken extends Page implements HasForms, HasTable
 							Action::make('create')
 								->label(__('Create new token'))
 								->submit('create')
-								->visible(ACL::permit('token.create')),
+								->visible(ACL::have('token.create')),
 						])
 					])->columns(3),
 			])->statePath('data');
@@ -138,7 +138,7 @@ class APIToken extends Page implements HasForms, HasTable
 		return $table
 			->modelLabel(__('API Token'))
 			->query(function () {
-				if (ACL::permit('token.viewany')) {
+				if (ACL::have('token.viewany')) {
 					return Token::query();
 				} else {
 					return Token::query()->where('tokenable_id', auth()->user()->id);
@@ -162,7 +162,7 @@ class APIToken extends Page implements HasForms, HasTable
 						$user = User::find($state);
 						return trim($user->profile->first_name . ' ' . $user->profile->last_name) . ' (' . $user->username . ')';
 					})
-					->visible(ACL::permit('token.viewany')),
+					->visible(ACL::have('token.viewany')),
 				TextColumn::make('expires_at')
 					->label(__('Expire'))
 					->dateTime()
@@ -190,9 +190,9 @@ class APIToken extends Page implements HasForms, HasTable
 				DeleteAction::make('delete')
 					->label('')
 					->tooltip(__('Delete'))
-					->visible(ACL::permit('token.delete'))
+					->visible(ACL::have('token.delete'))
 					->before(function ($record, ActionColumn $action) {
-						if (ACL::permit('token.delete')) {
+						if (ACL::have('token.delete')) {
 							if ($record->delete()) {
 								Notification::make()
 									->title(__('Token has been deleted'))
@@ -218,7 +218,7 @@ class APIToken extends Page implements HasForms, HasTable
 				EditAction::make('edit')
 					->label('')
 					->tooltip(__('Edit'))
-					->visible(ACL::permit('token.edit'))
+					->visible(ACL::have('token.edit'))
 					->form([
 						Section::make()
 							->description(__('Update API token name and expire date/time'))

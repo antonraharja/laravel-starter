@@ -15,7 +15,7 @@ trait HasToken
 	{
 		$this->newToken = new Result;
 
-		if (!auth()->user()->permit('token.create')) {
+		if (!auth()->user()->have('token.create')) {
 			$this->newToken->setResult(401);
 
 			return $this;

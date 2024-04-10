@@ -52,7 +52,7 @@ class EditUser extends EditRecord
 										->alphaNum()
 										->minLength(3)
 										->maxLength(20)
-										->disabled(ACL::deny('change-username')),
+										->disabled(ACL::dontHave('change-username')),
 									TextInput::make('email')
 										->required()
 										->unique(ignoreRecord: true)
@@ -62,13 +62,13 @@ class EditUser extends EditRecord
 										->native(false)
 										->maxDate(now()->timezone(General::getTimezone()))
 										->timezone(General::getTimezone())
-										->disabled(ACL::deny('change-verify-at')),
+										->disabled(ACL::dontHave('change-verify-at')),
 								]),
 							Section::make(__('Roles'))
 								->description(__('Select roles for this account'))
 								->aside()
-								->disabled(ACL::deny('role.viewany'))
-								->hidden(ACL::deny('role.viewany'))
+								->disabled(ACL::dontHave('role.viewany'))
+								->hidden(ACL::dontHave('role.viewany'))
 								->schema([
 									Select::make('roles')
 										->multiple()
@@ -77,8 +77,8 @@ class EditUser extends EditRecord
 										->searchable(['name'])
 										->preload()
 										->native(false)
-										->disabled(ACL::deny('role.viewany'))
-										->hidden(ACL::deny('role.viewany')),
+										->disabled(ACL::dontHave('role.viewany'))
+										->hidden(ACL::dontHave('role.viewany')),
 								])
 						]),
 					Tab::make('Password')

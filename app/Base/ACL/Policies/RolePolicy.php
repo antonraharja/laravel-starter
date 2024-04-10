@@ -13,7 +13,7 @@ class RolePolicy
 	 */
 	public function viewAny(User $user): bool
 	{
-		return ACL::permit('role.viewany');
+		return ACL::have('role.viewany');
 	}
 
 	/**
@@ -21,7 +21,7 @@ class RolePolicy
 	 */
 	public function view(User $user, Role $role): bool
 	{
-		return ACL::permit('role.view');
+		return ACL::have('role.view');
 	}
 
 	/**
@@ -29,7 +29,7 @@ class RolePolicy
 	 */
 	public function create(User $user): bool
 	{
-		return ACL::permit('role.create');
+		return ACL::have('role.create');
 	}
 
 	/**
@@ -37,7 +37,7 @@ class RolePolicy
 	 */
 	public function update(User $user, Role $role): bool
 	{
-		return ACL::permit('role.update');
+		return ACL::have('role.update');
 	}
 
 	/**
@@ -45,7 +45,7 @@ class RolePolicy
 	 */
 	public function delete(User $user, Role $role): bool
 	{
-		return ACL::permit('role.delete');
+		return ACL::have('role.delete');
 	}
 
 	/**
@@ -53,7 +53,7 @@ class RolePolicy
 	 */
 	public function restore(User $user, Role $role): bool
 	{
-		return ACL::permit('role.restore');
+		return ACL::have('role.restore');
 	}
 
 	/**
@@ -61,6 +61,6 @@ class RolePolicy
 	 */
 	public function forceDelete(User $user, Role $role): bool
 	{
-		return ACL::permit('role.forcedelete');
+		return ACL::have('role.forcedelete');
 	}
 }

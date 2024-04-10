@@ -17,7 +17,7 @@ class AccessControlList
 	 */
 	public function handle(Request $request, Closure $next, string $roleOrPermission): Response
 	{
-		if (!(ACL::role($roleOrPermission) || ACL::permit($roleOrPermission))) {
+		if (!(ACL::role($roleOrPermission) || ACL::have($roleOrPermission))) {
 			return response(['Unauthorized'], status: 401);
 		}
 

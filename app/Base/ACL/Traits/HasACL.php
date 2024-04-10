@@ -15,7 +15,7 @@ trait HasACL
 		return $config;
 	}
 
-	public function permit(string $permissions): bool
+	public function have(string $permissions): bool
 	{
 		$check = false;
 
@@ -32,9 +32,9 @@ trait HasACL
 		return $check;
 	}
 
-	public function deny(string $permissions): bool
+	public function dontHave(string $permissions): bool
 	{
-		return !$this->permit($permissions);
+		return !$this->have($permissions);
 	}
 
 	public function role(string $role): bool

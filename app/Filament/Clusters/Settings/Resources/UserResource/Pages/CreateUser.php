@@ -22,13 +22,13 @@ class CreateUser extends CreateRecord
 
 	public static function mutateFormData(array $data): array
 	{
-		if (ACL::deny('change-username')) {
+		if (ACL::dontHave('change-username')) {
 			if (isset($data['username'])) {
 				unset($data['username']);
 			}
 		}
 
-		if (ACL::permit('change-verified-at')) {
+		if (ACL::have('change-verified-at')) {
 			if (!isset($data['email_verified_at'])) {
 				$data['email_verified_at'] = Carbon::now()->timezone(General::getTimezone());
 			}
@@ -54,7 +54,7 @@ class CreateUser extends CreateRecord
 						->alphaNum()
 						->minLength(3)
 						->maxLength(20)
-						->disabled(ACL::deny('change-username')),
+						->disabled(ACL::dontHave('change-username')),
 					TextInput::make('email')
 						->required()
 						->unique(ignoreRecord: true)
@@ -64,13 +64,13 @@ class CreateUser extends CreateRecord
 						->native(false)
 						->maxDate(now()->timezone(General::getTimezone()))
 						->timezone(General::getTimezone())
-						->disabled(ACL::deny('change-verify-at')),
+						->disabled(ACL::dontHave('change-verify-at')),
 				]),
 			Section::make(__('Roles'))
 				->description(__('Select roles for this account'))
 				->aside()
-				->disabled(ACL::deny('role.viewany'))
-				->hidden(ACL::deny('role.viewany'))
+				->disabled(ACL::dontHave('role.viewany'))
+				->hidden(ACL::dontHave('role.viewany'))
 				->schema([
 					Select::make('roles')
 						->multiple()
@@ -79,8 +79,8 @@ class CreateUser extends CreateRecord
 						->searchable(['name'])
 						->preload()
 						->native(false)
-						->disabled(ACL::deny('role.viewany'))
-						->hidden(ACL::deny('role.viewany')),
+						->disabled(ACL::dontHave('role.viewany'))
+						->hidden(ACL::dontHave('role.viewany')),
 				]),
 			Section::make(__('Password'))
 				->description(__('Change password with a new secure password'))

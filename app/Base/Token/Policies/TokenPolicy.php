@@ -13,7 +13,7 @@ class TokenPolicy
 	 */
 	public function viewAny(User $user): bool
 	{
-		return ACL::permit('token.viewany');
+		return ACL::have('token.viewany');
 	}
 
 	/**
@@ -21,7 +21,7 @@ class TokenPolicy
 	 */
 	public function view(User $user, Token $token): bool
 	{
-		if (!ACL::permit('token.view')) {
+		if (!ACL::have('token.view')) {
 			return false;
 		}
 
@@ -33,7 +33,7 @@ class TokenPolicy
 	 */
 	public function create(User $user): bool
 	{
-		return ACL::permit('token.create');
+		return ACL::have('token.create');
 	}
 
 	/**
@@ -41,7 +41,7 @@ class TokenPolicy
 	 */
 	public function update(User $user, Token $token): bool
 	{
-		if (!ACL::permit('token.update')) {
+		if (!ACL::have('token.update')) {
 			return false;
 		}
 
@@ -53,7 +53,7 @@ class TokenPolicy
 	 */
 	public function delete(User $user, Token $token): bool
 	{
-		if (!ACL::permit('token.delete')) {
+		if (!ACL::have('token.delete')) {
 			return false;
 		}
 
@@ -65,7 +65,7 @@ class TokenPolicy
 	 */
 	public function restore(User $user, Token $token): bool
 	{
-		if (!ACL::permit('token.restore')) {
+		if (!ACL::have('token.restore')) {
 			return false;
 		}
 
@@ -77,7 +77,7 @@ class TokenPolicy
 	 */
 	public function forceDelete(User $user, Token $token): bool
 	{
-		if (!ACL::permit('token.forcedelete')) {
+		if (!ACL::have('token.forcedelete')) {
 			return false;
 		}
 

@@ -13,7 +13,7 @@ class PermissionPolicy
 	 */
 	public function viewAny(User $user): bool
 	{
-		return ACL::permit('permission.viewany');
+		return ACL::have('permission.viewany');
 	}
 
 	/**
@@ -21,7 +21,7 @@ class PermissionPolicy
 	 */
 	public function view(User $user, Permission $permission): bool
 	{
-		return ACL::permit('permission.view');
+		return ACL::have('permission.view');
 	}
 
 	/**
@@ -29,7 +29,7 @@ class PermissionPolicy
 	 */
 	public function create(User $user): bool
 	{
-		return ACL::permit('permission.create');
+		return ACL::have('permission.create');
 	}
 
 	/**
@@ -37,7 +37,7 @@ class PermissionPolicy
 	 */
 	public function update(User $user, Permission $permission): bool
 	{
-		return ACL::permit('permission.update');
+		return ACL::have('permission.update');
 	}
 
 	/**
@@ -45,7 +45,7 @@ class PermissionPolicy
 	 */
 	public function delete(User $user, Permission $permission): bool
 	{
-		return ACL::permit('permission.delete');
+		return ACL::have('permission.delete');
 	}
 
 	/**
@@ -53,7 +53,7 @@ class PermissionPolicy
 	 */
 	public function restore(User $user, Permission $permission): bool
 	{
-		return ACL::permit('permission.restore');
+		return ACL::have('permission.restore');
 	}
 
 	/**
@@ -61,6 +61,6 @@ class PermissionPolicy
 	 */
 	public function forceDelete(User $user, Permission $permission): bool
 	{
-		return ACL::permit('permission.forcedelete');
+		return ACL::have('permission.forcedelete');
 	}
 }

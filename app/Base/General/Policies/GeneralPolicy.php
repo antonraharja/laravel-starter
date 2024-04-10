@@ -13,7 +13,7 @@ class GeneralPolicy
 	 */
 	public function viewAny(User $user): bool
 	{
-		return ACL::permit('general.viewany');
+		return ACL::have('general.viewany');
 	}
 
 	/**
@@ -21,7 +21,7 @@ class GeneralPolicy
 	 */
 	public function view(User $user, General $general): bool
 	{
-		return ACL::permit('general.view');
+		return ACL::have('general.view');
 	}
 
 	/**
@@ -29,7 +29,7 @@ class GeneralPolicy
 	 */
 	public function create(User $user): bool
 	{
-		return ACL::permit('general.create');
+		return ACL::have('general.create');
 	}
 
 	/**
@@ -37,7 +37,7 @@ class GeneralPolicy
 	 */
 	public function update(User $user, General $general): bool
 	{
-		return ACL::permit('general.update');
+		return ACL::have('general.update');
 	}
 
 	/**
@@ -45,7 +45,7 @@ class GeneralPolicy
 	 */
 	public function delete(User $user, General $general): bool
 	{
-		return ACL::permit('general.delete');
+		return ACL::have('general.delete');
 	}
 
 	/**
@@ -53,7 +53,7 @@ class GeneralPolicy
 	 */
 	public function restore(User $user, General $general): bool
 	{
-		return ACL::permit('general.restore');
+		return ACL::have('general.restore');
 	}
 
 	/**
@@ -61,6 +61,6 @@ class GeneralPolicy
 	 */
 	public function forceDelete(User $user, General $general): bool
 	{
-		return ACL::permit('general.forcedelete');
+		return ACL::have('general.forcedelete');
 	}
 }
