@@ -124,7 +124,7 @@ class General extends Page
 
 	public function edit(): void
 	{
-		if (ACL::dontHave('general.edit')) {
+		if (ACL::dontHave('general.update')) {
 			Notification::make()
 				->title(__('Unauthorized'))
 				->status('danger')
