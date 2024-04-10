@@ -1,10 +1,10 @@
 <?php
 
-namespace Base\ACL\Policies;
+namespace Base\General\Policies;
 
+use App\Models\User;
 use Base\ACL\Facades\ACL;
 use Base\General\Models\General;
-use App\Models\User;
 
 class GeneralPolicy
 {
