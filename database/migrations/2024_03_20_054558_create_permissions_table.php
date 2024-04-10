@@ -15,7 +15,7 @@ return new class extends Migration {
 			$table->string('name', 30)->unique();
 			$table->string('description')->nullable();
 			$table->string('type');
-			$table->string('content')->nullable();
+			$table->json('content')->nullable();
 			$table->tinyInteger('order_column')->nullable();
 			$table->timestamps();
 		});
