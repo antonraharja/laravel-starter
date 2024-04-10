@@ -83,17 +83,7 @@ class ListPermissions extends ListRecords
 							->label(__('Permission content'))
 							->placeholder(__('Select options'))
 							->multiple()
-							->options(function () {
-								$contentOptions = [];
-								foreach ( ACL::config()->currentPermissions as $policy => $permissions ) {
-									foreach ( $permissions as $val ) {
-										$contentOptions[$policy][$val] = $val;
-									}
-								}
-
-								return $contentOptions;
-							})
-							->native(false),
+							->options(ACL::config()->allPermissionsSelect)
 					])
 					->query(function (Builder $query, array $data): Builder {
 						return $query

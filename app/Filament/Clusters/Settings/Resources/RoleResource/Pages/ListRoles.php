@@ -58,14 +58,7 @@ class ListRoles extends ListRecords
 					->label(__('Roles type'))
 					->placeholder(__('Select options'))
 					->multiple()
-					->options(function () {
-						$roles = [];
-						foreach ( ACL::config()->allRoles as $role ) {
-							$roles[$role] = $role;
-						}
-
-						return $roles;
-					})
+					->options(ACL::config()->allRolesSelect)
 					->native(false),
 			])
 			->actions([
