@@ -2,6 +2,9 @@
 
 namespace Base\ACL;
 
+use Base\ACL\Models\Role;
+use Base\ACL\Models\Permission;
+
 class Config
 {
 	public array $allPermissionCheckers = [];
@@ -13,6 +16,10 @@ class Config
 	public array $currentRoles = [];
 
 	public array $currentPermissions = [];
+
+	public array $allRoles = [];
+
+	public array $allPermissions = [];
 
 	public function populate(): Config
 	{
@@ -35,6 +42,8 @@ class Config
 		$this->allDefaultMethods = $methods;
 
 		$this->getUpdatedRolesPermissions();
+
+		$this->getAllRolesPermissions();
 
 		return $this;
 	}
@@ -64,6 +73,34 @@ class Config
 				}
 			}
 		}
+
+		return $this;
+	}
+
+	private function getAllRolesPermissions(): Config
+	{
+		$roles = [];
+		foreach ( Role::distinct()->get('name')->toArray() as $role ) {
+			if (isset($role['name'])) {
+				$roles[] = $role['name'];
+			}
+		}
+
+		$this->allRoles = array_unique($roles);
+
+		sort($this->allRoles);
+
+		$permissions = [];
+		foreach ( Permission::all() as $permission ) {
+			foreach ( $permission->content as $item ) {
+				if (isset($item)) {
+					$permissions[] = $item;
+				}
+			}
+		}
+		$this->allPermissions = array_unique($permissions);
+
+		sort($this->allPermissions);
 
 		return $this;
 	}
