@@ -6,6 +6,7 @@ use Exception;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Base\ACL\Facades\ACL;
+use Base\Timezone\Facades\Tz;
 use Filament\Support\Colors\Color;
 use App\Filament\Clusters\Settings;
 use Filament\Forms\Components\Tabs;
@@ -32,7 +33,7 @@ class General extends Page
 
 	public static function canAccess(): bool
 	{
-		return auth()->user()->have('general.viewany general.edit');
+		return auth()->user()->have('general.viewany');
 	}
 
 	public function mount(): void
@@ -62,7 +63,6 @@ class General extends Page
 											TextInput::make('brand_name')
 												->label(__('Brand name'))
 												->hint(__('Max. 30 chars'))
-												->required()
 												->minLength(3)
 												->maxLength(30),
 											FileUpload::make('brand_logo')
@@ -98,13 +98,13 @@ class General extends Page
 										Group::make([
 											TextInput::make('system_timezone')
 												->label(__('System timezone'))
-												->placeholder((new \Base\Timezone\Timezone)->getLabel(\Base\General\Facades\General::getSystemTimezone()))
+												->placeholder(Tz::getLabel(\Base\General\Facades\General::getSystemTimezone()))
 												->readOnly()
 												->dehydrated(),
 											Select::make('timezone')
 												->label(__('Default timezone'))
 												->options(function () {
-													return (new \Base\Timezone\Timezone)->get();
+													return Tz::get();
 												})
 												->placeholder(\Base\General\Facades\General::getTimezone())
 												->disablePlaceholderSelection(false)
@@ -117,14 +117,22 @@ class General extends Page
 				Actions::make([
 					Action::make('edit')
 						->label(__('Save changes'))
-						->submit('edit')
-						->visible(ACL::have('general.edit')),
+						->submit('edit'),
 				])
 			])->statePath('data');
 	}
 
 	public function edit(): void
 	{
+		if (ACL::dontHave('general.edit')) {
+			Notification::make()
+				->title(__('Unauthorized'))
+				->status('danger')
+				->send();
+
+			return;
+		}
+
 		try {
 			$data = $this->form->getState();
 

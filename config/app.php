@@ -172,6 +172,7 @@ return [
 
 		// All Base providers
 		Base\ACL\Providers\ACLServiceProvider::class,
+		Base\Timezone\Providers\TimezoneProvider::class,
 	])->toArray(),
 
 	/*
@@ -190,6 +191,9 @@ return [
 
 		// ACL
 		'ACL' => \Base\ACL\Facades\ACL::class,
+
+		// Timezone
+		'Tz' => \Base\Timezone\Facades\Tz::class,
 	])->toArray(),
 
 ];

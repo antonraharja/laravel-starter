@@ -4,6 +4,7 @@ namespace App\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
 use Filament\Actions;
 use Base\ACL\Facades\ACL;
+use Base\Timezone\Facades\Tz;
 use Base\General\Facades\General;
 use Filament\Forms\Components\Tabs;
 use Illuminate\Support\Facades\Hash;
@@ -149,7 +150,7 @@ class EditUser extends EditRecord
 									Select::make('timezone')
 										->label(__('Timezone'))
 										->options(function () {
-											return (new \Base\Timezone\Timezone)->get();
+											return Tz::get();
 										})
 										->placeholder(General::getTimezone())
 										->disablePlaceholderSelection(false)

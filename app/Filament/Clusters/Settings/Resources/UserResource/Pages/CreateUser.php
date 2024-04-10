@@ -3,6 +3,7 @@
 namespace App\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
 use Base\ACL\Facades\ACL;
+use Base\Timezone\Facades\Tz;
 use Illuminate\Support\Carbon;
 use Base\General\Facades\General;
 use Illuminate\Support\Facades\Hash;
@@ -142,7 +143,7 @@ class CreateUser extends CreateRecord
 					Select::make('timezone')
 						->label(__('Timezone'))
 						->options(function () {
-							return (new \Base\Timezone\Timezone)->get();
+							return Tz::get();
 						})
 						->placeholder(General::getTimezone())
 						->disablePlaceholderSelection(false)
