@@ -2,6 +2,7 @@
 
 namespace Base\General;
 
+use Base\Timezone\Facades\Tz;
 use Filament\Support\Colors\Color;
 use Illuminate\Support\Collection;
 
@@ -73,13 +74,13 @@ class General extends Models\General
 
 	public function getTimezoneList(): array
 	{
-		return (new \Base\Timezone\Timezone)->get();
+		return Tz::get();
 	}
 
 	public function getUserTimezone(): ?string
 	{
 		if ($timezone = auth()->user()->timezone) {
-			if ((new \Base\Timezone\Timezone)->getLabel($timezone)) {
+			if (Tz::getLabel($timezone)) {
 				return $timezone;
 			}
 		}
@@ -90,7 +91,7 @@ class General extends Models\General
 	public function getAppTimezone(): string
 	{
 		if ($timezone = $this->getContent('timezones', 'timezone')) {
-			if ((new \Base\Timezone\Timezone)->getLabel($timezone)) {
+			if (Tz::getLabel($timezone)) {
 				return $timezone;
 			}
 		}
@@ -101,7 +102,7 @@ class General extends Models\General
 	public function getSystemTimezone(): ?string
 	{
 		if ($timezone = config('app.timezone')) {
-			if ((new \Base\Timezone\Timezone)->getLabel($timezone)) {
+			if (Tz::getLabel($timezone)) {
 				return $timezone;
 			}
 		}
