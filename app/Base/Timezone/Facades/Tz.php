@@ -8,6 +8,6 @@ class Tz extends Facade
 {
 	protected static function getFacadeAccessor()
 	{
-		return 'tz';
+		return '\Base\Timezone\Timezone';
 	}
 }
