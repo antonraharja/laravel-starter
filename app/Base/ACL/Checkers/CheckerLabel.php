@@ -4,7 +4,7 @@ namespace Base\ACL\Checkers;
 
 use Base\ACL\Config;
 
-class Bundle implements CheckerInterface
+class CheckerLabel implements CheckerInterface
 {
 	private Config $config;
 
@@ -12,7 +12,7 @@ class Bundle implements CheckerInterface
 
 	private ?string $invalidEntry = null;
 
-	public const TYPE = 'BUNDLE';
+	public const TYPE = 'LABEL';
 
 	public function __construct(Config $config)
 	{
@@ -21,43 +21,23 @@ class Bundle implements CheckerInterface
 
 	public function check(string|array $content): bool
 	{
-		$bundles = $content;
+		$items = preg_split('/\s/', strtolower($content));
+		$items = array_unique($items);
+		foreach ( $items as $item ) {
+			if (isset($this->config->currentPermissions[self::TYPE])) {
+				foreach ( $this->config->currentPermissions[self::TYPE] as $permitted ) {
+					if (strtolower($permitted) === $item) {
+						$this->permittedEntry = $item;
 
-		$permittedBundles = [];
-		$newBundles = [];
-
-		if (isset($this->config->currentPermissions[self::TYPE])) {
-			$models = $this->config->currentPermissions[self::TYPE];
-		} else {
-
-			return false;
-		}
-
-		if (!(is_array($models) && $models)) {
-
-			return false;
-		}
-
-		foreach ( $models as $model ) {
-			foreach ( $this->config->allDefaultMethods as $method ) {
-				$permittedBundles[] = strtolower($model . '.' . $method);
+						return true;
+					}
+				}
 			}
 		}
 
-		$bundles = preg_split('/\s/', strtolower($bundles));
-		$bundles = array_unique($bundles);
-		foreach ( $bundles as $bundle ) {
-			if ($bundle = trim($bundle)) {
-				$newBundles[] = strtolower(trim($bundle));
-			}
-		}
+		$this->permittedEntry = null;
 
-		if (!$newBundles) {
-
-			return false;
-		}
-
-		return (bool) array_intersect($permittedBundles, $newBundles);
+		return false;
 	}
 
 	public function validate(string|array $content): bool
@@ -74,8 +54,8 @@ class Bundle implements CheckerInterface
 		$items = array_unique($items);
 
 		foreach ( $items as $item ) {
-			// match alphanumeric
-			if (preg_match('/[^\p{L}]+/u', $item)) {
+			// match alphanumeric, dot and dash
+			if (preg_match('/[^\p{L}\.\-]+/u', $item)) {
 				$this->invalidEntry = $item;
 
 				return false;

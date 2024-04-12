@@ -19,8 +19,8 @@ return [
 	 */
 	'permissions' => [
 		'BUNDLE' => \Base\ACL\Checkers\Bundle::class,
-		'METHOD' => \Base\ACL\Checkers\Label::class,
-		'TAG' => \Base\ACL\Checkers\Label::class,
+		'METHOD' => \Base\ACL\Checkers\Method::class,
+		'TAG' => \Base\ACL\Checkers\Tag::class,
 		'IP' => \Base\ACL\Checkers\IP::class,
 	],
 

@@ -13,7 +13,6 @@ use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Columns\TagsColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Resources\Pages\ListRecords;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Clusters\Settings\Resources\PermissionResource;
@@ -42,10 +41,8 @@ class ListPermissions extends ListRecords
 					->sortable()
 					->searchable()
 					->toggleable(isToggledHiddenByDefault: true),
-				SelectColumn::make('type')
+				TextColumn::make('type')
 					->label(__('Type'))
-					->options(ACL::config()->allPermissionTypes)
-					->selectablePlaceholder(false)
 					->sortable()
 					->searchable(),
 				TagsColumn::make('content')

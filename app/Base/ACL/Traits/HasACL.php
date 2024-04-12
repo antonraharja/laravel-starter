@@ -25,7 +25,7 @@ trait HasACL
 			$type = strtoupper(trim($type));
 
 			if (isset($config->currentPermissions[$type]) && is_array($config->currentPermissions[$type]) && $config->currentPermissions[$type]) {
-				$check = (new $handlerClass($config))->check($type, $permissions) || $check;
+				$check = (new $handlerClass($config))->check($permissions) || $check;
 			}
 		}
 

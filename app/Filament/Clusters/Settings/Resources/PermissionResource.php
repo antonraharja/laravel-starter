@@ -2,6 +2,7 @@
 
 namespace App\Filament\Clusters\Settings\Resources;
 
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Base\ACL\Facades\ACL;
@@ -50,6 +51,20 @@ class PermissionResource extends Resource
 						TagsInput::make('content')
 							->reorderable()
 							->label(__('Content'))
+							->rules([
+								fn(Forms\Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
+									$type = $get('type');
+									$handlerClass = config('acl.permissions');
+									if ($handlerClass = isset ($handlerClass[$type]) ? $handlerClass[$type] : null) {
+										if (class_exists($handlerClass)) {
+											$handler = new $handlerClass(ACL::config());
+											if (!($handler->validate($value) === true)) {
+												$fail(__('Error invalid value') . ' "' . $handler->getInvalidEntry() . '"');
+											}
+										}
+									}
+								}
+							])
 							->placeholder(__('Permission content')),
 					])
 			]);
