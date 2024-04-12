@@ -3,10 +3,11 @@
 namespace Base\General;
 
 use Base\Timezone\Facades\Tz;
+use Base\Registry\Facades\Reg;
 use Filament\Support\Colors\Color;
 use Illuminate\Support\Collection;
 
-class General extends Models\General
+class General
 {
 	private string $defaultColorScheme = 'Zinc';
 
@@ -14,21 +15,16 @@ class General extends Models\General
 
 	public function getGroup(string $group): Collection
 	{
-		$returns = [];
+		$data = Reg::getGroup($group);
 
-		foreach ( $this->where(['group' => $group])->get(['keyword', 'content'])->toArray() as $row ) {
-			$returns[$row['keyword']] = $row['content'];
-		}
+		$data = isset($data[$group]) ? $data[$group] : [];
 
-		return collect($returns);
+		return collect($data);
 	}
 
-	public function getContent(string $group, string $keyword): ?string
+	public function getContent(string $group, string $keyword)
 	{
-		return $this->where([
-			'group' => $group,
-			'keyword' => $keyword,
-		])->get('content')->value('content');
+		return Reg::getContent($group, $keyword);
 	}
 
 	public function getThemes(): Collection
