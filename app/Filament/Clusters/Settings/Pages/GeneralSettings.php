@@ -7,6 +7,8 @@ use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Base\ACL\Facades\ACL;
 use Base\Timezone\Facades\Tz;
+use Base\Registry\Facades\Reg;
+use Base\General\Facades\General;
 use Filament\Support\Colors\Color;
 use App\Filament\Clusters\Settings;
 use Filament\Forms\Components\Tabs;
@@ -21,7 +23,7 @@ use Filament\Forms\Components\FileUpload;
 use Illuminate\Contracts\Support\Htmlable;
 use Filament\Forms\Components\Actions\Action;
 
-class General extends Page
+class GeneralSettings extends Page
 {
 	protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
@@ -38,11 +40,7 @@ class General extends Page
 
 	public function mount(): void
 	{
-		$formData = [];
-
-		foreach ( \Base\General\Models\General::all() as $item ) {
-			$formData[$item->group][$item->keyword] = $item->content;
-		}
+		$formData = Reg::getAll();
 
 		$this->form->fill($formData);
 	}
@@ -98,7 +96,7 @@ class General extends Page
 										Group::make([
 											TextInput::make('system_timezone')
 												->label(__('System timezone'))
-												->placeholder(Tz::getLabel(\Base\General\Facades\General::getSystemTimezone()))
+												->placeholder(Tz::getLabel(General::getSystemTimezone()))
 												->readOnly()
 												->dehydrated(),
 											Select::make('timezone')
@@ -106,7 +104,7 @@ class General extends Page
 												->options(function () {
 													return Tz::get();
 												})
-												->placeholder(\Base\General\Facades\General::getTimezone())
+												->placeholder(General::getTimezone())
 												->disablePlaceholderSelection(false)
 												->searchable(true)
 												->native(false)
@@ -134,28 +132,21 @@ class General extends Page
 		}
 
 		try {
-			$data = $this->form->getState();
+			if ($data = $this->form->getState()) {
+				Reg::save($data);
 
-			foreach ( $data as $group => $groupContent ) {
-				foreach ( $groupContent as $keyword => $content ) {
-					$group = trim($group);
-					$keyword = trim($keyword);
+				Notification::make()
+					->title(__('Changes has been saved'))
+					->status('success')
+					->send();
+			} else {
 
-					if ($group && $keyword) {
-						\Base\General\Models\General::updateOrCreate([
-							'group' => $group,
-							'keyword' => $keyword,
-						], [
-							'content' => $content,
-						]);
-					}
-				}
+				Notification::make()
+					->title(__('Unknown error'))
+					->status('danger')
+					->send();
 			}
 
-			Notification::make()
-				->title(__('Changes has been saved'))
-				->status('success')
-				->send();
 
 		} catch (Exception $e) {
 			Notification::make()
