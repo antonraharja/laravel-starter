@@ -36,10 +36,17 @@ class IP implements CheckerInterface
 		$items = array_unique($items);
 
 		foreach ( $items as $item ) {
-			if (matchIP($item, $_SERVER['REMOTE_ADDR'])) {
-				$this->permittedEntry = $item;
+			$remoteAddr = config('acl.remoteAddr');
+			if (is_array($remoteAddr)) {
+				foreach ( $remoteAddr as $addr ) {
+					if (isset($_SERVER[$addr])) {
+						if (matchIP($item, $_SERVER[$addr])) {
+							$this->permittedEntry = $item;
 
-				return true;
+							return true;
+						}
+					}
+				}
 			}
 		}
 

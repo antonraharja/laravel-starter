@@ -3,6 +3,13 @@
 return [
 
 	/**
+	 * Only when using alternative variable for $_SERVER['REMOTE_ADDR]
+	 */
+	'remoteAddr' => [
+		'REMOTE_ADDR',
+	],
+
+	/**
 	 * List of enabled method bundles
 	 */
 	'bundles' => [
