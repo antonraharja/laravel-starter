@@ -41,8 +41,6 @@ class ListUsers extends ListRecords
 			->reorderable('order_column')
 			->defaultSort('order_column')
 			->columns([
-				ImageColumn::make('profile.photo')
-					->label(''),
 				TextColumn::make('profile.first_name')
 					->label(__('First name'))
 					->searchable()
@@ -79,6 +77,9 @@ class ListUsers extends ListRecords
 					->timezone(General::getTimezone())
 					->sortable()
 					->toggleable(isToggledHiddenByDefault: true),
+				ImageColumn::make('profile.photo')
+					->label('')
+					->disk('local'),
 			])
 			->filters([
 				SelectFilter::make('roles')
