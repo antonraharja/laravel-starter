@@ -73,7 +73,7 @@ class PermissionResource extends Resource
 
 	public static function getNavigationGroup(): string
 	{
-		return __('ACL');
+		return __('User Managements');
 	}
 
 	public static function getNavigationLabel(): string
