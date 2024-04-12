@@ -13,7 +13,7 @@ if (!function_exists('matchIP')) {
 	 * @param string $ip IP to be checked within network
 	 * @return bool
 	 */
-	function matchIP($network, $ip): bool
+	function matchIP(string $network, string $ip): bool
 	{
 		$network = trim($network);
 		$ip = trim($ip);
