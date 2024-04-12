@@ -76,6 +76,18 @@ class DatabaseSeeder extends Seeder
 			])
 		);
 
+		// create permission for LAN
+		\Base\ACL\Models\Permission::factory()->create([
+			'name' => 'LAN',
+			'description' => 'Local Area Network',
+			'type' => 'IP',
+			'content' => [
+				'10.0.0.0/8',
+				'172.16.0.0/12',
+				'192.168.0.0/16',
+			],
+		]);
+
 		// ask for admin password
 		$password = $this->command->ask("Enter admin password", 'password');
 
