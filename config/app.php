@@ -172,6 +172,7 @@ return [
 
 		// All Base providers
 		Base\ACL\Providers\ACLServiceProvider::class,
+		Base\Registry\Providers\RegistryProvider::class,
 	])->toArray(),
 
 	/*

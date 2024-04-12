@@ -2,6 +2,8 @@
 
 namespace Base\Registry;
 
+use Illuminate\Support\Collection;
+
 interface RegistryInterface
 {
 	public function __construct();
@@ -17,4 +19,8 @@ interface RegistryInterface
 	public function getGroup(string|array $group): array;
 
 	public function getContent(string $group, string $keyword);
+
+	public function getAll(): array;
+
+	public function save(array $data): Collection;
 }

@@ -2,6 +2,7 @@
 
 namespace Base\Registry;
 
+use Exception;
 use Base\Registry\Models\Registry;
 use Illuminate\Support\Collection;
 
@@ -89,5 +90,52 @@ class SimpleRegistry implements RegistryInterface
 		$content = $this->get($group, $keyword)->toNestedArray();
 
 		return isset($content[$group][$keyword]) ? $content[$group][$keyword] : null;
+	}
+
+	public function getAll(): array
+	{
+		return $this->all()->toNestedArray();
+	}
+
+	public function save(array $data): Collection
+	{
+		try {
+			$preparedData = [];
+
+			foreach ( $data as $group => $rows ) {
+				foreach ( $rows as $keyword => $content ) {
+					if ($group && $keyword) {
+						$preparedData[] = [
+							'group' => $group,
+							'keyword' => $keyword,
+							'content' => $content,
+						];
+					}
+				}
+			}
+
+			if ($preparedData) {
+
+				return collect([
+					'status' => true,
+					'data' => [
+						$preparedData,
+						Registry::upsert($preparedData, ['group', 'keyword'], ['content']),
+					],
+				]);
+			} else {
+
+				return collect([
+					'status' => false,
+					'data' => null,
+				]);
+			}
+		} catch (Exception $e) {
+
+			return collect([
+				'status' => false,
+				'data' => $e->getMessage(),
+			]);
+		}
 	}
 }
