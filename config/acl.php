@@ -8,7 +8,6 @@ return [
 	'bundles' => [
 		'api',
 		'general',
-		'registry',
 		'role',
 		'user',
 		'permission',
