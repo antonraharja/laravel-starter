@@ -31,5 +31,16 @@ class Test extends Command
 		// dump((new SimpleRegistry)->getGroup('themes'));
 		// dump((new SimpleRegistry)->getGroup(['themes']));
 		dump((new SimpleRegistry)->getGroup(['themes', 'timezones']));
+
+		$IPs = [
+			'192.168.0.1',
+			'192.168.0.1/24',
+			'192.168.0.1-192.168.0.5',
+			'exampleText',
+			'example.com'
+		];
+		foreach ( $IPs as $IP ) {
+			echo 'IP: ' . $IP . ' -> ' . dump(isIP($IP)) . PHP_EOL;
+		}
 	}
 }

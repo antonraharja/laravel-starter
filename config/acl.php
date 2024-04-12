@@ -21,6 +21,7 @@ return [
 		'BUNDLE' => \Base\ACL\Checkers\Bundle::class,
 		'METHOD' => \Base\ACL\Checkers\Label::class,
 		'TAG' => \Base\ACL\Checkers\Label::class,
+		'IP' => \Base\ACL\Checkers\IP::class,
 	],
 
 	/**
