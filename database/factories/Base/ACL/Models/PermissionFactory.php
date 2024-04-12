@@ -17,15 +17,10 @@ class PermissionFactory extends Factory
 	public function definition(): array
 	{
 		return [
-			'name' => 'ADMIN_DEFAULT_POLICY',
+			'name' => 'ADMIN_DEFAULT_BUNDLE',
 			'description' => 'Default permissions for Administrator',
-			'type' => 'POLICY',
-			'content' => [
-				'user',
-				'role',
-				'permission',
-				'token',
-			]
+			'type' => 'BUNDLE',
+			'content' => config('acl.bundles')
 		];
 	}
 

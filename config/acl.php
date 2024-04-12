@@ -3,11 +3,12 @@
 return [
 
 	/**
-	 * List of all enabled models
+	 * List of enabled method bundles
 	 */
-	'models' => [
+	'bundles' => [
 		'api',
 		'general',
+		'registry',
 		'role',
 		'user',
 		'permission',
@@ -15,10 +16,10 @@ return [
 	],
 
 	/**
-	 * Policy types
+	 * Permission types
 	 */
 	'permissions' => [
-		'POLICY' => \Base\ACL\Checkers\Policy::class,
+		'BUNDLE' => \Base\ACL\Checkers\Bundle::class,
 		'METHOD' => \Base\ACL\Checkers\Label::class,
 		'TAG' => \Base\ACL\Checkers\Label::class,
 	],

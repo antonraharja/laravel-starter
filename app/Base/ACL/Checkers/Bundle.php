@@ -4,7 +4,7 @@ namespace Base\ACL\Checkers;
 
 use Base\ACL\Config;
 
-class Policy implements CheckerInterface
+class Bundle implements CheckerInterface
 {
 	private Config $config;
 
@@ -15,10 +15,10 @@ class Policy implements CheckerInterface
 
 	public function check(string $type, string $content): bool
 	{
-		$policies = $content;
+		$bundles = $content;
 
-		$permittedPolicies = [];
-		$newPolicies = [];
+		$permittedBundles = [];
+		$newBundles = [];
 
 		$models = $this->config->currentPermissions[$type];
 
@@ -28,22 +28,22 @@ class Policy implements CheckerInterface
 
 		foreach ( $models as $model ) {
 			foreach ( $this->config->allDefaultMethods as $method ) {
-				$permittedPolicies[] = strtolower($model . '.' . $method);
+				$permittedBundles[] = strtolower($model . '.' . $method);
 			}
 		}
 
-		$policies = preg_split('/\s/', strtolower($policies));
-		$policies = array_unique($policies);
-		foreach ( $policies as $policy ) {
-			if ($policy = trim($policy)) {
-				$newPolicies[] = strtolower(trim($policy));
+		$bundles = preg_split('/\s/', strtolower($bundles));
+		$bundles = array_unique($bundles);
+		foreach ( $bundles as $bundle ) {
+			if ($bundle = trim($bundle)) {
+				$newBundles[] = strtolower(trim($bundle));
 			}
 		}
 
-		if (!$newPolicies) {
+		if (!$newBundles) {
 			return false;
 		}
 
-		return (bool) array_intersect($permittedPolicies, $newPolicies);
+		return (bool) array_intersect($permittedBundles, $newBundles);
 	}
 }

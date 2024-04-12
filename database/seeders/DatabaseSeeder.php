@@ -31,16 +31,10 @@ class DatabaseSeeder extends Seeder
 		// create permission for admin and attach it to admin role
 		$adminRole->permissions()->attach(
 			\Base\ACL\Models\Permission::factory()->create([
-				'name' => 'ADMIN_DEFAULT_POLICY',
+				'name' => 'ADMIN_DEFAULT_BUNDLES',
 				'description' => 'Default permissions for Administrator',
-				'type' => 'POLICY',
-				'content' => [
-					'general',
-					'user',
-					'role',
-					'permission',
-					'token',
-				]
+				'type' => 'BUNDLE',
+				'content' => config('acl.bundles')
 			])
 		);
 
