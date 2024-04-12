@@ -6,9 +6,9 @@ return [
 	 * List of enabled method bundles
 	 */
 	'bundles' => [
-		'api',
 		'general',
 		'role',
+		'token',
 		'user',
 		'permission',
 		'profile',

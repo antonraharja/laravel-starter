@@ -28,7 +28,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Actions\Action as ActionColumn;
 
-class APIToken extends Page implements HasForms, HasTable
+class APITokens extends Page implements HasForms, HasTable
 {
 	use InteractsWithForms, InteractsWithTable, HasToken;
 
@@ -36,7 +36,7 @@ class APIToken extends Page implements HasForms, HasTable
 
 	public ?array $data = [];
 
-	protected static ?string $slug = 'apitoken';
+	protected static ?string $slug = 'api-tokens';
 
 	protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
 
@@ -257,12 +257,12 @@ class APIToken extends Page implements HasForms, HasTable
 
 	public static function getLabel(): string
 	{
-		return __('API Token');
+		return __('API Tokens');
 	}
 
 	public static function getModelLabel(): string
 	{
-		return __('API Token');
+		return __('API Tokens');
 	}
 
 	public static function getPluralLabel(): string
@@ -277,6 +277,6 @@ class APIToken extends Page implements HasForms, HasTable
 
 	public function getTitle(): string|Htmlable
 	{
-		return __('API Token');
+		return __('API Tokens');
 	}
 }
