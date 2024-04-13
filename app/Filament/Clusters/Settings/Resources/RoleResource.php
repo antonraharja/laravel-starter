@@ -24,8 +24,8 @@ class RoleResource extends Resource
 	{
 		return $form
 			->schema([
-				Section::make('Permission')
-					->description(__('Define permission rules'))
+				Section::make('Role')
+					->description(__('Select permissions belongs to the role'))
 					->aside()
 					->schema([
 						TextInput::make('name')
