@@ -3,9 +3,12 @@
 namespace Base\ACL\Checkers;
 
 use Base\ACL\Config;
+use Base\ACL\Traits\ACLHelper;
 
 class Bundle implements CheckerInterface
 {
+	use ACLHelper;
+
 	private Config $config;
 
 	private ?string $permittedEntry = null;
@@ -21,10 +24,14 @@ class Bundle implements CheckerInterface
 
 	public function check(string|array $content): bool
 	{
-		$bundles = $content;
+		$items = $this->formatInputs($content);
+
+		if (!$items) {
+
+			return false;
+		}
 
 		$permittedBundles = [];
-		$newBundles = [];
 
 		if (isset($this->config->currentPermissions[self::TYPE])) {
 			$models = $this->config->currentPermissions[self::TYPE];
@@ -44,34 +51,17 @@ class Bundle implements CheckerInterface
 			}
 		}
 
-		$bundles = preg_split('/\s/', strtolower($bundles));
-		$bundles = array_unique($bundles);
-		foreach ( $bundles as $bundle ) {
-			if ($bundle = trim($bundle)) {
-				$newBundles[] = strtolower(trim($bundle));
-			}
-		}
-
-		if (!$newBundles) {
-
-			return false;
-		}
-
-		return (bool) array_intersect($permittedBundles, $newBundles);
+		return (bool) array_intersect($permittedBundles, $items);
 	}
 
 	public function validate(string|array $content): bool
 	{
-		$items = [];
+		$items = $this->formatInputs($content);
 
-		if (is_array($content)) {
-			foreach ( $content as $item ) {
-				$items[] = $item;
-			}
-		} else if (is_string($content)) {
-			$items = preg_split('/\s/', strtolower($content));
+		if (!$items) {
+
+			return false;
 		}
-		$items = array_unique($items);
 
 		foreach ( $items as $item ) {
 			// match alphanumeric

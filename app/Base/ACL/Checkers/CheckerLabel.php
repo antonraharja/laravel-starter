@@ -3,9 +3,12 @@
 namespace Base\ACL\Checkers;
 
 use Base\ACL\Config;
+use Base\ACL\Traits\ACLHelper;
 
 class CheckerLabel implements CheckerInterface
 {
+	use ACLHelper;
+
 	private Config $config;
 
 	private ?string $permittedEntry = null;
@@ -21,8 +24,13 @@ class CheckerLabel implements CheckerInterface
 
 	public function check(string|array $content): bool
 	{
-		$items = preg_split('/\s/', strtolower($content));
-		$items = array_unique($items);
+		$items = $this->formatInputs($content);
+
+		if (!$items) {
+
+			return false;
+		}
+
 		foreach ( $items as $item ) {
 			if (isset($this->config->currentPermissions[self::TYPE])) {
 				foreach ( $this->config->currentPermissions[self::TYPE] as $permitted ) {
@@ -42,16 +50,12 @@ class CheckerLabel implements CheckerInterface
 
 	public function validate(string|array $content): bool
 	{
-		$items = [];
+		$items = $this->formatInputs($content);
 
-		if (is_array($content)) {
-			foreach ( $content as $item ) {
-				$items[] = $item;
-			}
-		} else if (is_string($content)) {
-			$items = preg_split('/\s/', strtolower($content));
+		if (!$items) {
+
+			return false;
 		}
-		$items = array_unique($items);
 
 		foreach ( $items as $item ) {
 			// match alphanumeric, dot and dash

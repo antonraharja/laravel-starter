@@ -3,9 +3,12 @@
 namespace Base\ACL\Checkers;
 
 use Base\ACL\Config;
+use Base\ACL\Traits\ACLHelper;
 
 class IP implements CheckerInterface
 {
+	use ACLHelper;
+
 	private Config $config;
 
 	private ?string $permittedEntry = null;
@@ -21,19 +24,12 @@ class IP implements CheckerInterface
 
 	public function check(string|array $content): bool
 	{
-		if (is_array($content)) {
-			$items = '';
-			foreach ( $content as $item ) {
-				if ($item = strtolower(trim($item))) {
-					$items .= $item . ' ';
-				}
-			}
-			$items = trim($items);
+		$items = $this->formatInputs($content);
+
+		if (!$items) {
+
+			return false;
 		}
-
-		$items = preg_split('/\s/', strtolower($content));
-
-		$items = array_unique($items);
 
 		foreach ( $items as $item ) {
 			$remoteAddr = config('acl.remoteAddr');
@@ -57,16 +53,12 @@ class IP implements CheckerInterface
 
 	public function validate(string|array $content): bool
 	{
-		$items = [];
+		$items = $this->formatInputs($content);
 
-		if (is_array($content)) {
-			foreach ( $content as $item ) {
-				$items[] = $item;
-			}
-		} else if (is_string($content)) {
-			$items = preg_split('/\s/', strtolower($content));
+		if (!$items) {
+
+			return false;
 		}
-		$items = array_unique($items);
 
 		foreach ( $items as $item ) {
 			if (!isIP($item)) {

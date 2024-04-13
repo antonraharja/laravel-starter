@@ -17,6 +17,8 @@ class Config
 
 	public array $currentPermissions = [];
 
+	public array $currentPermissionsNames = [];
+
 	public array $allRoles = [];
 
 	public array $allPermissions = [];
@@ -71,9 +73,11 @@ class Config
 				$query = $registeredRole->permissions->whereIn('type', $this->allPermissionTypes);
 
 				foreach ( $query as $permission ) {
-					if (isset($permission->type) && is_array($permission->content)) {
+					if (isset($permission->name) && isset($permission->type) && is_array($permission->content)) {
+						$this->currentPermissionsNames[] = strtoupper(trim($permission->name));
+
 						foreach ( $permission->content as $content ) {
-							$this->currentPermissions[strtoupper($permission->type)][] = trim($content);
+							$this->currentPermissions[strtoupper($permission->type)][] = strtolower(trim($content));
 						}
 					}
 				}

@@ -6,6 +6,8 @@ use Base\ACL\Config;
 
 trait HasACL
 {
+	use ACLHelper;
+
 	public function config(): Config
 	{
 		$config = new Config;
@@ -15,11 +17,27 @@ trait HasACL
 		return $config;
 	}
 
-	public function have(string $permissions): bool
+	public function have(string|array $permissions): bool
 	{
+		$permissions = $this->formatInputs($permissions);
+
+		if (!$permissions) {
+
+			return false;
+		}
+
 		$check = false;
 
 		$config = $this->config();
+
+		foreach ( $config->currentPermissionsNames as $currentPermissionName ) {
+			foreach ( $permissions as $permission ) {
+				if ($permissions && strtoupper($permission) === strtoupper($currentPermissionName)) {
+
+					return true;
+				}
+			}
+		}
 
 		foreach ( $config->allPermissionCheckers as $type => $handlerClass ) {
 			$type = strtoupper(trim($type));
@@ -47,7 +65,7 @@ trait HasACL
 		return array_unique($this->config()->currentRoles);
 	}
 
-	public function getPermissions(string $type = '*'): array
+	public function getPermissions(?string $type): array
 	{
 		$permissions = [];
 
@@ -60,7 +78,7 @@ trait HasACL
 
 		$currentPermissions = $this->config()->currentPermissions;
 
-		if ($type === '*') {
+		if ($type === null) {
 			foreach ( $currentPermissions as $types ) {
 				foreach ( $types as $content ) {
 					$permissions[] = $content;
