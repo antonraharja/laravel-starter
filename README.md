@@ -4,6 +4,15 @@
 
 This project contains Laravel 10, Filament 3 and codes serving features such as Role and Permission management, User management and API Tokens managements.
 
+## Current Features
+
+- Login with username or email
+- Permission management
+- Role management
+- Assign multiple roles to user
+- API token management
+- General settings skel
+
 ## Screenshots
 
 ![Permission List](contribs/screenshots/1_permission_list_dark.png?raw=1 "Permission List")
