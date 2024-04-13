@@ -15,10 +15,12 @@ class CheckerLabel implements CheckerInterface
 
 	private ?string $invalidEntry = null;
 
-	public const TYPE = 'LABEL';
+	private string $permissionType = 'LABEL';
 
-	public function __construct(Config $config)
+	public function __construct(string $type, Config $config)
 	{
+		$this->permissionType = $type;
+
 		$this->config = $config;
 	}
 
@@ -32,9 +34,9 @@ class CheckerLabel implements CheckerInterface
 		}
 
 		foreach ( $items as $item ) {
-			if (isset($this->config->currentPermissions[self::TYPE])) {
-				foreach ( $this->config->currentPermissions[self::TYPE] as $permitted ) {
-					if (strtolower($permitted) === $item) {
+			if (isset($this->config->currentPermissions[$this->permissionType])) {
+				foreach ( $this->config->currentPermissions[$this->permissionType] as $permitted ) {
+					if ($permitted && $permitted === $item) {
 						$this->permittedEntry = $item;
 
 						return true;

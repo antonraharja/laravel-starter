@@ -26,24 +26,24 @@ trait HasACL
 			return false;
 		}
 
-		$check = false;
-
 		$config = $this->config();
 
 		foreach ( $config->currentPermissionsNames as $currentPermissionName ) {
-			foreach ( $permissions as $permission ) {
-				if ($permissions && strtoupper($permission) === strtoupper($currentPermissionName)) {
+			foreach ( $permissions as $item ) {
+				if ($item && strtoupper($item) === strtoupper($currentPermissionName)) {
 
 					return true;
 				}
 			}
 		}
 
+		$check = false;
+
 		foreach ( $config->allPermissionCheckers as $type => $handlerClass ) {
 			$type = strtoupper(trim($type));
 
 			if (isset($config->currentPermissions[$type]) && is_array($config->currentPermissions[$type]) && $config->currentPermissions[$type]) {
-				$check = (new $handlerClass($config))->check($permissions) || $check;
+				$check = (new $handlerClass($type, $config))->check($permissions) || $check;
 			}
 		}
 

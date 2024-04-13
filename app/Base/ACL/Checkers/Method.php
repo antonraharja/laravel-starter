@@ -6,5 +6,4 @@ use Base\ACL\Checkers\CheckerLabel;
 
 class Method extends CheckerLabel
 {
-	public const TYPE = 'METHOD';
 }

@@ -6,7 +6,7 @@ use Base\ACL\Config;
 
 interface CheckerInterface
 {
-	public function __construct(Config $config);
+	public function __construct(string $type, Config $config);
 
 	public function check(string|array $content): bool;
 

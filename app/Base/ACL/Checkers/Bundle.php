@@ -15,10 +15,12 @@ class Bundle implements CheckerInterface
 
 	private ?string $invalidEntry = null;
 
-	public const TYPE = 'BUNDLE';
+	private string $permissionType = 'BUNDLE';
 
-	public function __construct(Config $config)
+	public function __construct(string $type, Config $config)
 	{
+		$this->permissionType = $type;
+
 		$this->config = $config;
 	}
 
@@ -33,21 +35,21 @@ class Bundle implements CheckerInterface
 
 		$permittedBundles = [];
 
-		if (isset($this->config->currentPermissions[self::TYPE])) {
-			$models = $this->config->currentPermissions[self::TYPE];
+		if (isset($this->config->currentPermissions[$this->permissionType])) {
+			$bundles = $this->config->currentPermissions[$this->permissionType];
 		} else {
 
 			return false;
 		}
 
-		if (!(is_array($models) && $models)) {
+		if (!(is_array($bundles) && $bundles)) {
 
 			return false;
 		}
 
-		foreach ( $models as $model ) {
+		foreach ( $bundles as $bundle ) {
 			foreach ( $this->config->allDefaultMethods as $method ) {
-				$permittedBundles[] = strtolower($model . '.' . $method);
+				$permittedBundles[] = strtolower($bundle . '.' . $method);
 			}
 		}
 

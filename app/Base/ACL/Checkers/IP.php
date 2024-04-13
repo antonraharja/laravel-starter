@@ -15,10 +15,12 @@ class IP implements CheckerInterface
 
 	private ?string $invalidEntry = null;
 
-	public const TYPE = 'IP';
+	private string $permissionType = 'IP';
 
-	public function __construct(Config $config)
+	public function __construct(string $type, Config $config)
 	{
+		$this->permissionType = $type;
+
 		$this->config = $config;
 	}
 
