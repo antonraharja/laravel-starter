@@ -4,7 +4,7 @@
 
 This project contains Laravel 10, Filament 3 and codes serving features such as Role and Permission management, User management and API Tokens managements.
 
-## Screenhots
+## Screenshots
 
 ![Permission List](contribs/screenshots/1_permission_list_dark.png?raw=1 "Permission List")
 
