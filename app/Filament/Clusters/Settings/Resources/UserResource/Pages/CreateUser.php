@@ -65,7 +65,7 @@ class CreateUser extends CreateRecord
 						->native(false)
 						->maxDate(now()->timezone(General::getTimezone()))
 						->timezone(General::getTimezone())
-						->disabled(ACL::dontHave('change-verify-at')),
+						->disabled(ACL::dontHave('change-verified-at')),
 				]),
 			Section::make(__('Roles'))
 				->description(__('Select roles for this account'))
