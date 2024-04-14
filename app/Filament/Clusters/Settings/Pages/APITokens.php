@@ -112,6 +112,9 @@ class APITokens extends Page implements HasForms, HasTable
 					->status('success')
 					->persistent()
 					->send();
+
+				$this->form->fill([]);
+
 				return;
 			case 400:
 			case 401:
