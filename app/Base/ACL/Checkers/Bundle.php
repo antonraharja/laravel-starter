@@ -15,6 +15,8 @@ class Bundle implements CheckerInterface
 
 	private ?string $invalidEntry = null;
 
+	private ?string $invalidMessage = null;
+
 	private string $permissionType = 'BUNDLE';
 
 	public function __construct(string $type, Config $config)
@@ -69,6 +71,7 @@ class Bundle implements CheckerInterface
 			// match alphanumeric
 			if (preg_match('/[^\p{L}]+/u', $item)) {
 				$this->invalidEntry = $item;
+				$this->invalidMessage = __('Allowed characters are alphanumerics only');
 
 				return false;
 			}
@@ -87,5 +90,10 @@ class Bundle implements CheckerInterface
 	public function getInvalidEntry(): ?string
 	{
 		return $this->invalidEntry;
+	}
+
+	public function getInvalidMessage(): ?string
+	{
+		return $this->invalidMessage;
 	}
 }

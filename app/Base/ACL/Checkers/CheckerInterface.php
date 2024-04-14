@@ -15,4 +15,6 @@ interface CheckerInterface
 	public function getPermittedEntry(): ?string;
 
 	public function getInvalidEntry(): ?string;
+
+	public function getInvalidMessage(): ?string;
 }

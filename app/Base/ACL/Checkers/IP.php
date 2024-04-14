@@ -15,6 +15,8 @@ class IP implements CheckerInterface
 
 	private ?string $invalidEntry = null;
 
+	private ?string $invalidMessage = null;
+
 	private string $permissionType = 'IP';
 
 	public function __construct(string $type, Config $config)
@@ -65,6 +67,7 @@ class IP implements CheckerInterface
 		foreach ( $items as $item ) {
 			if (!isIP($item)) {
 				$this->invalidEntry = $item;
+				$this->invalidMessage = __('Allowed only valid IP address or network');
 
 				return false;
 			}
@@ -83,5 +86,10 @@ class IP implements CheckerInterface
 	public function getInvalidEntry(): ?string
 	{
 		return $this->invalidEntry;
+	}
+
+	public function getInvalidMessage(): ?string
+	{
+		return $this->invalidMessage;
 	}
 }

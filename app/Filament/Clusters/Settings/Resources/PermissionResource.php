@@ -57,9 +57,9 @@ class PermissionResource extends Resource
 									$handlerClass = config('acl.permissions');
 									if ($handlerClass = isset ($handlerClass[$type]) ? $handlerClass[$type] : null) {
 										if (class_exists($handlerClass)) {
-											$handler = new $handlerClass(ACL::config());
+											$handler = new $handlerClass($type, ACL::config());
 											if (!($handler->validate($value) === true)) {
-												$fail(__('Error invalid value') . ' "' . $handler->getInvalidEntry() . '"');
+												$fail(__('Error invalid value') . ' "' . $handler->getInvalidEntry() . '". ' . $handler->getInvalidMessage() . '.');
 											}
 										}
 									}

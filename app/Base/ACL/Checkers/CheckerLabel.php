@@ -15,6 +15,8 @@ class CheckerLabel implements CheckerInterface
 
 	private ?string $invalidEntry = null;
 
+	private ?string $invalidMessage = null;
+
 	private string $permissionType = 'LABEL';
 
 	public function __construct(string $type, Config $config)
@@ -63,6 +65,7 @@ class CheckerLabel implements CheckerInterface
 			// match alphanumeric, dot and dash
 			if (preg_match('/[^\p{L}\.\-]+/u', $item)) {
 				$this->invalidEntry = $item;
+				$this->invalidMessage = __('Allowed characters are alphanumerics, a dash or a dot');
 
 				return false;
 			}
@@ -81,5 +84,10 @@ class CheckerLabel implements CheckerInterface
 	public function getInvalidEntry(): ?string
 	{
 		return $this->invalidEntry;
+	}
+
+	public function getInvalidMessage(): ?string
+	{
+		return $this->invalidMessage;
 	}
 }
