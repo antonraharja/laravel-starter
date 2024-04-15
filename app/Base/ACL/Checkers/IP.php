@@ -36,9 +36,9 @@ class IP implements CheckerInterface
 		}
 
 		foreach ( $items as $item ) {
-			$remoteAddr = config('acl.remoteAddr');
-			if (is_array($remoteAddr)) {
-				foreach ( $remoteAddr as $addr ) {
+			$remotes = config('acl.remotes');
+			if (is_array($remotes)) {
+				foreach ( $remotes as $addr ) {
 					if (isset($_SERVER[$addr])) {
 						if (matchIP($item, $_SERVER[$addr])) {
 							$this->permittedEntry = $item;
