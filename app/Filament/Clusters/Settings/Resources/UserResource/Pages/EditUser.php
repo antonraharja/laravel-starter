@@ -53,7 +53,7 @@ class EditUser extends EditRecord
 										->alphaNum()
 										->minLength(3)
 										->maxLength(20)
-										->disabled(ACL::dontHave('change-username')),
+										->disabled(ACL::dontHave(aclhc('change-username'))),
 									TextInput::make('email')
 										->required()
 										->unique(ignoreRecord: true)
@@ -63,7 +63,7 @@ class EditUser extends EditRecord
 										->native(false)
 										->maxDate(now()->timezone(General::getTimezone()))
 										->timezone(General::getTimezone())
-										->disabled(ACL::dontHave('change-verified-at')),
+										->disabled(ACL::dontHave(aclhc('change-verified-at'))),
 								]),
 							Section::make(__('Roles'))
 								->description(__('Select roles for this account'))

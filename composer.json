@@ -27,7 +27,8 @@
     },
     "autoload": {
         "files": [
-            "app/Base/Helper/ip.php"
+            "app/Base/Helper/ip.php",
+            "app/Base/Helper/acl.php"
         ],
         "psr-4": {
             "App\\": "app/",

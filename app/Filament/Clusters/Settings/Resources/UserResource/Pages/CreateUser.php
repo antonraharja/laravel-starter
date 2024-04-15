@@ -23,13 +23,13 @@ class CreateUser extends CreateRecord
 
 	public static function mutateFormData(array $data): array
 	{
-		if (ACL::dontHave('change-username')) {
+		if (ACL::dontHave(aclhc('change-username'))) {
 			if (isset($data['username'])) {
 				unset($data['username']);
 			}
 		}
 
-		if (ACL::have('change-verified-at')) {
+		if (ACL::have(aclhc('change-verified-at'))) {
 			if (!isset($data['email_verified_at'])) {
 				$data['email_verified_at'] = Carbon::now()->timezone(General::getTimezone());
 			}
@@ -55,7 +55,7 @@ class CreateUser extends CreateRecord
 						->alphaNum()
 						->minLength(3)
 						->maxLength(20)
-						->disabled(ACL::dontHave('change-username')),
+						->disabled(ACL::dontHave(aclhc('change-username'))),
 					TextInput::make('email')
 						->required()
 						->unique(ignoreRecord: true)
@@ -65,7 +65,7 @@ class CreateUser extends CreateRecord
 						->native(false)
 						->maxDate(now()->timezone(General::getTimezone()))
 						->timezone(General::getTimezone())
-						->disabled(ACL::dontHave('change-verified-at')),
+						->disabled(ACL::dontHave(aclhc('change-verified-at'))),
 				]),
 			Section::make(__('Roles'))
 				->description(__('Select roles for this account'))

@@ -56,21 +56,29 @@ return [
 		'roles' => [
 
 			// not yet used but will be use to define administrator role
-			'ADMIN',
+			'ADMIN' => 'ADMIN',
 		],
-		'permission' => [
+
+		'permissions' => [
 			'names' => [
 
 				// not yet used but will be for limiting access from LAN IPs/networks
-				'LAN',
+				'LAN' => 'LAN',
+
+				// allows changing of username
+				'CHANGE_USERNAME' => 'CHANGE_USERNAME',
+
+				// allows changing of email verified at, marking a verified account
+				'CHANGE_VERIFIED_AT' => 'CHANGE_VERIFIED_AT',
 			],
+
 			'contents' => [
 
 				// used in create/edit users and edit profile
 				'change-username' => 'change-username',
 
 				// used in create/edit users
-				'change-veriried-at' => 'change-verified-at',
+				'change-verified-at' => 'change-verified-at',
 			],
 		],
 	],
