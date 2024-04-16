@@ -57,7 +57,12 @@ trait HasACL
 
 	public function role(string $role): bool
 	{
-		return (bool) in_array(strtoupper($role), $this->getRoles());
+		return in_array(strtoupper($role), $this->getRoles());
+	}
+
+	public function isAdmin(): bool
+	{
+		return $this->role(aclhc('ADMIN'));
 	}
 
 	public function getRoles(): array

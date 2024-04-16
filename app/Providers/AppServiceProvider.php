@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
 		});
 
 		Blade::if('isAdmin', function () {
-			return auth()->user()->role(aclhc('ADMIN'));
+			return auth()->user()->isAdmin();
 		});
 	}
 }
