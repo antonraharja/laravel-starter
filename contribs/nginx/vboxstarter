@@ -1,0 +1,53 @@
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    include snippets/self-signed.conf;
+    include snippets/ssl-params.conf;
+
+    root /home/laravel/starter/public;
+    index index.html index.htm index.php;
+
+    server_name vboxstarter vboxstarter.local;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    charset utf-8;
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    location /storage/avatars {
+        alias /home/laravel/starter/storage/app/avatars;
+
+        try_files $uri $uri/ =404;
+    }
+
+    location /storage/logo {
+        alias /home/laravel/starter/storage/app/logo;
+
+        try_files $uri $uri/ =404;
+    }
+
+    location /storage/favico {
+        alias /home/laravel/starter/storage/app/favico;
+
+        try_files $uri $uri/ =404;
+    }
+
+    location /storage {
+        alias /home/laravel/starter/storage/app/public;
+
+        try_files $uri $uri/ =404;
+    }
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name vboxstarter vboxstarter.local;
+
+    return 301 https://$server_name$request_uri;
+}
