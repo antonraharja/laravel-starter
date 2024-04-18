@@ -13,6 +13,47 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
 - API token management
 - General settings skel
 
+## Installation
+
+1. Get from github
+   ```
+   git clone https://github.com/antonraharja/laravel-starter starter`
+   ```
+
+2. Enter installation path and edit `.env`
+   ```
+   cd starter
+   cp .env.example .env
+   nano .env
+   ```
+
+3. Important, one-time during first installation only, create table **registries**
+   ```
+   mysql -uYourDatabaseUser -p YourDatabaseName < database/init.sql
+   ```
+   Change **YourDatabaseUser** and **YourDatabaseName** above according to your database setup
+
+4. Install composer packages
+   ```
+   composer install
+   ```
+
+5. Generate key
+   ```
+   php artisan key:generate
+   ```
+
+6. Refresh databas table installation and setup admin's password
+   ```
+   php artisan migrate:fresh --seed
+   ```
+
+7. Depend on your installation you may need this
+   ```
+   sudo chmod -R 777 storage/logs/
+   sudo chmod -R 777 storage/framework/*
+   ```
+
 ## Screenshots
 
 ![Permission List](contribs/screenshots/1_permission_list_dark.png?raw=1 "Permission List")
