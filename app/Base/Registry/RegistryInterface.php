@@ -22,5 +22,9 @@ interface RegistryInterface
 
 	public function getAll(): array;
 
-	public function save(array $data): Collection;
+	public function save(array $data): SimpleRegistry;
+
+	public function saved(): ?bool;
+
+	public function savedData(): null|string|array;
 }

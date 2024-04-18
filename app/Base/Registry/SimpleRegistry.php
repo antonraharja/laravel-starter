@@ -21,6 +21,8 @@ class SimpleRegistry implements RegistryInterface
 
 	private array $dataNestedArray = [];
 
+	private array $lastSaved = [];
+
 	public function __construct()
 	{
 		$this->data = new Collection;
@@ -53,17 +55,25 @@ class SimpleRegistry implements RegistryInterface
 
 	public function toArray(): array
 	{
-		$this->dataArray = $this->data->toArray();
+		$newDataArray = [];
 
-		return $this->dataArray;
+		$this->dataArray = $this->data->toArray();
+		foreach ( $this->dataArray as $row ) {
+			$newDataArray[] = [
+				'group' => $row['group'],
+				'keyword' => $row['keyword'],
+				'content' => unserialize($row['content']),
+			];
+		}
+
+		return $newDataArray;
 	}
 
 	public function toNestedArray(): array
 	{
 		$this->dataNestedArray = [];
-		$this->dataArray = $this->data->toArray();
 
-		foreach ( $this->dataArray as $row ) {
+		foreach ( $this->toArray() as $row ) {
 			$this->dataNestedArray[$row['group']][$row['keyword']] = $row['content'];
 		}
 
@@ -97,7 +107,7 @@ class SimpleRegistry implements RegistryInterface
 		return $this->all()->toNestedArray();
 	}
 
-	public function save(array $data): Collection
+	public function save(array $data): SimpleRegistry
 	{
 		try {
 			$preparedData = [];
@@ -105,37 +115,47 @@ class SimpleRegistry implements RegistryInterface
 			foreach ( $data as $group => $rows ) {
 				foreach ( $rows as $keyword => $content ) {
 					if ($group && $keyword) {
+
 						$preparedData[] = [
 							'group' => $group,
 							'keyword' => $keyword,
-							'content' => $content,
+							'content' => serialize($content),
 						];
 					}
 				}
 			}
 
 			if ($preparedData) {
-
-				return collect([
+				$this->lastSaved = [
 					'status' => true,
 					'data' => [
 						$preparedData,
 						Registry::upsert($preparedData, ['group', 'keyword'], ['content']),
 					],
-				]);
+				];
 			} else {
-
-				return collect([
+				$this->lastSaved = [
 					'status' => false,
 					'data' => null,
-				]);
+				];
 			}
 		} catch (Exception $e) {
-
-			return collect([
+			$this->lastSaved = [
 				'status' => false,
 				'data' => $e->getMessage(),
-			]);
+			];
 		}
+
+		return $this;
+	}
+
+	public function saved(): ?bool
+	{
+		return is_bool($this->lastSaved['status']) ? $this->lastSaved['status'] : null;
+	}
+
+	public function savedData(): array|string|null
+	{
+		return isset($this->lastSaved['data']) ? $this->lastSaved['data'] : null;
 	}
 }
