@@ -112,10 +112,10 @@ class GeneralSettings extends Page
 										])->statePath('timezones')
 									])->columns(2)
 							]),
-						Tab::make(__('User'))
+						Tab::make(__('Login'))
 							->schema([
-								Section::make(__('User'))
-									->description(__('User default settings'))
+								Section::make(__('Login'))
+									->description(__('Default settings for login'))
 									->aside()
 									->schema([
 										Group::make([
@@ -135,7 +135,7 @@ class GeneralSettings extends Page
 												->label(__('Enable password reset')),
 											Toggle::make('enable_email_verification')
 												->label(__('Enable email verification')),
-										])->statePath('users')
+										])->statePath('logins')
 									])->columns(2)
 							])
 					]),

@@ -113,21 +113,29 @@ class General
 
 	public function getDefaultRegisterRoles(): array
 	{
-		return $this->getContent('users', 'default_register_roles');
+		$defaultRegisterRoles = $this->getContent('logins', 'default_register_roles');
+
+		return is_array($defaultRegisterRoles) ? $defaultRegisterRoles : [];
 	}
 
 	public function getEnableRegister(): bool
 	{
-		return $this->getContent('users', 'enable_register');
+		$enableRegister = $this->getContent('logins', 'enable_register');
+
+		return $enableRegister ?? false;
 	}
 
 	public function getEnablePasswordReset(): bool
 	{
-		return $this->getContent('users', 'enable_password_reset');
+		$enablePasswordReset = $this->getContent('logins', 'enable_password_reset');
+
+		return $enablePasswordReset ?? false;
 	}
 
 	public function getEnableEmailVerification(): bool
 	{
-		return $this->getContent('users', 'enable_email_verification');
+		$enableEmailVerification = $this->getContent('logins', 'enable_email_verification');
+
+		return $enableEmailVerification ?? false;
 	}
 }
