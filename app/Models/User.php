@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\API;
 use Base\ACL\Models\Role;
 use Base\ACL\Traits\HasACL;
 use Laravel\Sanctum\HasApiTokens;
@@ -11,13 +9,13 @@ use Filament\Models\Contracts\HasName;
 use Illuminate\Support\Facades\Storage;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class User extends Authenticatable implements HasAvatar, HasName
+class User extends Authenticatable implements MustVerifyEmail, HasAvatar, HasName
 {
 	use HasApiTokens;
 	use HasFactory;
@@ -68,11 +66,6 @@ class User extends Authenticatable implements HasAvatar, HasName
 		return $this->belongsToMany(Role::class)->withTimestamps();
 	}
 
-	// public function tokens(): HasMany
-	// {
-	// 	return $this->hasMany(API::class, 'tokenable_id');
-	// }
-
 	public function getFilamentAvatarUrl(): ?string
 	{
 		if (isset($this->profile->photo) && Storage::disk('local')->exists($this->profile->photo)) {
@@ -84,6 +77,19 @@ class User extends Authenticatable implements HasAvatar, HasName
 
 	public function getFilamentName(): string
 	{
-		return "{$this->profile->first_name}" . $this->profile->last_name ? " " . "{$this->profile->last_name}" : "";
+		$firstName = isset($this->profile->first_name) ? $this->profile->first_name : null;
+		$lastName = isset($this->profile->last_name) ? $this->profile->last_name : null;
+
+		$name = '';
+
+		if (isset($firstName)) {
+			$name .= $firstName;
+		}
+
+		if (isset($lastName)) {
+			$name .= " " . $lastName;
+		}
+
+		return $name = $name ?? $this->username;
 	}
 }
