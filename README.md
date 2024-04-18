@@ -53,8 +53,8 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
 
 7. Depend on your installation you may need this
    ```
-   sudo chmod -R 777 storage/logs/
-   sudo chmod -R 777 storage/framework/*
+   sudo find storage/ bootstrap/ -type f -exec chmod 666 {} \;
+   sudo find storage/ bootstrap/ -type d -exec chmod 777 {} \;
    ```
 
 ## Screenshots
