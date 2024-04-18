@@ -71,4 +71,8 @@ If you discover a security vulnerability within this project, please send an e-m
 
 ## License
 
+This project is open-sourced software licensed under the [MIT license](https://github.com/antonraharja/laravel-starter/blob/master/LICENSE).
+
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+Filament is open-sourced software licensed under the [MIT license](https://github.com/filamentphp/filament/blob/3.x/LICENSE.md).
