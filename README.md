@@ -20,7 +20,9 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
    git clone https://github.com/antonraharja/laravel-starter starter`
    ```
 
-2. Enter installation path and edit **.env**
+2. Enter installation path and edit `.env`
+   
+   In `.env` you need to edit at least `APP_NAME` `APP_URL` and `DB_*`
    ```
    cd starter
    cp .env.example .env
@@ -28,11 +30,12 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
    ```
 
 3. Important, one-time during first installation only, create table **registries**
+   
+   Change **DBUser** and **DBName** below according to your database setup
    ```
-   mysql -uYourDatabaseUser -p YourDatabaseName < database/init.sql
+   mysql -uDBUser -p DBName < database/init.sql
    ```
-   Change **YourDatabaseUser** and **YourDatabaseName** above according to your database setup
-
+   
 4. Install composer packages
    ```
    composer install
@@ -43,7 +46,7 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
    php artisan key:generate
    ```
 
-6. Refresh/reinstall database tables and setup admin's password
+6. Install database tables with some starter contents and setup admin's password
    ```
    php artisan migrate:fresh --seed
    ```
