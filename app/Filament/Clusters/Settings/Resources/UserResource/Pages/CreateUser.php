@@ -23,10 +23,8 @@ class CreateUser extends CreateRecord
 
 	public static function mutateFormData(array $data): array
 	{
-		if (ACL::dontHave(aclhc('change-username'))) {
-			if (isset($data['username'])) {
-				unset($data['username']);
-			}
+		if (ACL::dontHave(aclhc('change-username')) && isset($data['username'])) {
+			unset($data['username']);
 		}
 
 		if (ACL::have(aclhc('change-verified-at'))) {

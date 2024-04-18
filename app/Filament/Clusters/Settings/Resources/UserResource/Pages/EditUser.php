@@ -33,7 +33,15 @@ class EditUser extends EditRecord
 
 	public static function mutateFormData(array $data): array
 	{
-		return CreateUser::mutateFormData($data);
+		if (ACL::dontHave(aclhc('change-username')) && isset($data['username'])) {
+			unset($data['username']);
+		}
+
+		if (ACL::dontHave(aclhc('change-verified-at')) && isset($data['email_verified_at'])) {
+			unset($data['email_verified_at']);
+		}
+
+		return $data;
 	}
 
 	public static function getEditForm(): array
