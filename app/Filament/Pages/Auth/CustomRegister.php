@@ -3,25 +3,25 @@
 namespace App\Filament\Pages\Auth;
 
 use Filament\Forms\Form;
+use Filament\Pages\Auth\Register;
 use Filament\Forms\Components\TextInput;
-use Filament\Pages\Auth\Login as BaseLogin;
 use Illuminate\Validation\ValidationException;
 
-class Login extends BaseLogin
+class CustomRegister extends Register
 {
 	public function form(Form $form): Form
 	{
 		return $form
 			->schema([
-				TextInput::make('login')
-					->label(__('Login'))
+				TextInput::make('username')
+					->label(__('Username'))
 					->required()
-					->autocomplete()
+					->maxLength(20)
 					->autofocus()
-					->placeholder(__('Username or email'))
-					->extraInputAttributes(['tabindex' => 1]),
+					->unique($this->getUserModel()),
+				$this->getEmailFormComponent(),
 				$this->getPasswordFormComponent(),
-				$this->getRememberFormComponent(),
+				$this->getPasswordConfirmationFormComponent(),
 			])
 			->statePath('data');
 	}

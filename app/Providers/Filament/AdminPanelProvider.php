@@ -6,16 +6,19 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Base\General\Facades\General;
-use App\Filament\Pages\Auth\Login;
 use Filament\Support\Enums\MaxWidth;
-use App\Filament\Pages\Auth\EditProfile;
+use App\Filament\Pages\Auth\CustomLogin;
 use Filament\Http\Middleware\Authenticate;
+use App\Filament\Pages\Auth\CustomRegister;
+use App\Filament\Pages\Auth\CustomEditProfile;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\Pages\Auth\CustomRequestPasswordReset;
 use Filament\Http\Middleware\DisableBladeIconComponents;
+use App\Filament\Pages\Auth\CustomEmailVerificationPrompt;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -28,8 +31,12 @@ class AdminPanelProvider extends PanelProvider
 			->default()
 			->id('admin')
 			->path('admin')
-			->login(Login::class)
-			->profile(EditProfile::class, isSimple: true)
+			->login(CustomLogin::class)
+			->profile(CustomEditProfile::class, isSimple: true)
+			->registration(General::getEnableRegister() ? CustomRegister::class : null)
+			->passwordReset(General::getEnablePasswordReset() ? CustomRequestPasswordReset::class : null)
+			->requiresEmailVerification(General::getEnableEmailVerification())
+			->emailVerification(General::getEnableEmailVerification() ? CustomEmailVerificationPrompt::class : null)
 			->colors([
 				'primary' => General::getColor(),
 			])

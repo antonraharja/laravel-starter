@@ -110,4 +110,24 @@ class General
 	{
 		return $this->getUserTimezone() ?? $this->getAppTimezone();
 	}
+
+	public function getDefaultRegisterRoles(): array
+	{
+		return $this->getContent('users', 'default_register_roles');
+	}
+
+	public function getEnableRegister(): bool
+	{
+		return $this->getContent('users', 'enable_register');
+	}
+
+	public function getEnablePasswordReset(): bool
+	{
+		return $this->getContent('users', 'enable_password_reset');
+	}
+
+	public function getEnableEmailVerification(): bool
+	{
+		return $this->getContent('users', 'enable_email_verification');
+	}
 }

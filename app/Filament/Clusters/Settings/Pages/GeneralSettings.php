@@ -3,6 +3,7 @@
 namespace App\Filament\Clusters\Settings\Pages;
 
 use Exception;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Base\ACL\Facades\ACL;
@@ -111,6 +112,32 @@ class GeneralSettings extends Page
 										])->statePath('timezones')
 									])->columns(2)
 							]),
+						Tab::make(__('User'))
+							->schema([
+								Section::make(__('User'))
+									->description(__('User default settings'))
+									->aside()
+									->schema([
+										Group::make([
+											Select::make('default_register_roles')
+												->label(__('Default register roles'))
+												->multiple()
+												->options(function () {
+													return ACL::config()->allRolesSelect;
+												})
+												->preload()
+												->native(false)
+												->disabled(ACL::dontHave('role.viewany'))
+												->hidden(ACL::dontHave('role.viewany')),
+											Toggle::make('enable_register')
+												->label(__('Enable register')),
+											Toggle::make('enable_password_reset')
+												->label(__('Enable password reset')),
+											Toggle::make('enable_email_verification')
+												->label(__('Enable email verification')),
+										])->statePath('users')
+									])->columns(2)
+							])
 					]),
 				Actions::make([
 					Action::make('edit')
@@ -122,6 +149,8 @@ class GeneralSettings extends Page
 
 	public function edit(): void
 	{
+		$error = null;
+
 		if (ACL::dontHave('general.update')) {
 			Notification::make()
 				->title(__('Unauthorized'))
@@ -135,25 +164,32 @@ class GeneralSettings extends Page
 			if ($data = $this->form->getState()) {
 				Reg::save($data);
 
-				Notification::make()
-					->title(__('Changes has been saved'))
-					->status('success')
-					->send();
-			} else {
+				if (Reg::saved()) {
 
-				Notification::make()
-					->title(__('Unknown error'))
-					->status('danger')
-					->send();
+					Notification::make()
+						->title(__('Changes has been saved'))
+						->status('success')
+						->send();
+
+					return;
+				}
 			}
 
+			$savedData = Reg::savedData();
 
+			if (is_string($savedData)) {
+				$error = $savedData;
+			} else {
+				$error = __('No data found');
+			}
 		} catch (Exception $e) {
-			Notification::make()
-				->title($e->getMessage())
-				->status('danger')
-				->send();
+			$error = $e->getMessage();
 		}
+
+		Notification::make()
+			->title($error)
+			->status('danger')
+			->send();
 
 		return;
 	}
