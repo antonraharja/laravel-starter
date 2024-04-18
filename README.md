@@ -20,7 +20,7 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
    git clone https://github.com/antonraharja/laravel-starter starter`
    ```
 
-2. Enter installation path and edit `.env`
+2. Enter installation path and edit **.env**
    ```
    cd starter
    cp .env.example .env
@@ -43,7 +43,7 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
    php artisan key:generate
    ```
 
-6. Refresh databas table installation and setup admin's password
+6. Refresh/reinstall database tables and setup admin's password
    ```
    php artisan migrate:fresh --seed
    ```
