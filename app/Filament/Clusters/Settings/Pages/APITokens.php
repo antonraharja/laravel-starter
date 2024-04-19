@@ -9,6 +9,7 @@ use Base\ACL\Facades\ACL;
 use Filament\Tables\Table;
 use Base\Token\Models\Token;
 use Base\Token\Traits\HasToken;
+use Base\General\Facades\General;
 use App\Filament\Clusters\Settings;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -164,25 +165,25 @@ class APITokens extends Page implements HasForms, HasTable
 					->sortable()
 					->formatStateUsing(function ($state) {
 						$user = User::find($state);
-						return trim($user->profile->first_name . ' ' . $user->profile->last_name) . ' (' . $user->username . ')';
+						return $user->getFilamentName();
 					})
 					->visible(ACL::have('token.viewany')),
 				TextColumn::make('expires_at')
 					->label(__('Expire'))
 					->dateTime()
-					->timezone(\Base\General\Facades\General::getTimezone())
+					->timezone(General::getTimezone())
 					->sortable()
 					->searchable(),
 				TextColumn::make('last_used_at')
 					->label(__('Last use'))
 					->dateTime()
-					->timezone(\Base\General\Facades\General::getTimezone())
+					->timezone(General::getTimezone())
 					->sortable()
 					->searchable(),
 				TextColumn::make('created_at')
 					->label(__('Created'))
 					->dateTime()
-					->timezone(\Base\General\Facades\General::getTimezone())
+					->timezone(General::getTimezone())
 					->sortable()
 					->searchable()
 					->toggleable(isToggledHiddenByDefault: true),
