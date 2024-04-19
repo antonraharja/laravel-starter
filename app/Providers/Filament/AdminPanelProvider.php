@@ -16,12 +16,12 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use App\Filament\Pages\Auth\CustomRequestPasswordReset;
 use Filament\Http\Middleware\DisableBladeIconComponents;
-use App\Filament\Pages\Auth\CustomEmailVerificationPrompt;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use App\Filament\Pages\Auth\PasswordReset\CustomRequestPasswordReset;
+use App\Filament\Pages\Auth\EmailVerification\CustomEmailVerificationPrompt;
 
 class AdminPanelProvider extends PanelProvider
 {
