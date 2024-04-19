@@ -95,7 +95,7 @@ class SimpleRegistry implements RegistryInterface
 		return $data;
 	}
 
-	public function getContent(string $group, string $keyword)
+	public function getContent(string $group, string $keyword): null|string|array
 	{
 		$content = $this->get($group, $keyword)->toNestedArray();
 

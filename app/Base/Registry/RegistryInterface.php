@@ -18,7 +18,7 @@ interface RegistryInterface
 
 	public function getGroup(string|array $group): array;
 
-	public function getContent(string $group, string $keyword);
+	public function getContent(string $group, string $keyword): null|string|array;
 
 	public function getAll(): array;
 
