@@ -165,7 +165,7 @@ class APITokens extends Page implements HasForms, HasTable
 					->sortable()
 					->formatStateUsing(function ($state) {
 						$user = User::find($state);
-						return $user->getFilamentName();
+						return $user ? $user->getFilamentName() . ' (' . $user->username . ')' : '';
 					})
 					->visible(ACL::have('token.viewany')),
 				TextColumn::make('expires_at')
