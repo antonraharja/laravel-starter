@@ -8,17 +8,17 @@ use Illuminate\Support\Collection;
 
 trait HasThemes
 {
-	public string $defaultPrimaryColorScheme = 'Zinc';
+	public string $defaultPrimaryColorScheme = '#696969';	// onyx
 
-	public string $defaultDangerColorScheme = 'Red';
+	public string $defaultDangerColorScheme = '#e81717';	// red
 
-	public string $defaultGrayColorScheme = 'Gray';
+	public string $defaultGrayColorScheme = '#a6a6a6';		// gray
 
-	public string $defaultInfoColorScheme = 'Indigo';
+	public string $defaultInfoColorScheme = '#a10da1';		// indigo
 
-	public string $defaultSuccessColorScheme = 'Green';
+	public string $defaultSuccessColorScheme = '#0db30d';	// green
 
-	public string $defaultWarningColorScheme = 'Amber';
+	public string $defaultWarningColorScheme = '#f0b32c';	// orange
 
 	public function getThemes(): Collection
 	{
@@ -63,70 +63,53 @@ trait HasThemes
 		return $colorOptions;
 	}
 
-	public function getPrimaryColorScheme()
+	public function getColorScheme(string $scheme): string
 	{
-		$method = !empty(General::getContent('themes', 'primary_color_scheme'))
-			? ucwords(General::getContent('themes', 'primary_color_scheme'))
-			: $this->defaultPrimaryColorScheme;
-		$class = Color::class;
-		$const = "$class::$method";
+		$defaultScheme = match ($scheme) {
+			'primary_color_scheme' => $this->defaultPrimaryColorScheme,
+			'danger_color_scheme' => $this->defaultDangerColorScheme,
+			'gray_color_scheme' => $this->defaultGrayColorScheme,
+			'info_color_scheme' => $this->defaultInfoColorScheme,
+			'success_color_scheme' => $this->defaultSuccessColorScheme,
+			'warning_color_scheme' => $this->defaultWarningColorScheme,
+		};
 
-		return constant($const);
+		if ($color = strtolower(trim(General::getContent('themes', $scheme)))) {
+
+			return $color;
+		}
+
+		return $defaultScheme;
 	}
 
-	public function getDangerColorScheme()
+	public function getPrimaryColorScheme(): string
 	{
-		$method = !empty(General::getContent('themes', 'danger_color_scheme'))
-			? ucwords(General::getContent('themes', 'danger_color_scheme'))
-			: $this->defaultDangerColorScheme;
-		$class = Color::class;
-		$const = "$class::$method";
-
-		return constant($const);
+		return $this->getColorScheme('primary_color_scheme');
 	}
 
-	public function getGrayColorScheme()
+	public function getDangerColorScheme(): string
 	{
-		$method = !empty(General::getContent('themes', 'gray_color_scheme'))
-			? ucwords(General::getContent('themes', 'gray_color_scheme'))
-			: $this->defaultGrayColorScheme;
-		$class = Color::class;
-		$const = "$class::$method";
-
-		return constant($const);
+		return $this->getColorScheme('danger_color_scheme');
 	}
 
-	public function getInfoColorScheme()
+	public function getGrayColorScheme(): string
 	{
-		$method = !empty(General::getContent('themes', 'info_color_scheme'))
-			? ucwords(General::getContent('themes', 'info_color_scheme'))
-			: $this->defaultInfoColorScheme;
-		$class = Color::class;
-		$const = "$class::$method";
-
-		return constant($const);
+		return $this->getColorScheme('gray_color_scheme');
 	}
 
-	public function getSuccessColorScheme()
+	public function getInfoColorScheme(): string
 	{
-		$method = !empty(General::getContent('themes', 'success_color_scheme'))
-			? ucwords(General::getContent('themes', 'success_color_scheme'))
-			: $this->defaultSuccessColorScheme;
-		$class = Color::class;
-		$const = "$class::$method";
-
-		return constant($const);
+		return $this->getColorScheme('info_color_scheme');
 	}
 
-	public function getWarningColorScheme()
+	public function getSuccessColorScheme(): string
 	{
-		$method = !empty(General::getContent('themes', 'warning_color_scheme'))
-			? ucwords(General::getContent('themes', 'warning_color_scheme'))
-			: $this->defaultPrimaryColorScheme;
-		$class = Color::class;
-		$const = "$class::$method";
+		return $this->getColorScheme('success_color_scheme');
+	}
 
-		return constant($const);
+	public function getWarningColorScheme(): string
+	{
+		return $this->getColorScheme('warning_color_scheme');
 	}
 
 	public function getDisableTopNavigation(): bool

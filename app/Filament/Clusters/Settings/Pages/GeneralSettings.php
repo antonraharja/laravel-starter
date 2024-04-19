@@ -3,24 +3,25 @@
 namespace App\Filament\Clusters\Settings\Pages;
 
 use Exception;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Base\ACL\Facades\ACL;
 use Base\Timezone\Facades\Tz;
 use Base\Registry\Facades\Reg;
 use Base\General\Facades\General;
-use Filament\Support\Colors\Color;
 use App\Filament\Clusters\Settings;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\ColorPicker;
 use Illuminate\Contracts\Support\Htmlable;
 use Filament\Forms\Components\Actions\Action;
 
@@ -76,24 +77,24 @@ class GeneralSettings extends Page
 												->image()
 												->disk('local')
 												->directory('favico'),
-											Select::make('primary_color_scheme')
+											ColorPicker::make('primary_color_scheme')
 												->label(__('Primary color scheme'))
-												->options(General::getColorSelect()),
-											Select::make('danger_color_scheme')
+												->afterStateHydrated(fn(Set $set) => $set('primary_color_scheme', General::getPrimaryColorScheme())),
+											ColorPicker::make('danger_color_scheme')
 												->label(__('Danger color scheme'))
-												->options(General::getColorSelect()),
-											Select::make('gray_color_scheme')
+												->afterStateHydrated(fn(Set $set) => $set('danger_color_scheme', General::getDangerColorScheme())),
+											ColorPicker::make('gray_color_scheme')
 												->label(__('Gray color scheme'))
-												->options(General::getColorSelect()),
-											Select::make('info_color_scheme')
+												->afterStateHydrated(fn(Set $set) => $set('gray_color_scheme', General::getGrayColorScheme())),
+											ColorPicker::make('info_color_scheme')
 												->label(__('Info color scheme'))
-												->options(General::getColorSelect()),
-											Select::make('success_color_scheme')
+												->afterStateHydrated(fn(Set $set) => $set('info_color_scheme', General::getInfoColorScheme())),
+											ColorPicker::make('success_color_scheme')
 												->label(__('Success color scheme'))
-												->options(General::getColorSelect()),
-											Select::make('warning_color_scheme')
+												->afterStateHydrated(fn(Set $set) => $set('success_color_scheme', General::getSuccessColorScheme())),
+											ColorPicker::make('warning_color_scheme')
 												->label(__('Warning color scheme'))
-												->options(General::getColorSelect()),
+												->afterStateHydrated(fn(Set $set) => $set('warning_color_scheme', General::getWarningColorScheme())),
 											Toggle::make('disable_top_navigation')
 												->label(__('Disable top navigation')),
 											Toggle::make('revealable_passwords')
