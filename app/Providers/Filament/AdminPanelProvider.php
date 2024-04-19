@@ -37,6 +37,14 @@ class AdminPanelProvider extends PanelProvider
 			->passwordReset(General::getEnablePasswordReset() ? CustomRequestPasswordReset::class : null)
 			->requiresEmailVerification(General::getEnableEmailVerification())
 			->emailVerification(General::getEnableEmailVerification() ? CustomEmailVerificationPrompt::class : null)
+			->loginRouteSlug('login')
+			->registrationRouteSlug('register')
+			->passwordResetRoutePrefix('password-reset')
+			->passwordResetRequestRouteSlug('request')
+			->passwordResetRouteSlug('reset')
+			->emailVerificationRoutePrefix('email-verification')
+			->emailVerificationPromptRouteSlug('prompt')
+			->emailVerificationRouteSlug('verify')
 			->colors([
 				'primary' => General::getColor(),
 			])
