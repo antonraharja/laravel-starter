@@ -28,6 +28,12 @@ class DatabaseSeeder extends Seeder
 			'description' => 'User role',
 		]);
 
+		// create guest role
+		$guestRole = \Base\ACL\Models\Role::factory()->create([
+			'name' => 'GUEST',
+			'description' => 'Guest role',
+		]);
+
 		// create permission for admin and attach it to admin role
 		$adminRole->permissions()->attach(
 			\Base\ACL\Models\Permission::factory()->create([
