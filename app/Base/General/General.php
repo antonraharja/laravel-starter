@@ -2,140 +2,28 @@
 
 namespace Base\General;
 
-use Base\Timezone\Facades\Tz;
 use Base\Registry\Facades\Reg;
-use Filament\Support\Colors\Color;
-use Illuminate\Support\Collection;
+use Base\General\Traits\HasLogins;
+use Base\General\Traits\HasThemes;
+use Base\General\Traits\HasTimezones;
 
 class General
 {
-	private string $defaultColorScheme = 'Zinc';
+	use HasThemes;
+	use HasTimezones;
+	use HasLogins;
 
-	private string $defaultTimezone = 'UTC';
-
-	public function getGroup(string $group): Collection
+	public function getGroup(string $group): array
 	{
 		$data = Reg::getGroup($group);
 
 		$data = isset($data[$group]) ? $data[$group] : [];
 
-		return collect($data);
+		return $data;
 	}
 
-	public function getContent(string $group, string $keyword)
+	public function getContent(string $group, string $keyword): null|string|array
 	{
 		return Reg::getContent($group, $keyword);
-	}
-
-	public function getThemes(): Collection
-	{
-		return $this->getGroup('themes');
-	}
-
-	public function getBrandName(): ?string
-	{
-		return $this->getThemes()->get('brand_name');
-	}
-
-	public function getBrandLogo(): ?string
-	{
-		$brandLogo = $this->getThemes()->get('brand_logo');
-		if ($brandLogo && file_exists(storage_path('app/' . $brandLogo))) {
-			return asset('storage/' . $brandLogo);
-		}
-
-		return null;
-	}
-
-	public function getFavico(): ?string
-	{
-		$favico = $this->getThemes()->get('favico');
-		if ($favico && file_exists(storage_path('app/' . $favico))) {
-			return asset('storage/' . $favico);
-		}
-
-		return null;
-	}
-
-	public function getColor()
-	{
-		$method = !empty($this->getContent('themes', 'color_scheme'))
-			? ucwords($this->getContent('themes', 'color_scheme'))
-			: $this->defaultColorScheme;
-		$class = Color::class;
-		$const = "$class::$method";
-
-		return constant($const);
-	}
-
-	public function getTimezoneList(): array
-	{
-		return Tz::get();
-	}
-
-	public function getUserTimezone(): ?string
-	{
-		if ($timezone = auth()->user()->timezone) {
-			if (Tz::getLabel($timezone)) {
-				return $timezone;
-			}
-		}
-
-		return null;
-	}
-
-	public function getAppTimezone(): string
-	{
-		if ($timezone = $this->getContent('timezones', 'timezone')) {
-			if (Tz::getLabel($timezone)) {
-				return $timezone;
-			}
-		}
-
-		return $this->defaultTimezone;
-	}
-
-	public function getSystemTimezone(): ?string
-	{
-		if ($timezone = config('app.timezone')) {
-			if (Tz::getLabel($timezone)) {
-				return $timezone;
-			}
-		}
-
-		return null;
-	}
-
-	public function getTimezone(): string
-	{
-		return $this->getUserTimezone() ?? $this->getAppTimezone();
-	}
-
-	public function getDefaultRegisterRoles(): array
-	{
-		$defaultRegisterRoles = $this->getContent('logins', 'default_register_roles');
-
-		return is_array($defaultRegisterRoles) ? $defaultRegisterRoles : [];
-	}
-
-	public function getEnableRegister(): bool
-	{
-		$enableRegister = $this->getContent('logins', 'enable_register');
-
-		return $enableRegister ?? false;
-	}
-
-	public function getEnablePasswordReset(): bool
-	{
-		$enablePasswordReset = $this->getContent('logins', 'enable_password_reset');
-
-		return $enablePasswordReset ?? false;
-	}
-
-	public function getEnableEmailVerification(): bool
-	{
-		$enableEmailVerification = $this->getContent('logins', 'enable_email_verification');
-
-		return $enableEmailVerification ?? false;
 	}
 }

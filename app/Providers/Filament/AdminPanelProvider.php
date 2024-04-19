@@ -46,13 +46,19 @@ class AdminPanelProvider extends PanelProvider
 			->emailVerificationPromptRouteSlug('prompt')
 			->emailVerificationRouteSlug('verify')
 			->colors([
-				'primary' => General::getColor(),
+				'primary' => General::getPrimaryColorScheme(),
+				// 'danger' => General::getDangerColorScheme(),
+				// 'gray' => General::getGrayColorScheme(),
+				// 'info' => General::getInfoColorScheme(),
+				// 'success' => General::getSuccessColorScheme(),
+				// 'warning' => General::getWarningColorScheme(),
 			])
 			->brandName(General::getBrandName())
 			->brandLogo(General::getBrandLogo())
 			->favicon(General::getFavico())
 			->maxContentWidth(MaxWidth::Full)
-			->topNavigation()
+			->topNavigation(!General::getDisableTopNavigation())
+			->revealablePasswords(General::getRevealablePasswords())
 			->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
 			->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
 			->pages([

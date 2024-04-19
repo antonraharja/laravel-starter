@@ -76,15 +76,28 @@ class GeneralSettings extends Page
 												->image()
 												->disk('local')
 												->directory('favico'),
-											Select::make('color_scheme')
-												->label(__('Color scheme'))
-												->options(function () {
-													$colorOptions = [];
-													foreach ( Color::all() as $scheme => $colorCodes ) {
-														$colorOptions[$scheme] = ucwords(__($scheme));
-													}
-													return $colorOptions;
-												})
+											Select::make('primary_color_scheme')
+												->label(__('Primary color scheme'))
+												->options(General::getColorSelect()),
+											Select::make('danger_color_scheme')
+												->label(__('Danger color scheme'))
+												->options(General::getColorSelect()),
+											Select::make('gray_color_scheme')
+												->label(__('Gray color scheme'))
+												->options(General::getColorSelect()),
+											Select::make('info_color_scheme')
+												->label(__('Info color scheme'))
+												->options(General::getColorSelect()),
+											Select::make('success_color_scheme')
+												->label(__('Success color scheme'))
+												->options(General::getColorSelect()),
+											Select::make('warning_color_scheme')
+												->label(__('Warning color scheme'))
+												->options(General::getColorSelect()),
+											Toggle::make('disable_top_navigation')
+												->label(__('Disable top navigation')),
+											Toggle::make('revealable_passwords')
+												->label(__('Reveal passwords on password prompts'))
 										])->statePath('themes'),
 									])->columns(2),
 							]),
