@@ -6,6 +6,7 @@ use Filament\Tables;
 use Filament\Actions;
 use Base\ACL\Facades\ACL;
 use Filament\Tables\Table;
+use Base\ACL\Models\Permission;
 use Base\General\Facades\General;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
@@ -24,7 +25,13 @@ class ListPermissions extends ListRecords
 	protected function getHeaderActions(): array
 	{
 		return [
-			Actions\CreateAction::make(),
+			Actions\CreateAction::make()
+				->model(Permission::class)
+				->form(CreatePermission::getCreateForm())
+				->modal()
+				->mutateFormDataUsing(function (array $data): array {
+					return CreatePermission::mutateFormData($data);
+				})
 		];
 	}
 
@@ -112,10 +119,18 @@ class ListPermissions extends ListRecords
 			->actions([
 				Tables\Actions\DeleteAction::make()
 					->label('')
-					->tooltip(_('Delete')),
+					->tooltip(__('Delete')),
 				Tables\Actions\EditAction::make()
 					->label('')
-					->tooltip(__('Edit')),
+					->tooltip(__('Edit'))
+					->model(Permission::class)
+					->form(function ($record) {
+						return EditPermission::getEditForm($record->type);
+					})
+					->modal()
+					->mutateFormDataUsing(function (array $data): array {
+						return EditPermission::mutateFormData($data);
+					}),
 			])
 			->bulkActions([
 				Tables\Actions\BulkActionGroup::make([

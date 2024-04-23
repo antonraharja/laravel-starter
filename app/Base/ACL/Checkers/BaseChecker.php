@@ -2,22 +2,22 @@
 
 namespace Base\ACL\Checkers;
 
+use Closure;
+use Filament\Forms;
 use Base\ACL\Config;
-use Base\ACL\Traits\ACLHelper;
+use Base\ACL\Helper;
 
-class CheckerLabel implements CheckerInterface
+class BaseChecker implements BaseCheckerInterface
 {
-	use ACLHelper;
+	public Config $config;
 
-	private Config $config;
+	public ?string $permittedEntry = null;
 
-	private ?string $permittedEntry = null;
+	public ?string $invalidEntry = null;
 
-	private ?string $invalidEntry = null;
+	public ?string $invalidMessage = null;
 
-	private ?string $invalidMessage = null;
-
-	private string $permissionType = 'LABEL';
+	public ?string $permissionType = null;
 
 	public function __construct(string $type, Config $config)
 	{
@@ -28,7 +28,7 @@ class CheckerLabel implements CheckerInterface
 
 	public function check(string|array $content): bool
 	{
-		$items = $this->formatInputs($content);
+		$items = (new Helper)->formatInputs($content);
 
 		if (!$items) {
 
@@ -54,7 +54,7 @@ class CheckerLabel implements CheckerInterface
 
 	public function validate(string|array $content): bool
 	{
-		$items = $this->formatInputs($content);
+		$items = (new Helper)->formatInputs($content);
 
 		if (!$items) {
 
@@ -76,18 +76,23 @@ class CheckerLabel implements CheckerInterface
 		return true;
 	}
 
-	public function getPermittedEntry(): ?string
+	public function getPermissionContentForm(): array
 	{
-		return $this->permittedEntry;
-	}
-
-	public function getInvalidEntry(): ?string
-	{
-		return $this->invalidEntry;
-	}
-
-	public function getInvalidMessage(): ?string
-	{
-		return $this->invalidMessage;
+		return [
+			Forms\Components\TagsInput::make('content')
+				->label(__('Content'))
+				->reorderable()
+				->placeholder(__('Enter permission content'))
+				->hint(__('Alphanumeric, dot, dash'))
+				->rule(
+					function (): Closure {
+						return function (string $attribute, $value, Closure $fail) {
+							if (!($this->validate($value) === true)) {
+								$fail(__('Error invalid value') . ' "' . $this->invalidEntry . '". ' . $this->invalidMessage . '.');
+							}
+						};
+					}
+				),
+		];
 	}
 }

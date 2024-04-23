@@ -2,33 +2,15 @@
 
 namespace Base\ACL\Checkers;
 
-use Base\ACL\Config;
-use Base\ACL\Traits\ACLHelper;
+use Closure;
+use Filament\Forms;
+use Base\ACL\Helper;
 
-class IP implements CheckerInterface
+class IP extends BaseChecker
 {
-	use ACLHelper;
-
-	private Config $config;
-
-	private ?string $permittedEntry = null;
-
-	private ?string $invalidEntry = null;
-
-	private ?string $invalidMessage = null;
-
-	private string $permissionType = 'IP';
-
-	public function __construct(string $type, Config $config)
-	{
-		$this->permissionType = $type;
-
-		$this->config = $config;
-	}
-
 	public function check(string|array $content): bool
 	{
-		$items = $this->formatInputs($content);
+		$items = (new Helper)->formatInputs($content);
 
 		if (!$items) {
 
@@ -57,7 +39,7 @@ class IP implements CheckerInterface
 
 	public function validate(string|array $content): bool
 	{
-		$items = $this->formatInputs($content);
+		$items = (new Helper)->formatInputs($content);
 
 		if (!$items) {
 
@@ -78,18 +60,23 @@ class IP implements CheckerInterface
 		return true;
 	}
 
-	public function getPermittedEntry(): ?string
+	public function getPermissionContentForm(): array
 	{
-		return $this->permittedEntry;
-	}
-
-	public function getInvalidEntry(): ?string
-	{
-		return $this->invalidEntry;
-	}
-
-	public function getInvalidMessage(): ?string
-	{
-		return $this->invalidMessage;
+		return [
+			Forms\Components\TagsInput::make('content')
+				->label(__('Content'))
+				->reorderable()
+				->placeholder(__('Enter IP address or network'))
+				->hint(__(''))
+				->rule(
+					function (): Closure {
+						return function (string $attribute, $value, Closure $fail) {
+							if (!($this->validate($value) === true)) {
+								$fail(__('Error invalid value') . ' "' . $this->invalidEntry . '". ' . $this->invalidMessage . '.');
+							}
+						};
+					}
+				),
+		];
 	}
 }

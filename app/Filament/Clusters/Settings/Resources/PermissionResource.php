@@ -2,17 +2,9 @@
 
 namespace App\Filament\Clusters\Settings\Resources;
 
-use Closure;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Base\ACL\Facades\ACL;
 use Base\ACL\Models\Permission;
 use Filament\Resources\Resource;
 use App\Filament\Clusters\Settings;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TagsInput;
-use Filament\Forms\Components\TextInput;
 use App\Filament\Clusters\Settings\Resources\PermissionResource\Pages;
 
 class PermissionResource extends Resource
@@ -22,53 +14,6 @@ class PermissionResource extends Resource
 	protected static ?string $navigationIcon = 'heroicon-o-shield-check';
 
 	protected static ?string $cluster = Settings::class;
-
-	public static function form(Form $form): Form
-	{
-		return $form
-			->schema([
-				Section::make('Permission')
-					->description(__('Define permission rules'))
-					->aside()
-					->schema([
-						TextInput::make('name')
-							->required()
-							->unique(ignoreRecord: true)
-							->alphaDash()
-							->minLength(3)
-							->maxLength(30)
-							->lazy()
-							->afterStateUpdated(fn($state, Forms\Set $set) => $set('name', preg_replace('/\s+/', '_', strtoupper((string) $state))))
-							->hint(__('Max. 30 chars')),
-						TextInput::make('description'),
-						Select::make('type')
-							->required()
-							->options(ACL::config()->allPermissionTypes)
-							->native(false)
-							->selectablePlaceholder(false)
-							->label(__('Type'))
-							->placeholder(__('Select permission type')),
-						TagsInput::make('content')
-							->reorderable()
-							->label(__('Content'))
-							->rules([
-								fn(Forms\Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
-									$type = $get('type');
-									$handlerClass = config('acl.permissions');
-									if ($handlerClass = isset ($handlerClass[$type]) ? $handlerClass[$type] : null) {
-										if (class_exists($handlerClass)) {
-											$handler = new $handlerClass($type, ACL::config());
-											if (!($handler->validate($value) === true)) {
-												$fail(__('Error invalid value') . ' "' . $handler->getInvalidEntry() . '". ' . $handler->getInvalidMessage() . '.');
-											}
-										}
-									}
-								}
-							])
-							->placeholder(__('Permission content')),
-					])
-			]);
-	}
 
 	public static function getRelations(): array
 	{

@@ -3,11 +3,10 @@
 namespace Base\ACL\Traits;
 
 use Base\ACL\Config;
+use Base\ACL\Helper;
 
 trait HasACL
 {
-	use ACLHelper;
-
 	public function config(): Config
 	{
 		$config = new Config;
@@ -19,7 +18,7 @@ trait HasACL
 
 	public function have(string|array $permissions): bool
 	{
-		$permissions = $this->formatInputs($permissions);
+		$permissions = (new Helper)->formatInputs($permissions);
 
 		if (!$permissions) {
 

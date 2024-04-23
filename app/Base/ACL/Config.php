@@ -102,9 +102,11 @@ class Config
 
 		$permissions = [];
 		foreach ( Permission::all() as $permission ) {
-			foreach ( $permission->content as $item ) {
-				if (isset($item)) {
-					$permissions[] = $item;
+			if ($permission->content ?? null) {
+				foreach ( $permission->content as $item ) {
+					if (isset($item)) {
+						$permissions[] = $item;
+					}
 				}
 			}
 		}

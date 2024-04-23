@@ -4,7 +4,7 @@ namespace Base\ACL\Checkers;
 
 use Base\ACL\Config;
 
-interface CheckerInterface
+interface BaseCheckerInterface
 {
 	public function __construct(string $type, Config $config);
 
@@ -12,9 +12,5 @@ interface CheckerInterface
 
 	public function validate(string|array $content): bool;
 
-	public function getPermittedEntry(): ?string;
-
-	public function getInvalidEntry(): ?string;
-
-	public function getInvalidMessage(): ?string;
+	public function getPermissionContentForm(): array;
 }

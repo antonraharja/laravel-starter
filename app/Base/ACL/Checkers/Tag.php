@@ -2,8 +2,6 @@
 
 namespace Base\ACL\Checkers;
 
-use Base\ACL\Checkers\CheckerLabel;
-
-class Tag extends CheckerLabel
+class Tag extends BaseChecker
 {
 }

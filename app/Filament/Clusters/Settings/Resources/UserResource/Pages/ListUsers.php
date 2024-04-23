@@ -142,7 +142,7 @@ class ListUsers extends ListRecords
 					}),
 				Tables\Actions\DeleteAction::make()
 					->label('')
-					->tooltip(_('Delete')),
+					->tooltip(__('Delete')),
 				Tables\Actions\EditAction::make()
 					->label('')
 					->tooltip(__('Edit'))
