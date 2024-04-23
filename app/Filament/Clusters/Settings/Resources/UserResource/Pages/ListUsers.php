@@ -4,6 +4,7 @@ namespace App\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Filament\Forms\Components\Toggle;
 use Filament\Tables;
 use Filament\Actions;
 use Filament\Tables\Table;
@@ -90,11 +91,16 @@ class ListUsers extends ListRecords
 					->native(false),
 				Filter::make('email_verified_at')
 					->form([
+						Toggle::make('verified_only'),
 						DatePicker::make('verified_from'),
 						DatePicker::make('verified_until'),
 					])
 					->query(function (Builder $query, array $data): Builder {
 						return $query
+							->when(
+								$data['verified_only'],
+								fn(Builder $query, $date): Builder => $query->whereNot('email_verified_at', null),
+							)
 							->when(
 								$data['verified_from'],
 								fn(Builder $query, $date): Builder => $query->whereDate('email_verified_at', '>=', $date),
@@ -106,6 +112,11 @@ class ListUsers extends ListRecords
 					})
 					->indicateUsing(function (array $data): array {
 						$indicators = [];
+
+						if ($data['verified_only'] ?? null) {
+							$indicators[] = Indicator::make(__('Verified only'))
+								->removeField('verified_only');
+						}
 
 						if ($data['verified_from'] ?? null) {
 							$indicators[] = Indicator::make(__('Verified from') . ' ' . Carbon::parse($data['verified_from'])->toFormattedDateString())
