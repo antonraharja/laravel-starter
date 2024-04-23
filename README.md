@@ -29,7 +29,7 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
    nano .env
    ```
 
-3. Important, one-time during first installation only, create table **registries**
+3. Important, create table **registries** manually, it must be done before everything else
    
    Change **DBUser** and **DBName** below according to your database setup
    ```
@@ -51,9 +51,15 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
    php artisan migrate --seed
    ```
 
-7. Depend on your installation you may need this
+7. Depend on your installation you may need below actions
+
+   Adjust storage file permissions:
    ```
    sudo find storage/ bootstrap/ -type f -exec chmod 666 {} \;
+   ```
+
+   Adjust storage folder permissions:
+   ```
    sudo find storage/ bootstrap/ -type d -exec chmod 777 {} \;
    ```
 
