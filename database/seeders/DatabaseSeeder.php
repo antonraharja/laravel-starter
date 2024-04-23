@@ -106,7 +106,7 @@ class DatabaseSeeder extends Seeder
 		]);
 
 		// create a profile for admin user
-		\App\Models\Profile::factory()->create(['user_id' => $user->id]);
+		\Base\User\Models\Profile::factory()->create(['user_id' => $user->id]);
 
 		// attach admin role to admin user
 		$user->roles()->attach($adminRole);

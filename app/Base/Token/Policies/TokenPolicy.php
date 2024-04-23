@@ -2,9 +2,9 @@
 
 namespace Base\Token\Policies;
 
+use App\Models\User;
 use Base\ACL\Facades\ACL;
 use Base\TOken\Models\Token;
-use App\Models\User;
 
 class TokenPolicy
 {

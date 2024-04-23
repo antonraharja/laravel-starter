@@ -2,9 +2,9 @@
 
 namespace Base\ACL\Policies;
 
+use App\Models\User;
 use Base\ACL\Facades\ACL;
 use Base\ACL\Models\Permission;
-use App\Models\User;
 
 class PermissionPolicy
 {
