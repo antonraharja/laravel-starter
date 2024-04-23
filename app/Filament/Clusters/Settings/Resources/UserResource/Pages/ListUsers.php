@@ -3,6 +3,7 @@
 namespace App\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
 use Carbon\Carbon;
+use App\Models\User;
 use Filament\Tables;
 use Filament\Actions;
 use Filament\Tables\Table;
