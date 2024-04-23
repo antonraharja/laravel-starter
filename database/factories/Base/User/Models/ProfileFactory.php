@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Base\User\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -29,5 +29,10 @@ class ProfileFactory extends Factory
 			'bio' => fake()->url,
 			'contact' => fake()->phoneNumber(),
 		];
+	}
+
+	public function modelName()
+	{
+		return \Base\User\Models\Profile::class;
 	}
 }
