@@ -77,7 +77,7 @@ class APITokens extends Page implements HasForms, HasTable
 											? User::with('profile')->get()
 											: User::with('profile')->where('id', auth()->user()->id)->get();
 										foreach ( $q as $user ) {
-											$returns[$user->id] = auth()->user()->getFilamentName();
+											$returns[$user->id] = $user->getFilamentName();
 										}
 										$returns = array_unique($returns);
 										return $returns;
