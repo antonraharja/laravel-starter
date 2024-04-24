@@ -3,9 +3,11 @@
 namespace App\Filament\Pages\Auth;
 
 use Filament\Forms\Form;
+use Base\ACL\Models\Role;
+use Base\General\Facades\General;
 use Filament\Pages\Auth\Register;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
-use Illuminate\Validation\ValidationException;
 
 class CustomRegister extends Register
 {
@@ -24,5 +26,23 @@ class CustomRegister extends Register
 				$this->getPasswordConfirmationFormComponent(),
 			])
 			->statePath('data');
+	}
+
+	protected function handleRegistration(array $data): Model
+	{
+		try {
+			$user = $this->getUserModel()::create($data);
+
+			$roles = General::getDefaultRegisterRoles();
+			foreach ( $roles as $roleName ) {
+				if ($roleName = trim($roleName) && $role = Role::where('name', $roleName)->get()) {
+					$user->roles()->attach($role);
+				}
+			}
+
+			return $user;
+		} catch (\Exception $e) {
+			abort(500, $e->getMessage());
+		}
 	}
 }
