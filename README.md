@@ -17,7 +17,7 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
 
 1. Get from github
    ```
-   git clone https://github.com/antonraharja/laravel-starter starter`
+   git clone https://github.com/antonraharja/laravel-starter starter
    ```
 
 2. Enter installation path and edit `.env`
