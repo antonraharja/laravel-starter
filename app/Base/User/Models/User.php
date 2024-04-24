@@ -81,7 +81,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar, HasNam
 		$firstName = isset($this->profile->first_name) ? $this->profile->first_name : null;
 		$lastName = isset($this->profile->last_name) ? $this->profile->last_name : null;
 
-		$name = '';
+		$name = null;
 
 		if (isset($firstName)) {
 			$name .= $firstName;
@@ -91,6 +91,6 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar, HasNam
 			$name .= " " . $lastName;
 		}
 
-		return $name = $name ?? $this->username;
+		return $name ?? $this->username;
 	}
 }
