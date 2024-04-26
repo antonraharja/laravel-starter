@@ -47,11 +47,11 @@ class AdminPanelProvider extends PanelProvider
 			->emailVerificationRouteSlug('verify')
 			->colors([
 				'primary' => General::getPrimaryColorScheme(),
-				// 'danger' => General::getDangerColorScheme(),
-				// 'gray' => General::getGrayColorScheme(),
-				// 'info' => General::getInfoColorScheme(),
-				// 'success' => General::getSuccessColorScheme(),
-				// 'warning' => General::getWarningColorScheme(),
+				'danger' => General::getDangerColorScheme(),
+				'gray' => General::getGrayColorScheme(),
+				'info' => General::getInfoColorScheme(),
+				'success' => General::getSuccessColorScheme(),
+				'warning' => General::getWarningColorScheme(),
 			])
 			->brandName(General::getBrandName())
 			->brandLogo(General::getBrandLogo())
