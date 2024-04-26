@@ -170,9 +170,6 @@ return [
 		App\Providers\Filament\AdminPanelProvider::class,
 		App\Providers\RouteServiceProvider::class,
 
-		// All Base providers
-		Base\ACL\Providers\ACLServiceProvider::class,
-		Base\Registry\Providers\RegistryProvider::class,
 	])->toArray(),
 
 	/*
@@ -189,14 +186,6 @@ return [
 	'aliases' => Facade::defaultAliases()->merge([
 		// 'Example' => App\Facades\Example::class,
 
-		// ACL
-		'ACL' => \Base\ACL\Facades\ACL::class,
-
-		// Timezone
-		'Tz' => \Base\Timezone\Facades\Tz::class,
-
-		// Registry
-		'Reg' => \Base\Registry\Facades\Reg::class,
 	])->toArray(),
 
 ];

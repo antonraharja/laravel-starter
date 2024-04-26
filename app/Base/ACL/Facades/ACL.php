@@ -8,6 +8,6 @@ class ACL extends Facade
 {
 	protected static function getFacadeAccessor()
 	{
-		return 'acl';
+		return '\Base\ACL\Services\ACLServices';
 	}
 }

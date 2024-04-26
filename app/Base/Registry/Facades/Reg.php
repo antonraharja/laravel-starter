@@ -8,6 +8,6 @@ class Reg extends Facade
 {
 	protected static function getFacadeAccessor()
 	{
-		return 'reg';
+		return '\Base\Registry\SimpleRegistry';
 	}
 }

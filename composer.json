@@ -60,7 +60,10 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [],
+            "providers": [
+                "Base\\Starter\\Providers\\StarterServiceProvider.php"
+            ]
         }
     },
     "config": {
