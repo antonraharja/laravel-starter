@@ -41,7 +41,7 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
 
 5. Install database tables with some starter contents and setup admin's password
    ```
-   php artisan migrate --seed
+   php artisan migrate:fresh --seed
    ```
 
 6. Depend on your installation you may need below actions
