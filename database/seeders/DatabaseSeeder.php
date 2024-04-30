@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
+use Base\Registry\Models\Registry;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -110,5 +112,74 @@ class DatabaseSeeder extends Seeder
 
 		// attach admin role to admin user
 		$user->roles()->attach($adminRole);
+
+		// insert first time default general settings values
+		Registry::insert([
+			[
+				'group' => 'themes',
+				'keyword' => 'primary_color_scheme',
+				'content' => 's:7:"#696969";',
+			],
+			[
+				'group' => 'themes',
+				'keyword' => 'danger_color_scheme',
+				'content' => 's:7:"#e81717";',
+			],
+			[
+				'group' => 'themes',
+				'keyword' => 'gray_color_scheme',
+				'content' => 's:7:"#292424";',
+			],
+			[
+				'group' => 'themes',
+				'keyword' => 'info_color_scheme',
+				'content' => 's:7:"#a10da1";',
+			],
+			[
+				'group' => 'themes',
+				'keyword' => 'success_color_scheme',
+				'content' => 's:7:"#0db30d";',
+			],
+			[
+				'group' => 'themes',
+				'keyword' => 'warning_color_scheme',
+				'content' => 's:7:"#f0b32c";',
+			],
+			[
+				'group' => 'themes',
+				'keyword' => 'disable_top_navigation',
+				'content' => 'b:0;',
+			],
+			[
+				'group' => 'themes',
+				'keyword' => 'revealable_passwords',
+				'content' => 'b:1;',
+			],
+			[
+				'group' => 'logins',
+				'keyword' => 'default_register_roles',
+				'content' => 'a:1:{i:0;s:5:"GUEST";}',
+			],
+			[
+				'group' => 'logins',
+				'keyword' => 'enable_register',
+				'content' => 'b:1;',
+			],
+			[
+				'group' => 'logins',
+				'keyword' => 'enable_password_reset',
+				'content' => 'b:1;',
+			],
+			[
+				'group' => 'logins',
+				'keyword' => 'enable_email_verification',
+				'content' => 'b:1;',
+			],
+		]);
+
+		Registry::query()->update([
+			'created_at' => Carbon::now(),
+			'updated_at' => Carbon::now(),
+		]);
 	}
 }

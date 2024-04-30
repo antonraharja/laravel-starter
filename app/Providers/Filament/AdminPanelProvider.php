@@ -6,6 +6,7 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Base\General\Facades\General;
+use Illuminate\Support\Facades\App;
 use Filament\Support\Enums\MaxWidth;
 use App\Filament\Pages\Auth\CustomLogin;
 use Filament\Http\Middleware\Authenticate;
@@ -27,6 +28,14 @@ class AdminPanelProvider extends PanelProvider
 {
 	public function panel(Panel $panel): Panel
 	{
+		if (App::runningInConsole()) {
+
+			return $panel
+				->default()
+				->id('admin')
+				->path('admin');
+		}
+
 		return $panel
 			->default()
 			->id('admin')
