@@ -29,29 +29,22 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
    nano .env
    ```
 
-3. Important, create table **registries** manually, it must be done before everything else
-   
-   Change **DBUser** and **DBName** below according to your database setup
-   ```
-   mysql -uDBUser -p DBName < database/init.sql
-   ```
-   
-4. Install composer packages
+3. Install composer packages
    ```
    composer install
    ```
 
-5. Generate key
+4. Generate key
    ```
    php artisan key:generate
    ```
 
-6. Install database tables with some starter contents and setup admin's password
+5. Install database tables with some starter contents and setup admin's password
    ```
    php artisan migrate --seed
    ```
 
-7. Depend on your installation you may need below actions
+6. Depend on your installation you may need below actions
 
    Adjust storage file permissions:
    ```
