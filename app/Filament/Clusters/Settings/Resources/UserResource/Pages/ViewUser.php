@@ -3,6 +3,7 @@
 namespace App\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
 use Filament\Actions;
+use Base\General\Facades\General;
 use Filament\Infolists\Components\Split;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Infolists\Components\Section;
@@ -39,7 +40,8 @@ class ViewUser extends ViewRecord
 						TextEntry::make('roles.name')
 							->label(__('Roles'))
 							->listWithLineBreaks(),
-						TextEntry::make('timezone'),
+						TextEntry::make('timezone')
+							->default(General::getTimezone()),
 					]),
 				Section::make(__('Personal'))
 					->schema([
