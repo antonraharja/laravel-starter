@@ -64,7 +64,7 @@ class ListRoles extends ListRecords
 			->actions([
 				Tables\Actions\DeleteAction::make()
 					->label('')
-					->tooltip(_('Delete')),
+					->tooltip(__('Delete')),
 				Tables\Actions\EditAction::make()
 					->label('')
 					->tooltip(__('Edit')),
