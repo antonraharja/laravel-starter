@@ -41,7 +41,7 @@ class APITokens extends Page implements HasForms, HasTable
 
 	protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
 
-	protected static string $view = 'filament.pages.apitoken';
+	protected static string $view = 'filament.clusters.settings.pages.apitoken';
 
 	public static function canAccess(): bool
 	{
