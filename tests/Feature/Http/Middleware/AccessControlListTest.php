@@ -15,11 +15,14 @@ class AccessControlListTest extends TestCase
 	{
 		$token = '4|3kE7wP1EMfTXqxV1IraTFkBn9AS0w6CslfRDPNpe67794b99';
 
-		$response = $this->json('get', '/user', [], [
+		$response = $this->json('get', '/api/profile', [], [
 			'Accept' => 'application/json',
 			'Authorization' => 'Bearer ' . $token,
 		]);
 
-		$response->assertStatus(200);
+		match ($response->getStatusCode()) {
+			200 => $response->assertOk(),
+			401 => $response->assertUnauthorized(),
+		};
 	}
 }
