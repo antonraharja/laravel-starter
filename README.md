@@ -2,7 +2,7 @@
 
 ## About
 
-This project contains Laravel 10, Filament 3 and codes serving features such as Role and Permission management, User management and API Tokens managements.
+This project contains **Laravel 11**, **Filament 3** and codes serving features such as Role and Permission management, User management and API Tokens managements.
 
 ## Current Features
 
