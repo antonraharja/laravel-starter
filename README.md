@@ -66,7 +66,7 @@ This project contains Laravel 10, Filament 3 and codes serving features such as 
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within this project, please send an e-mail to Anton Raharja via [araharja@pm.me](mailto:araharja@pm.me). All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within this project, please send an e-mail to Anton Raharja via [araharja@protonmail.com](mailto:araharja@protonmail.com). All security vulnerabilities will be promptly addressed.
 
 ## License
 
