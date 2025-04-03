@@ -32,21 +32,22 @@ return [
 	],
 
 	/**
-	 * Default method names following bundles
-	 * Ref: https://filamentphp.com/docs/3.x/panels/resources/getting-started#authorization
+	 * List of available method names
 	 */
 	'methods' => [
-		'create',			// create/store record
-		'delete',			// delete/destroy record
-		'deleteany',		// bulk delete records
-		'forcedelete',		// force delete records
-		'forcedeleteany',	// force bulk delete records
-		'reorder',			// reorder record
-		'restore',			// restore record
-		'restoreany',		// bulk restore records
-		'update',			// update/edit record
-		'view',				// view record
-		'viewany',			// entry access to records
+		'create',			// create/store own records
+		'createany',		// create/store any records
+		'restore',			// restore own records
+		'restoreany',		// restore any records
+		'update',			// update/edit own records
+		'updateany',		// update/edit any records
+		'delete',			// delete/destroy own records
+		'deleteany',		// delete/destroy any records
+		'forcedelete',		// force delete/destroy own records
+		'forcedeleteany',	// force delete/destroy any records
+		'view',				// view own records
+		'viewany',			// view any records
+		'reorder',			// reorder records
 	],
 
 	/**
