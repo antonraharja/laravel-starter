@@ -27,12 +27,12 @@
     },
     "autoload": {
         "files": [
-            "app/Base/Helper/ip.php",
-            "app/Base/Helper/acl.php"
+            "app/Modules/Base/Helper/ip.php",
+            "app/Modules/Base/Helper/acl.php"
         ],
         "psr-4": {
             "App\\": "app/",
-            "Base\\": "app/Base/",
+            "Base\\": "app/Modules/Base/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }

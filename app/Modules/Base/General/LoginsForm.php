@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Base\General;
+namespace Base\General;
 
 use Base\ACL\Facades\ACL;
 use Filament\Forms\Components\Group;

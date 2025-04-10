@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Base\General;
+namespace Base\General;
 
 use Base\Timezone\Facades\Tz;
 use Base\General\Facades\General;

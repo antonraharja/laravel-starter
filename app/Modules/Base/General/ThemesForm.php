@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Base\General;
+namespace Base\General;
 
 use Filament\Forms\Set;
 use Base\General\Facades\General;

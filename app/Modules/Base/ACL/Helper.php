@@ -26,7 +26,7 @@ class Helper
 		$form = [];
 
 		if ($permissionType ?? null) {
-			$handlerClass = config('acl.permissions');
+			$handlerClass = config('modules.base.acl.permissions');
 			if ($handlerClass = $handlerClass[$permissionType] ?? null) {
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass($permissionType, ACL::config());

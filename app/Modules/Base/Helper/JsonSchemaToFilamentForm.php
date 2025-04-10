@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Base\Helper;
+namespace Base\Helper;
 
 use Filament\Forms\Components\{
 	CheckboxList,

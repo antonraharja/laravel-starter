@@ -8,7 +8,7 @@ class Timezone
 
 	public function __construct()
 	{
-		$this->timezones = config('timezone.timezones');
+		$this->timezones = config('modules.base.timezone.timezones');
 	}
 
 	public function get(): array

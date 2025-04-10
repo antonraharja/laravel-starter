@@ -29,7 +29,7 @@ class Config
 
 	public function populate(): Config
 	{
-		$data = config('acl.permissions');
+		$data = config('modules.base.acl.permissions');
 		$types = [];
 		$checkers = [];
 		foreach ( $data as $key => $val ) {
@@ -40,7 +40,7 @@ class Config
 		$this->allPermissionTypes = $types;
 		$this->allPermissionCheckers = $checkers;
 
-		$data = config('acl.methods');
+		$data = config('modules.base.acl.methods');
 		$methods = [];
 		foreach ( $data as $method ) {
 			$methods[] = strtolower(trim($method));
