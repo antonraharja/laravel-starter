@@ -4,42 +4,34 @@ server {
     include snippets/self-signed.conf;
     include snippets/ssl-params.conf;
 
-    root /home/laravel/starter/public;
+    root /var/www;
     index index.html index.htm index.php;
 
     server_name vboxstarter vboxstarter.local;
 
-    location = /favicon.ico { access_log off; log_not_found off; }
-    location = /robots.txt  { access_log off; log_not_found off; }
-
     charset utf-8;
+
+    location = /starter/favicon.ico { access_log off; log_not_found off; }
+    location = /starter/robots.txt  { access_log off; log_not_found off; }
 
     location ~ /\.ht {
         deny all;
     }
 
-    location /storage/avatars {
-        alias /home/laravel/starter/storage/app/avatars;
+    location ^~ /starter {
+    	alias /home/laradev/starter/public;
+    	
+    	try_files $uri $uri/ @starter;
 
-        try_files $uri $uri/ =404;
+        location ~ \.php$ {
+            include snippets/fastcgi-php.conf;
+            fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+        }
     }
-
-    location /storage/logo {
-        alias /home/laravel/starter/storage/app/logo;
-
-        try_files $uri $uri/ =404;
-    }
-
-    location /storage/favico {
-        alias /home/laravel/starter/storage/app/favico;
-
-        try_files $uri $uri/ =404;
-    }
-
-    location /storage {
-        alias /home/laravel/starter/storage/app/public;
-
-        try_files $uri $uri/ =404;
+    
+    location @starter {
+        rewrite /starter/(.*)$ /starter/index.php?/$1 last;
     }
 
     location / {
@@ -51,6 +43,7 @@ server {
         fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $request_filename;
     }
+
 }
 
 server {
