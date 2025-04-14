@@ -20,7 +20,7 @@ class PermissionFactory extends Factory
 			'name' => 'ADMIN_DEFAULT_BUNDLE',
 			'description' => 'Default permissions for Administrator',
 			'type' => 'BUNDLE',
-			'content' => config('acl.bundles')
+			'content' => config('modules.base.acl.bundles')
 		];
 	}
 

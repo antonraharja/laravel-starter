@@ -18,7 +18,7 @@ class IP extends BaseChecker
 		}
 
 		foreach ( $items as $item ) {
-			$remotes = config('acl.remotes');
+			$remotes = config('modules.base.acl.remotes');
 			if (is_array($remotes)) {
 				foreach ( $remotes as $addr ) {
 					if (isset($_SERVER[$addr])) {

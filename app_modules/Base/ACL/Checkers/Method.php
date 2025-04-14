@@ -11,8 +11,8 @@ class Method extends BaseChecker
 	{
 		$options = [];
 
-		$bundles = config('acl.bundles');
-		$methods = config('acl.methods');
+		$bundles = config('modules.base.acl.bundles');
+		$methods = config('modules.base.acl.methods');
 
 		if ($bundles ?? null && $methods ?? null) {
 			foreach ( $bundles as $bundle ) {
@@ -34,8 +34,8 @@ class Method extends BaseChecker
 				->multiple()
 				->options(function () {
 					$options = [];
-					$bundles = config('acl.bundles');
-					$methods = config('acl.methods');
+					$bundles = config('modules.base.acl.bundles');
+					$methods = config('modules.base.acl.methods');
 					if ($bundles ?? null && $methods ?? null) {
 						foreach ( $bundles as $bundle ) {
 							foreach ( $methods as $method ) {

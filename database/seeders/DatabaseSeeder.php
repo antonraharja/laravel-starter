@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
 				'name' => 'ADMIN_DEFAULT_BUNDLES',
 				'description' => 'Default permissions for Administrator',
 				'type' => 'BUNDLE',
-				'content' => config('acl.bundles')
+				'content' => config('modules.base.acl.bundles')
 			])
 		);
 

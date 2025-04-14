@@ -72,7 +72,7 @@ class Bundle extends BaseChecker
 				->multiple()
 				->options(function () {
 					$options = [];
-					$bundles = config('acl.bundles');
+					$bundles = config('modules.base.acl.bundles');
 					if ($bundles ?? []) {
 						foreach ( $bundles as $bundle ) {
 							$options[$bundle] = $bundle;
