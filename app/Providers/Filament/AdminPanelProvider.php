@@ -8,10 +8,7 @@ use Filament\PanelProvider;
 use Base\General\Facades\General;
 use Illuminate\Support\Facades\App;
 use Filament\Support\Enums\MaxWidth;
-use App\Filament\Pages\Auth\CustomLogin;
 use Filament\Http\Middleware\Authenticate;
-use App\Filament\Pages\Auth\CustomRegister;
-use App\Filament\Pages\Auth\CustomEditProfile;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -21,8 +18,11 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use App\Filament\Pages\Auth\PasswordReset\CustomRequestPasswordReset;
-use App\Filament\Pages\Auth\EmailVerification\CustomEmailVerificationPrompt;
+use Base\Filament\Pages\Auth\CustomLogin;
+use Base\Filament\Pages\Auth\CustomRegister;
+use Base\Filament\Pages\Auth\CustomEditProfile;
+use Base\Filament\Pages\Auth\PasswordReset\CustomRequestPasswordReset;
+use Base\Filament\Pages\Auth\EmailVerification\CustomEmailVerificationPrompt;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -55,6 +55,8 @@ class AdminPanelProvider extends PanelProvider
 			->emailVerificationRoutePrefix('email-verification')
 			->emailVerificationPromptRouteSlug('prompt')
 			->emailVerificationRouteSlug('verify')
+			->sidebarCollapsibleOnDesktop()
+			->viteTheme('resources/css/filament/admin/theme.css')
 			->colors([
 				'primary' => General::getPrimaryColorScheme(),
 				'danger' => General::getDangerColorScheme(),
@@ -69,17 +71,23 @@ class AdminPanelProvider extends PanelProvider
 			->maxContentWidth(MaxWidth::Full)
 			->topNavigation(!General::getDisableTopNavigation())
 			->revealablePasswords(General::getRevealablePasswords())
-			->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-			->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+
+			->discoverClusters(in: base_path('app_modules/Base/Filament/Clusters'), for: 'Base\\Filament\\Clusters')
+			->discoverResources(in: base_path('app_modules/Base/Filament/Resources'), for: 'Base\\Filament\\Resources')
+			->discoverPages(in: base_path('app_modules/Base/Filament/Pages'), for: 'Base\\Filament\\Pages')
+			->discoverWidgets(in: base_path('app_modules/Base/Filament/Widgets'), for: 'Base\\Filament\\Widgets')
+
+			->resources([
+				// Resources\PhonebookResource::class,
+			])
 			->pages([
 				// Pages\Dashboard::class,
 			])
-			->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
 			->widgets([
 				Widgets\AccountWidget::class,
 				// Widgets\FilamentInfoWidget::class,
 			])
-			->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
+
 			->middleware([
 				EncryptCookies::class,
 				AddQueuedCookiesToResponse::class,
