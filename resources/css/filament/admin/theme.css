@@ -1,0 +1,23 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+.bg-campaign-ready {
+    @apply bg-green-200 dark:bg-green-900;
+}
+
+.bg-campaign-on-call {
+    @apply bg-green-200 dark:bg-green-900;
+}
+
+.bg-campaign-complete {
+    @apply bg-green-200 dark:bg-green-900;
+}
+
+.bg-campaign-stop {
+    @apply bg-red-200 dark:bg-red-900;
+}
+
+.bg-campaign-pause {
+    @apply bg-orange-200 dark:bg-orange-900;
+}
