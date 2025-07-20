@@ -62,10 +62,10 @@ class BaseChecker implements BaseCheckerInterface
 		}
 
 		foreach ( $items as $item ) {
-			// match alphanumeric, dot and dash
-			if (preg_match('/[^\p{L}\.\-]+/u', $item)) {
+			// match alphanumeric, dash, dot and dash
+			if (preg_match('/[^\p{L}\-\._]+/u', $item)) {
 				$this->invalidEntry = $item;
-				$this->invalidMessage = __('Allowed characters are alphanumerics, a dash or a dot');
+				$this->invalidMessage = __('Allowed characters are alphanumerics, dash, dot and underscores');
 
 				return false;
 			}

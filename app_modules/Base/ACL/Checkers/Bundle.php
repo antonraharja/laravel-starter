@@ -40,30 +40,6 @@ class Bundle extends BaseChecker
 		return (bool) array_intersect($permittedBundles, $items);
 	}
 
-	public function validate(string|array $content): bool
-	{
-		$items = (new Helper)->formatInputs($content);
-
-		if (!$items) {
-
-			return false;
-		}
-
-		foreach ( $items as $item ) {
-			// match alphanumeric
-			if (preg_match('/[^\p{L}]+/u', $item)) {
-				$this->invalidEntry = $item;
-				$this->invalidMessage = __('Allowed characters are alphanumerics only');
-
-				return false;
-			}
-		}
-
-		$this->invalidEntry = null;
-
-		return true;
-	}
-
 	public function getPermissionContentForm(): array
 	{
 		return [
