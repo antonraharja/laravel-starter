@@ -24,10 +24,22 @@ class DatabaseSeeder extends Seeder
 			'description' => 'Administrator role',
 		]);
 
+		// create manager role
+		$managerRole = \Base\ACL\Models\Role::factory()->create([
+			'name' => 'MANAGER',
+			'description' => 'Manager role',
+		]);
+
+		// create operator role
+		$operatorRole = \Base\ACL\Models\Role::factory()->create([
+			'name' => 'OPERATOR',
+			'description' => 'Operator role',
+		]);
+
 		// create user role
 		$userRole = \Base\ACL\Models\Role::factory()->create([
 			'name' => 'USER',
-			'description' => 'User role',
+			'description' => 'Guest role',
 		]);
 
 		// create guest role
@@ -36,53 +48,56 @@ class DatabaseSeeder extends Seeder
 			'description' => 'Guest role',
 		]);
 
-		// create permission for admin and attach it to admin role
-		$adminRole->permissions()->attach(
-			\Base\ACL\Models\Permission::factory()->create([
-				'name' => 'ADMIN_DEFAULT_BUNDLES',
-				'description' => 'Default permissions for Administrator',
-				'type' => 'BUNDLE',
-				'content' => config('modules.base.acl.bundles')
-			])
-		);
+		// create permission for admin default bundles
+		$adminDefaultBundles = \Base\ACL\Models\Permission::factory()->create([
+			'name' => 'ADMIN_DEFAULT_BUNDLES',
+			'description' => 'Default permissions for Administrator',
+			'type' => 'BUNDLE',
+			'content' => config('modules.base.acl.bundles')
+		]);
 
-		// create permission for user and attach it to user role
-		$userRole->permissions()->attach(
-			\Base\ACL\Models\Permission::factory()->create([
-				'name' => 'MANAGE_OWN_TOKEN',
-				'description' => 'Default permissions for User',
-				'type' => 'METHOD',
-				'content' => [
-					'token.view',
-					'token.create',
-					'token.delete',
-				],
-			])
-		);
+		// create permission for manager default bundles
+		$managerDefaultBundles = \Base\ACL\Models\Permission::factory()->create([
+			'name' => 'MANAGER_DEFAULT_BUNDLES',
+			'description' => 'Default permissions for Manager',
+			'type' => 'BUNDLE',
+			'content' => [
+				'ippbx',
+				'outbound',
+			]
+		]);
 
-		// create another permission for admin and add it to admin role
-		$adminRole->permissions()->attach(
-			\Base\ACL\Models\Permission::factory()->create([
-				'name' => 'CHANGE_USERNAME',
-				'description' => 'Change username',
-				'type' => 'TAG',
-				'content' => [
-					'change-username',
-				],
-			])
-		);
+		// create permission to change username
+		$changeUsername = \Base\ACL\Models\Permission::factory()->create([
+			'name' => 'CHANGE_USERNAME',
+			'description' => 'Change username',
+			'type' => 'TAG',
+			'content' => [
+				'change-username',
+			],
+		]);
 
-		// create another permission for admin and add it to admin role
-		$adminRole->permissions()->attach(
-			\Base\ACL\Models\Permission::factory()->create([
-				'name' => 'CHANGE_VERIFIED_AT',
-				'description' => 'Change verified at',
-				'type' => 'TAG',
-				'content' => [
-					'change-verified-at',
-				],
-			])
-		);
+		// create permission to manage own token
+		$manageOwnToken = \Base\ACL\Models\Permission::factory()->create([
+			'name' => 'MANAGE_OWN_TOKEN',
+			'description' => 'Manage own API Token',
+			'type' => 'METHOD',
+			'content' => [
+				'token.view',
+				'token.create',
+				'token.delete',
+			],
+		]);
+
+		// create permission to change verified at
+		$changeVerifiedAt = \Base\ACL\Models\Permission::factory()->create([
+			'name' => 'CHANGE_VERIFIED_AT',
+			'description' => 'Change verified at',
+			'type' => 'TAG',
+			'content' => [
+				'change-verified-at',
+			],
+		]);
 
 		// create permission for LAN
 		\Base\ACL\Models\Permission::factory()->create([
@@ -95,6 +110,32 @@ class DatabaseSeeder extends Seeder
 				'192.168.0.0/16',
 			],
 		]);
+
+		// attach permissions to admin role
+		$adminRole->permissions()->attach([
+			$adminDefaultBundles,
+			$changeUsername,
+			$changeVerifiedAt,
+		]);
+
+		// attach permissions to manager role
+		$managerRole->permissions()->attach([
+			$managerDefaultBundles,
+			$manageOwnToken,
+		]);
+
+		// attach permissions to operator role
+		$operatorRole->permissions()->attach([
+			$manageOwnToken,
+		]);
+
+		// attach permissions to user role
+		$userRole->permissions()->attach([
+			$manageOwnToken,
+		]);
+
+		// attach permissions to guest role
+		$guestRole->permissions()->attach([]);
 
 		// ask for admin password
 		$password = $this->command->ask("Enter admin password", 'password');
@@ -163,17 +204,17 @@ class DatabaseSeeder extends Seeder
 			[
 				'group' => 'logins',
 				'keyword' => 'enable_register',
-				'content' => 'b:1;',
+				'content' => 'b:0;',
 			],
 			[
 				'group' => 'logins',
 				'keyword' => 'enable_password_reset',
-				'content' => 'b:1;',
+				'content' => 'b:0;',
 			],
 			[
 				'group' => 'logins',
 				'keyword' => 'enable_email_verification',
-				'content' => 'b:1;',
+				'content' => 'b:0;',
 			],
 		]);
 
