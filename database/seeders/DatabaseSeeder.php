@@ -24,18 +24,6 @@ class DatabaseSeeder extends Seeder
 			'description' => 'Administrator role',
 		]);
 
-		// create manager role
-		$managerRole = \Base\ACL\Models\Role::factory()->create([
-			'name' => 'MANAGER',
-			'description' => 'Manager role',
-		]);
-
-		// create operator role
-		$operatorRole = \Base\ACL\Models\Role::factory()->create([
-			'name' => 'OPERATOR',
-			'description' => 'Operator role',
-		]);
-
 		// create user role
 		$userRole = \Base\ACL\Models\Role::factory()->create([
 			'name' => 'USER',
@@ -54,17 +42,6 @@ class DatabaseSeeder extends Seeder
 			'description' => 'Default permissions for Administrator',
 			'type' => 'BUNDLE',
 			'content' => config('modules.base.acl.bundles')
-		]);
-
-		// create permission for manager default bundles
-		$managerDefaultBundles = \Base\ACL\Models\Permission::factory()->create([
-			'name' => 'MANAGER_DEFAULT_BUNDLES',
-			'description' => 'Default permissions for Manager',
-			'type' => 'BUNDLE',
-			'content' => [
-				'ippbx',
-				'outbound',
-			]
 		]);
 
 		// create permission to change username
@@ -116,17 +93,6 @@ class DatabaseSeeder extends Seeder
 			$adminDefaultBundles,
 			$changeUsername,
 			$changeVerifiedAt,
-		]);
-
-		// attach permissions to manager role
-		$managerRole->permissions()->attach([
-			$managerDefaultBundles,
-			$manageOwnToken,
-		]);
-
-		// attach permissions to operator role
-		$operatorRole->permissions()->attach([
-			$manageOwnToken,
 		]);
 
 		// attach permissions to user role
