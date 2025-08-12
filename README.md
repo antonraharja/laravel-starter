@@ -34,17 +34,27 @@ This project contains **Laravel 12**, **Filament 3.3** and codes serving feature
    composer install
    ```
 
-4. Generate key
+4. Install Node.js
+
+   Follow instructions from their website:
+   - https://nodejs.org/en/download
+
+5. Run npm
+   ```
+   npm run build
+   ```
+
+6. Generate key
    ```
    php artisan key:generate
    ```
 
-5. Install database tables with some starter contents and setup admin's password
+7. Install database tables with some starter contents and setup admin's password
    ```
    php artisan migrate:fresh --seed
    ```
 
-6. Depend on your installation you may need below actions
+8. Depend on your installation you may need below actions
 
    Adjust storage file permissions:
    ```
