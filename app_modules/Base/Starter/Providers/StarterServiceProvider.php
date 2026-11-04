@@ -13,7 +13,12 @@ class StarterServiceProvider extends ServiceProvider
 	 */
 	public function register(): void
 	{
-		//
+		$this->mergeConfigFrom(
+            __DIR__.'/../../config/acl.php', 'modules.base.acl'
+        );
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/timezone.php', 'modules.base.timezone'
+        );
 	}
 
 	/**
@@ -21,6 +26,11 @@ class StarterServiceProvider extends ServiceProvider
 	 */
 	public function boot(): void
 	{
+        $this->publishes([
+            __DIR__.'/../../config/acl.php' => config_path('modules/base/acl.php'),
+            __DIR__.'/../../config/timezone.php' => config_path('modules/base/timezone.php'),
+        ], 'config');
+
 		// Starter Facades
 		$aliases = [
 			// ACL
