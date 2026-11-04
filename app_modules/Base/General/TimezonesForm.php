@@ -2,11 +2,11 @@
 
 namespace Base\General;
 
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Group;
 use Base\Timezone\Facades\Tz;
 use Base\General\Facades\General;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 
 class TimezonesForm

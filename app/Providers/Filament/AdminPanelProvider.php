@@ -2,12 +2,13 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Support\Enums\Width;
+use Filament\Widgets\AccountWidget;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Base\General\Facades\General;
 use Illuminate\Support\Facades\App;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -16,7 +17,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Base\Filament\Pages\Auth\CustomLogin;
 use Base\Filament\Pages\Auth\CustomRegister;
@@ -68,7 +69,7 @@ class AdminPanelProvider extends PanelProvider
 			->brandName(General::getBrandName())
 			->brandLogo(General::getBrandLogo())
 			->favicon(General::getFavico())
-			->maxContentWidth(MaxWidth::Full)
+			->maxContentWidth(Width::Full)
 			->topNavigation(!General::getDisableTopNavigation())
 			->revealablePasswords(General::getRevealablePasswords())
 
@@ -84,7 +85,7 @@ class AdminPanelProvider extends PanelProvider
 				// Pages\Dashboard::class,
 			])
 			->widgets([
-				Widgets\AccountWidget::class,
+				AccountWidget::class,
 				// Widgets\FilamentInfoWidget::class,
 			])
 
@@ -94,7 +95,7 @@ class AdminPanelProvider extends PanelProvider
 				StartSession::class,
 				AuthenticateSession::class,
 				ShareErrorsFromSession::class,
-				VerifyCsrfToken::class,
+				PreventRequestForgery::class,
 				SubstituteBindings::class,
 				DisableBladeIconComponents::class,
 				DispatchServingFilamentEvent::class,

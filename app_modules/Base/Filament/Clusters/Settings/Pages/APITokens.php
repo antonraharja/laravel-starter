@@ -2,8 +2,14 @@
 
 namespace Base\Filament\Clusters\Settings\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Actions;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use App\Models\User;
-use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Base\ACL\Facades\ACL;
 use Filament\Tables\Table;
@@ -11,23 +17,16 @@ use Base\Token\Models\Token;
 use Base\Token\Traits\HasToken;
 use Base\General\Facades\General;
 use Base\Filament\Clusters\Settings;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Contracts\Support\Htmlable;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Actions\Action as ActionColumn;
 
 class APITokens extends Page implements HasForms, HasTable
 {
@@ -39,9 +38,9 @@ class APITokens extends Page implements HasForms, HasTable
 
 	protected static ?string $slug = 'api-tokens';
 
-	protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
+	protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-puzzle-piece';
 
-	protected static string $view = 'filament.clusters.settings.pages.apitoken';
+	protected string $view = 'filament.clusters.settings.pages.apitoken';
 
 	public static function canAccess(): bool
 	{
@@ -53,10 +52,10 @@ class APITokens extends Page implements HasForms, HasTable
 		$this->form->fill();
 	}
 
-	public function form(Form $form): Form
+	public function form(Schema $schema): Schema
 	{
-		return $form
-			->schema([
+		return $schema
+			->components([
 				Section::make(__('API Token'))
 					->description(__('Create new API token'))
 					->schema([
@@ -189,12 +188,12 @@ class APITokens extends Page implements HasForms, HasTable
 			->filters([
 				//
 			])
-			->actions([
+			->recordActions([
 				DeleteAction::make('delete')
 					->label('')
 					->tooltip(__('Delete'))
 					->visible(ACL::have('token.delete'))
-					->before(function ($record, ActionColumn $action) {
+					->before(function ($record, Action $action) {
 						if (ACL::have('token.delete')) {
 							if ($record->delete()) {
 								Notification::make()
@@ -222,7 +221,7 @@ class APITokens extends Page implements HasForms, HasTable
 					->label('')
 					->tooltip(__('Edit'))
 					->visible(ACL::have('token.edit'))
-					->form([
+					->schema([
 						Section::make()
 							->description(__('Update API token name and expire date/time'))
 							->aside()
@@ -241,7 +240,7 @@ class APITokens extends Page implements HasForms, HasTable
 							])
 					]),
 			])
-			->bulkActions([
+			->toolbarActions([
 				// Tables\Actions\BulkActionGroup::make([
 				// 	Tables\Actions\DeleteBulkAction::make(),
 				// ]),

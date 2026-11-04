@@ -2,8 +2,7 @@
 
 namespace Base\Filament\Pages\Auth\EmailVerification;
 
-use Filament\Pages\Auth\EmailVerification\EmailVerificationPrompt;
-
+use Filament\Auth\Pages\EmailVerification\EmailVerificationPrompt;
 
 class CustomEmailVerificationPrompt extends EmailVerificationPrompt
 {

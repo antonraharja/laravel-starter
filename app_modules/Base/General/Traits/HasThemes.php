@@ -5,6 +5,7 @@ namespace Base\General\Traits;
 use Base\General\Facades\General;
 use Filament\Support\Colors\Color;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 trait HasThemes
 {
@@ -35,8 +36,8 @@ trait HasThemes
 	public function getBrandLogo(): ?string
 	{
 		$brandLogo = $this->getThemes()->get('brand_logo');
-		if ($brandLogo && file_exists(storage_path('app/' . $brandLogo))) {
-			return asset('storage/' . $brandLogo);
+		if ($brandLogo && Storage::disk('public')->exists($brandLogo)) {
+			return Storage::disk('public')->url($brandLogo);
 		}
 
 		return null;
@@ -45,8 +46,8 @@ trait HasThemes
 	public function getFavico(): ?string
 	{
 		$favico = $this->getThemes()->get('favico');
-		if ($favico && file_exists(storage_path('app/' . $favico))) {
-			return asset('storage/' . $favico);
+		if ($favico && Storage::disk('public')->exists($favico)) {
+			return Storage::disk('public')->url($favico);
 		}
 
 		return null;

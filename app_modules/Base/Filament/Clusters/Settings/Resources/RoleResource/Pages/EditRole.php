@@ -2,6 +2,7 @@
 
 namespace Base\Filament\Clusters\Settings\Resources\RoleResource\Pages;
 
+use Filament\Actions\DeleteAction;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Base\Filament\Clusters\Settings\Resources\RoleResource;
@@ -13,7 +14,7 @@ class EditRole extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

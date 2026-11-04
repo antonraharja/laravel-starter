@@ -1,5 +1,5 @@
 <x-filament-panels::page>
-    <x-filament-panels::form wire:submit="edit">
+    <form wire:submit="edit">
         {{ $this->form }}
-    </x-filament-panels::form>
+    </form>
 </x-filament-panels::page>

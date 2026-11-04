@@ -1,7 +1,7 @@
 <x-filament-panels::page>
-    <x-filament-panels::form wire:submit="create">
+    <form wire:submit="create">
         {{ $this->form }}
-    </x-filament-panels::form>
+    </form>
 
     <div>
         {{ $this->table }}

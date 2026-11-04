@@ -2,13 +2,13 @@
 
 namespace Base\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
+use Filament\Schemas\Components\Section;
 use Base\ACL\Facades\ACL;
 use Base\Timezone\Facades\Tz;
 use Illuminate\Support\Carbon;
 use Base\General\Facades\General;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
@@ -114,7 +114,7 @@ class CreateUser extends CreateRecord
 						->tel(),
 					FileUpload::make('photo')
 						->label(__('Profile picture'))
-						->disk('local')
+						->disk('public')
 						->directory('avatars')
 						->avatar()
 						->image(),

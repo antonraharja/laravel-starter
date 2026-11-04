@@ -2,15 +2,16 @@
 
 namespace Base\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
+use Filament\Actions\DeleteAction;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Section;
 use Filament\Actions;
 use Base\ACL\Facades\ACL;
 use Base\Timezone\Facades\Tz;
 use Base\General\Facades\General;
-use Filament\Forms\Components\Tabs;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
@@ -27,7 +28,7 @@ class EditUser extends EditRecord
 	{
 		return [
 			// Actions\ViewAction::make(),
-			Actions\DeleteAction::make(),
+			DeleteAction::make(),
 		];
 	}
 
@@ -128,7 +129,7 @@ class EditUser extends EditRecord
 										->tel(),
 									FileUpload::make('photo')
 										->label(__('Profile picture'))
-										->disk('local')
+										->disk('public')
 										->directory('avatars')
 										->avatar()
 										->image(),

@@ -2,8 +2,8 @@
 
 namespace Base\Token\Traits;
 
+use Filament\Schemas\Schema;
 use Exception;
-use Filament\Forms\Form;
 use Base\Token\Result;
 use Illuminate\Support\Carbon;
 
@@ -11,7 +11,7 @@ trait HasToken
 {
 	private Result $newToken;
 
-	public function createToken(Form $form)
+	public function createToken(Schema $schema)
 	{
 		$this->newToken = new Result;
 
@@ -22,7 +22,7 @@ trait HasToken
 		}
 
 		try {
-			$data = $form->getState();
+			$data = $schema->getState();
 
 			$data['tokenable_id'] = $data['tokenable_id'] ?? auth()->user()->id;
 

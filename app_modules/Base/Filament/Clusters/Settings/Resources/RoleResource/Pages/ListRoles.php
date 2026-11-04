@@ -2,6 +2,11 @@
 
 namespace Base\Filament\Clusters\Settings\Resources\RoleResource\Pages;
 
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables;
 use Filament\Actions;
 use Base\ACL\Facades\ACL;
@@ -20,7 +25,7 @@ class ListRoles extends ListRecords
 	protected function getHeaderActions(): array
 	{
 		return [
-			Actions\CreateAction::make(),
+			CreateAction::make(),
 		];
 	}
 
@@ -61,17 +66,17 @@ class ListRoles extends ListRecords
 					->options(ACL::config()->allRolesSelect)
 					->native(false),
 			])
-			->actions([
-				Tables\Actions\DeleteAction::make()
+			->recordActions([
+				DeleteAction::make()
 					->label('')
 					->tooltip(__('Delete')),
-				Tables\Actions\EditAction::make()
+				EditAction::make()
 					->label('')
 					->tooltip(__('Edit')),
 			])
-			->bulkActions([
-				Tables\Actions\BulkActionGroup::make([
-					Tables\Actions\DeleteBulkAction::make(),
+			->toolbarActions([
+				BulkActionGroup::make([
+					DeleteBulkAction::make(),
 				]),
 			]);
 	}

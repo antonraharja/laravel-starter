@@ -2,6 +2,7 @@
 
 namespace Base\Filament\Clusters\Settings\Resources;
 
+use Base\Filament\Clusters\Settings\Resources\PermissionResource\Pages\ListPermissions;
 use Base\ACL\Models\Permission;
 use Filament\Resources\Resource;
 use Base\Filament\Clusters\Settings;
@@ -11,7 +12,7 @@ class PermissionResource extends Resource
 {
 	protected static ?string $model = Permission::class;
 
-	protected static ?string $navigationIcon = 'heroicon-o-shield-check';
+	protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-shield-check';
 
 	protected static ?string $cluster = Settings::class;
 
@@ -25,7 +26,7 @@ class PermissionResource extends Resource
 	public static function getPages(): array
 	{
 		return [
-			'index' => Pages\ListPermissions::route('/'),
+			'index' => ListPermissions::route('/'),
 			// 'create' => Pages\CreatePermission::route('/create'),
 			// 'edit' => Pages\EditPermission::route('/{record}/edit'),
 		];

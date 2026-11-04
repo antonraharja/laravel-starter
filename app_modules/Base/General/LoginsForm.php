@@ -2,11 +2,11 @@
 
 namespace Base\General;
 
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Group;
 use Base\ACL\Facades\ACL;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Section;
 
 class LoginsForm
 {

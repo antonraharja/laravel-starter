@@ -1,6 +1,8 @@
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 
-@config 'tailwind.config.js';
+@source '../../../../app_modules/Base/Filament/**/*';
+@source '../../../../app_modules/Base/General/**/*';
+@source '../../../../resources/views/filament/**/*';
 
 .bg-campaign-ready {
     @apply bg-green-200 dark:bg-green-900;

@@ -69,8 +69,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar, HasNam
 
 	public function getFilamentAvatarUrl(): ?string
 	{
-		if (isset($this->profile->photo) && Storage::disk('local')->exists($this->profile->photo)) {
-			return asset('storage/' . $this->profile->photo);
+		if (isset($this->profile->photo) && Storage::disk('public')->exists($this->profile->photo)) {
+			return Storage::disk('public')->url($this->profile->photo);
 		} else {
 			return null;
 		}

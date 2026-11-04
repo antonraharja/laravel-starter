@@ -2,6 +2,11 @@
 
 namespace Base\Filament\Clusters\Settings\Resources\PermissionResource\Pages;
 
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Tables;
 use Filament\Actions;
 use Base\ACL\Facades\ACL;
@@ -25,11 +30,11 @@ class ListPermissions extends ListRecords
 	protected function getHeaderActions(): array
 	{
 		return [
-			Actions\CreateAction::make()
+			CreateAction::make()
 				->model(Permission::class)
-				->form(CreatePermission::getCreateForm())
+				->schema(CreatePermission::getCreateForm())
 				->modal()
-				->mutateFormDataUsing(function (array $data): array {
+				->mutateDataUsing(function (array $data): array {
 					return CreatePermission::mutateFormData($data);
 				})
 		];
@@ -82,7 +87,7 @@ class ListPermissions extends ListRecords
 					->native(false),
 				Filter::make('content')
 					->label(__('Permission content'))
-					->form([
+					->schema([
 						Select::make('content_keyword')
 							->label(__('Permission content'))
 							->placeholder(__('Select options'))
@@ -116,25 +121,25 @@ class ListPermissions extends ListRecords
 						return $indicators;
 					}),
 			])
-			->actions([
-				Tables\Actions\DeleteAction::make()
+			->recordActions([
+				DeleteAction::make()
 					->label('')
 					->tooltip(__('Delete')),
-				Tables\Actions\EditAction::make()
+				EditAction::make()
 					->label('')
 					->tooltip(__('Edit'))
 					->model(Permission::class)
-					->form(function ($record) {
+					->schema(function ($record) {
 						return EditPermission::getEditForm($record->type);
 					})
 					->modal()
-					->mutateFormDataUsing(function (array $data): array {
+					->mutateDataUsing(function (array $data): array {
 						return EditPermission::mutateFormData($data);
 					}),
 			])
-			->bulkActions([
-				Tables\Actions\BulkActionGroup::make([
-					Tables\Actions\DeleteBulkAction::make(),
+			->toolbarActions([
+				BulkActionGroup::make([
+					DeleteBulkAction::make(),
 				]),
 			]);
 	}
