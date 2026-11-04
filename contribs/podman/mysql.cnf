@@ -1,0 +1,4 @@
+[mysqld]
+# Reachable from inside the container only. The port is not published to the host.
+bind-address = 127.0.0.1
+mysqlx = OFF

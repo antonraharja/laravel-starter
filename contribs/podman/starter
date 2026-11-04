@@ -1,0 +1,143 @@
+#!/bin/bash
+# Manage the Podman test environment. Run ./starter help for the command list.
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+project_dir="$(cd "$script_dir/../.." && pwd)"
+
+image="localhost/laravel-starter-test:dev"
+container="laravel-starter-test"
+volume="laravel-starter-test-mysql"
+app_dir="/var/www/html"
+http_port="${HTTP_PORT:-12080}"
+
+exec_app() {
+    local tty=()
+    [ -t 0 ] && [ -t 1 ] && tty=(-it)
+    podman exec "${tty[@]}" --user app --workdir "$app_dir" "$container" "$@"
+}
+
+exec_root() {
+    podman exec --user root --workdir "$app_dir" "$container" "$@"
+}
+
+require_running() {
+    if [ "$(podman inspect --format '{{.State.Running}}' "$container" 2>/dev/null)" != "true" ]; then
+        echo "Container is not running. Start it with: ./starter up" >&2
+        exit 1
+    fi
+}
+
+wait_for_db() {
+    for _ in $(seq 1 60); do
+        if podman logs "$container" 2>&1 | grep -q '\[provision-db\] database and user are ready'; then
+            return 0
+        fi
+        if podman logs "$container" 2>&1 | grep -q '\[provision-db\] ERROR'; then
+            podman logs "$container" 2>&1 | grep '\[provision-db\] ERROR' >&2
+            return 1
+        fi
+        sleep 1
+    done
+    echo "Timed out waiting for MySQL. Check: ./starter logs" >&2
+    return 1
+}
+
+case "${1:-help}" in
+    build)
+        podman build \
+            --build-arg "APP_UID=$(id -u)" \
+            --build-arg "APP_GID=$(id -g)" \
+            --tag "$image" \
+            --file "$script_dir/Containerfile" \
+            "$script_dir"
+        ;;
+    up)
+        if [ ! -f "$project_dir/.env" ]; then
+            echo "Project .env not found. Create it from .env.example and set DB_* first." >&2
+            exit 1
+        fi
+        podman run --detach --pull=never --name "$container" \
+            --userns=keep-id --user root \
+            --publish "$http_port:80" \
+            --volume "$project_dir:$app_dir" \
+            --volume "$volume:/var/lib/mysql" \
+            --env "APP_URL=http://localhost:$http_port" \
+            --env DB_CONNECTION=mysql \
+            --env DB_HOST=127.0.0.1 \
+            --env DB_PORT=3306 \
+            "$image" >/dev/null
+        wait_for_db
+        echo "Running on http://localhost:$http_port"
+        ;;
+    down)
+        podman rm --force "$container" >/dev/null
+        ;;
+    install)
+        require_running
+        exec_app composer install --no-interaction
+        exec_app npm ci --no-audit --no-fund
+        exec_app npm run build
+        if ! grep -qE '^APP_KEY=.+' "$project_dir/.env"; then
+            exec_app php artisan key:generate
+        fi
+        # Relative, so the link resolves both in the container and on the host.
+        exec_app ln -sfn ../storage/app/public public/storage
+        ;;
+    update)
+        require_running
+        exec_root composer self-update --no-interaction
+        exec_root npm install -g npm@latest --no-audit --no-fund
+        exec_app composer update --no-interaction
+        exec_app npm update --no-audit --no-fund
+        exec_app npm run build
+        ;;
+    db-init)
+        # Destroys the data in the container database, then asks for the admin password.
+        require_running
+        exec_app php artisan migrate:fresh --seed
+        ;;
+    test)
+        require_running
+        exec_app php artisan test
+        ;;
+    shell)
+        require_running
+        exec_app bash
+        ;;
+    composer | npm | php | artisan)
+        require_running
+        tool="$1"
+        shift
+        if [ "$tool" = "artisan" ]; then
+            exec_app php artisan "$@"
+        else
+            exec_app "$tool" "$@"
+        fi
+        ;;
+    logs)
+        podman logs --follow "$container"
+        ;;
+    destroy)
+        # Removes the container and the MySQL volume. The project files are not touched.
+        podman rm --force "$container" >/dev/null 2>&1 || true
+        podman volume rm "$volume"
+        ;;
+    help | *)
+        cat <<'USAGE'
+Usage: ./starter <command>
+
+  build                  Build the image
+  up                     Start the container on port 12080 (override with HTTP_PORT=<port>)
+  install                composer install, npm ci, build assets, APP_KEY, storage link
+  db-init                migrate:fresh --seed in the container database (destroys its data)
+  update                 Update Composer and npm, then project dependencies and assets
+  test                   Run the test suite
+  composer|npm|php|artisan <args>   Run a tool in the container
+  shell                  Open a shell in the container
+  logs                   Follow the service logs
+  down                   Remove the container, keep the database volume
+  destroy                Remove the container and the database volume
+USAGE
+        ;;
+esac

@@ -1,0 +1,58 @@
+# Test environment: nginx, PHP 8.3 FPM, MySQL 8.0, Composer, Node.js and npm in one container.
+# The project is bind-mounted at runtime, not copied. Use the ./starter script to build and run it.
+FROM docker.io/library/ubuntu:24.04
+
+ARG APP_UID
+ARG APP_GID
+ARG NODE_MAJOR=22
+
+ENV APP_DIR=/var/www/html \
+    DEBIAN_FRONTEND=noninteractive
+
+# The app user must match the host user. The base image may already own these IDs, so rename rather than add.
+RUN test -n "$APP_UID" && test -n "$APP_GID" \
+    && { existing_group="$(getent group "$APP_GID" | cut -d: -f1)"; \
+         if [ -n "$existing_group" ]; then groupmod -n app "$existing_group"; else groupadd -g "$APP_GID" app; fi; } \
+    && { existing_user="$(getent passwd "$APP_UID" | cut -d: -f1)"; \
+         if [ -n "$existing_user" ]; then usermod -l app -d /home/app -m -g "$APP_GID" -s /bin/bash "$existing_user"; \
+         else useradd -m -u "$APP_UID" -g "$APP_GID" -s /bin/bash app; fi; }
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates curl git unzip xz-utils supervisor nginx mysql-server \
+        php8.3-fpm php8.3-cli php8.3-mysql php8.3-sqlite3 php8.3-gd php8.3-curl php8.3-zip \
+        php8.3-xml php8.3-mbstring php8.3-intl php8.3-bcmath php8.3-redis \
+    && rm -rf /var/lib/apt/lists/* /var/lib/mysql/*
+
+# Composer: verified against the installer signature published by getcomposer.org.
+RUN expected="$(curl -fsSL https://composer.github.io/installer.sig)" \
+    && curl -fsSL https://getcomposer.org/installer -o /tmp/composer-setup.php \
+    && actual="$(php -r "echo hash_file('sha384', '/tmp/composer-setup.php');")" \
+    && test "$expected" = "$actual" \
+    && php /tmp/composer-setup.php --quiet --install-dir=/usr/local/bin --filename=composer \
+    && rm /tmp/composer-setup.php
+
+# Node.js: verified against the checksum list published by nodejs.org. npm is then moved to latest.
+RUN base="https://nodejs.org/dist/latest-v${NODE_MAJOR}.x" \
+    && cd /tmp \
+    && curl -fsSL "$base/SHASUMS256.txt" -o SHASUMS256.txt \
+    && file="$(awk '/linux-x64\.tar\.xz$/ {print $2}' SHASUMS256.txt)" \
+    && curl -fsSL "$base/$file" -o "$file" \
+    && grep " $file\$" SHASUMS256.txt | sha256sum -c - \
+    && tar -xJf "$file" -C /usr/local --strip-components=1 --exclude=CHANGELOG.md --exclude=LICENSE --exclude=README.md \
+    && rm -f "$file" SHASUMS256.txt \
+    && npm install -g npm@latest --no-audit --no-fund
+
+COPY nginx.conf /etc/nginx/sites-available/default
+COPY php-fpm-pool.conf /etc/php/8.3/fpm/pool.d/www.conf
+COPY mysql.cnf /etc/mysql/mysql.conf.d/zz-starter.cnf
+COPY supervisord.conf /etc/supervisor/supervisord.conf
+COPY entrypoint.sh provision-db.sh /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/provision-db.sh \
+    && sed -i 's/^user .*/user app;/; s/^pid .*/pid \/run\/nginx.pid;/' /etc/nginx/nginx.conf \
+    && sed -i 's/^;\?daemonize = .*/daemonize = no/' /etc/php/8.3/fpm/php-fpm.conf
+
+WORKDIR /var/www/html
+EXPOSE 80
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
