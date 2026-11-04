@@ -2,8 +2,12 @@
 
 namespace Base\Filament\Clusters\Settings\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Actions;
+use Filament\Actions\Action;
 use Exception;
-use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Base\ACL\Facades\ACL;
 use Base\Registry\Facades\Reg;
@@ -11,18 +15,14 @@ use Base\General\LoginsForm;
 use Base\General\ThemesForm;
 use Base\General\TimezonesForm;
 use Base\Filament\Clusters\Settings;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Actions;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Support\Htmlable;
-use Filament\Forms\Components\Actions\Action;
 
 class GeneralSettings extends Page
 {
-	protected static ?string $navigationIcon = 'heroicon-o-document-text';
+	protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
 
-	protected static string $view = 'filament.clusters.settings.pages.general';
+	protected string $view = 'filament.clusters.settings.pages.general';
 
 	protected static ?string $cluster = Settings::class;
 
@@ -40,10 +40,10 @@ class GeneralSettings extends Page
 		$this->form->fill($formData);
 	}
 
-	public function form(Form $form): Form
+	public function form(Schema $schema): Schema
 	{
-		return $form
-			->schema([
+		return $schema
+			->components([
 				Tabs::make('Tabs')
 					->tabs([
 						Tab::make(__('Themes'))

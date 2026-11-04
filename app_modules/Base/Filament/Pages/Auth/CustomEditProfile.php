@@ -2,17 +2,18 @@
 
 namespace Base\Filament\Pages\Auth;
 
-use Filament\Forms\Form;
-use Filament\Pages\Auth\EditProfile;
+use Filament\Auth\Pages\EditProfile;
+use Filament\Schemas\Schema;
+use Filament\Support\Enums\Width;
 use Base\Filament\Clusters\Settings\Resources\UserResource\Pages\EditUser;
 
 class CustomEditProfile extends EditProfile
 {
-	protected ?string $maxWidth = '4xl';
+	protected Width|string|null $maxWidth = '4xl';
 
-	public function form(Form $form): Form
+	public function form(Schema $schema): Schema
 	{
-		return $form
-			->schema(EditUser::getEditForm());
+		return $schema
+			->components(EditUser::getEditForm());
 	}
 }

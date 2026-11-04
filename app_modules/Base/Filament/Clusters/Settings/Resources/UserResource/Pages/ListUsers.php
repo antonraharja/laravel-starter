@@ -2,6 +2,12 @@
 
 namespace Base\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
+use Filament\Actions\CreateAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Carbon\Carbon;
 use App\Models\User;
 use Filament\Forms\Components\Toggle;
@@ -26,11 +32,11 @@ class ListUsers extends ListRecords
 	protected function getHeaderActions(): array
 	{
 		return [
-			Actions\CreateAction::make()
+			CreateAction::make()
 				->model(User::class)
-				->form(CreateUser::getCreateForm())
+				->schema(CreateUser::getCreateForm())
 				->modal()
-				->mutateFormDataUsing(function (array $data): array {
+				->mutateDataUsing(function (array $data): array {
 					return CreateUser::mutateFormData($data);
 				})
 		];
@@ -80,7 +86,7 @@ class ListUsers extends ListRecords
 					->toggleable(isToggledHiddenByDefault: true),
 				ImageColumn::make('profile.photo')
 					->label('')
-					->disk('local'),
+					->disk('public'),
 			])
 			->filters([
 				SelectFilter::make('roles')
@@ -90,7 +96,7 @@ class ListUsers extends ListRecords
 					->preload()
 					->native(false),
 				Filter::make('email_verified_at')
-					->form([
+					->schema([
 						Toggle::make('verified_only'),
 						DatePicker::make('verified_from'),
 						DatePicker::make('verified_until'),
@@ -131,31 +137,31 @@ class ListUsers extends ListRecords
 						return $indicators;
 					})
 			])
-			->actions([
-				Tables\Actions\ViewAction::make()
+			->recordActions([
+				ViewAction::make()
 					->label('')
 					->tooltip(__('View'))
-					->infolist(ViewUser::getViewInfolist())
+					->schema(ViewUser::getViewInfolist())
 					->modal()
-					->mutateFormDataUsing(function (array $data): array {
+					->mutateDataUsing(function (array $data): array {
 						return ViewUser::mutateFormData($data);
 					}),
-				Tables\Actions\DeleteAction::make()
+				DeleteAction::make()
 					->label('')
 					->tooltip(__('Delete')),
-				Tables\Actions\EditAction::make()
+				EditAction::make()
 					->label('')
 					->tooltip(__('Edit'))
 					->model(User::class)
-					->form(EditUser::getEditForm())
+					->schema(EditUser::getEditForm())
 					->modal()
-					->mutateFormDataUsing(function (array $data): array {
+					->mutateDataUsing(function (array $data): array {
 						return EditUser::mutateFormData($data);
 					}),
 			])
-			->bulkActions([
-				Tables\Actions\BulkActionGroup::make([
-					Tables\Actions\DeleteBulkAction::make(),
+			->toolbarActions([
+				BulkActionGroup::make([
+					DeleteBulkAction::make(),
 				]),
 			]);
 	}

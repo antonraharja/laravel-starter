@@ -2,6 +2,7 @@
 
 namespace Base\Filament\Clusters\Settings\Resources;
 
+use Base\Filament\Clusters\Settings\Resources\UserResource\Pages\ListUsers;
 use App\Models\User;
 use Filament\Resources\Resource;
 use Base\Filament\Clusters\Settings;
@@ -11,7 +12,7 @@ class UserResource extends Resource
 {
 	protected static ?string $model = User::class;
 
-	protected static ?string $navigationIcon = 'heroicon-o-user';
+	protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user';
 
 	protected static ?string $cluster = Settings::class;
 
@@ -25,7 +26,7 @@ class UserResource extends Resource
 	public static function getPages(): array
 	{
 		return [
-			'index' => Pages\ListUsers::route('/'),
+			'index' => ListUsers::route('/'),
 			// 'view' => Pages\ViewUser::route('/{record}')
 			// 'create' => Pages\CreateUser::route('/create'),
 			// 'edit' => Pages\EditUser::route('/{record}/edit'),

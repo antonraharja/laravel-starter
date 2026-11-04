@@ -2,11 +2,12 @@
 
 namespace Base\Filament\Clusters\Settings\Resources\UserResource\Pages;
 
+use Filament\Actions\EditAction;
+use Filament\Schemas\Components\Flex;
+use Filament\Schemas\Components\Section;
 use Filament\Actions;
 use Base\General\Facades\General;
-use Filament\Infolists\Components\Split;
 use Filament\Resources\Pages\ViewRecord;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ImageEntry;
 use Base\Filament\Clusters\Settings\Resources\UserResource;
@@ -18,7 +19,7 @@ class ViewUser extends ViewRecord
 	protected function getHeaderActions(): array
 	{
 		return [
-			Actions\EditAction::make(),
+			EditAction::make(),
 		];
 	}
 
@@ -30,7 +31,7 @@ class ViewUser extends ViewRecord
 	public static function getViewInfolist(): array
 	{
 		return [
-			Split::make([
+			Flex::make([
 				Section::make(__('Account'))
 					->schema([
 						TextEntry::make('username'),
@@ -66,7 +67,7 @@ class ViewUser extends ViewRecord
 					->schema([
 						ImageEntry::make('profile.photo')
 							->label('')
-							->disk('local')
+							->disk('public')
 							->circular(),
 					])->grow(false)->hidden(fn($record): bool => empty ($record->profile->photo))
 			])->from('md')

@@ -2,6 +2,9 @@
 
 namespace Base\Helper;
 
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Forms\Components\Field;
+use Filament\Forms\Components\Concerns\HasColumns;
 use Filament\Forms\Components\{
 	CheckboxList,
 	ColorPicker,
@@ -658,13 +661,13 @@ class JsonSchemaToFilamentForm
 	}
 
 	/**
-	 * Create view component
-	 * 
-	 * @param array $field The field definition
-	 * @return View The created view component
-	 * @throws InvalidArgumentException When view property is missing or invalid
-	 */
-	protected function createViewField(array $field): View
+     * Create view component
+     *
+     * @param array $field The field definition
+     * @return \Filament\Schemas\Components\View The created view component
+     * @throws InvalidArgumentException When view property is missing or invalid
+     */
+    protected function createViewField(array $field): \Filament\Schemas\Components\View
 	{
 		if (!isset($field['view'])) {
 			throw new InvalidArgumentException("View field requires a 'view' property");
@@ -675,7 +678,7 @@ class JsonSchemaToFilamentForm
 			throw new InvalidArgumentException("Invalid view path");
 		}
 
-		$component = View::make($field['view']);
+		$component = \Filament\Schemas\Components\View::make($field['view']);
 
 		if (isset($field['data']) && is_array($field['data'])) {
 			$component->data($field['data']);
@@ -706,15 +709,15 @@ class JsonSchemaToFilamentForm
 	}
 
 	/**
-	 * Create fieldset component
-	 * 
-	 * @param array $fieldset The fieldset definition
-	 * @param array $fields Available fields to include in fieldset
-	 * @return Fieldset The created fieldset component
-	 */
-	protected function createFieldset(array $fieldset, array $fields): Fieldset
+     * Create fieldset component
+     *
+     * @param array $fieldset The fieldset definition
+     * @param array $fields Available fields to include in fieldset
+     * @return \Filament\Schemas\Components\Fieldset The created fieldset component
+     */
+    protected function createFieldset(array $fieldset, array $fields): \Filament\Schemas\Components\Fieldset
 	{
-		$component = Fieldset::make($fieldset['label'] ?? '');
+		$component = \Filament\Schemas\Components\Fieldset::make($fieldset['label'] ?? '');
 
 		if (isset($fieldset['fields']) && is_array($fieldset['fields'])) {
 			$component->schema($this->getFieldsSchema($fieldset['fields'], $fields));
@@ -724,15 +727,15 @@ class JsonSchemaToFilamentForm
 	}
 
 	/**
-	 * Create section component
-	 * 
-	 * @param array $section The section definition
-	 * @param array $fields Available fields to include in section
-	 * @return Section The created section component
-	 */
-	protected function createSection(array $section, array $fields): Section
+     * Create section component
+     *
+     * @param array $section The section definition
+     * @param array $fields Available fields to include in section
+     * @return \Filament\Schemas\Components\Section The created section component
+     */
+    protected function createSection(array $section, array $fields): \Filament\Schemas\Components\Section
 	{
-		$component = Section::make($section['title'] ?? '');
+		$component = \Filament\Schemas\Components\Section::make($section['title'] ?? '');
 
 		if (isset($section['description'])) {
 			$component->description($section['description']);
@@ -762,15 +765,15 @@ class JsonSchemaToFilamentForm
 	}
 
 	/**
-	 * Create tabs component
-	 * 
-	 * @param array $tabs The tabs definition
-	 * @param array $fields Available fields to include in tabs
-	 * @return Tabs The created tabs component
-	 */
-	protected function createTabs(array $tabs, array $fields): Tabs
+     * Create tabs component
+     *
+     * @param array $tabs The tabs definition
+     * @param array $fields Available fields to include in tabs
+     * @return \Filament\Schemas\Components\Tabs The created tabs component
+     */
+    protected function createTabs(array $tabs, array $fields): \Filament\Schemas\Components\Tabs
 	{
-		$component = Tabs::make($tabs['id'] ?? 'tabs');
+		$component = \Filament\Schemas\Components\Tabs::make($tabs['id'] ?? 'tabs');
 
 		if (isset($tabs['tabs']) && is_array($tabs['tabs'])) {
 			$component->tabs(array_map(
@@ -779,7 +782,7 @@ class JsonSchemaToFilamentForm
 						return null;
 					}
 
-					return Tabs\Tab::make($tab['id'] ?? Str::slug($tab['label']))
+					return Tab::make($tab['id'] ?? Str::slug($tab['label']))
 						->label($tab['label'])
 						->schema(
 							isset($tab['fields']) && is_array($tab['fields'])
@@ -795,15 +798,15 @@ class JsonSchemaToFilamentForm
 	}
 
 	/**
-	 * Create grid component
-	 * 
-	 * @param array $grid The grid definition
-	 * @param array $fields Available fields to include in grid
-	 * @return Grid The created grid component
-	 */
-	protected function createGrid(array $grid, array $fields): Grid
+     * Create grid component
+     *
+     * @param array $grid The grid definition
+     * @param array $fields Available fields to include in grid
+     * @return \Filament\Schemas\Components\Grid The created grid component
+     */
+    protected function createGrid(array $grid, array $fields): \Filament\Schemas\Components\Grid
 	{
-		$component = Grid::make();
+		$component = \Filament\Schemas\Components\Grid::make();
 
 		if (isset($grid['columns'])) {
 			$component->columns((int) $grid['columns']);
@@ -817,15 +820,15 @@ class JsonSchemaToFilamentForm
 	}
 
 	/**
-	 * Create group component
-	 * 
-	 * @param array $group The group definition
-	 * @param array $fields Available fields to include in group
-	 * @return Group The created group component
-	 */
-	protected function createGroup(array $group, array $fields): Group
+     * Create group component
+     *
+     * @param array $group The group definition
+     * @param array $fields Available fields to include in group
+     * @return \Filament\Schemas\Components\Group The created group component
+     */
+    protected function createGroup(array $group, array $fields): \Filament\Schemas\Components\Group
 	{
-		$component = Group::make();
+		$component = \Filament\Schemas\Components\Group::make();
 
 		if (isset($group['fields']) && is_array($group['fields'])) {
 			$component->schema($this->getFieldsSchema($group['fields'], $fields));
@@ -839,19 +842,19 @@ class JsonSchemaToFilamentForm
 	}
 
 	/**
-	 * Create action component
-	 * 
-	 * @param array $field The field definition
-	 * @return Action The created button component
-	 * @throws InvalidArgumentException When required properties are missing
-	 */
-	protected function createActionField(array $field): Action
+     * Create action component
+     *
+     * @param array $field The field definition
+     * @return \Filament\Actions\Action The created button component
+     * @throws InvalidArgumentException When required properties are missing
+     */
+    protected function createActionField(array $field): \Filament\Actions\Action
 	{
 		if (!isset($field['name'])) {
 			throw new InvalidArgumentException("Action requires a 'name' property");
 		}
 
-		$component = Action::make($field['name'])
+		$component = \Filament\Actions\Action::make($field['name'])
 			->label($field['label'] ?? Str::headline($field['name']));
 
 		if (isset($field['color'])) {
@@ -890,12 +893,12 @@ class JsonSchemaToFilamentForm
 	}
 
 	/**
-	 * Create button component
-	 * 
-	 * @param array $field The field definition
-	 * @return Action The created button component
-	 */
-	protected function createButtonField(array $field): Action
+     * Create button component
+     *
+     * @param array $field The field definition
+     * @return \Filament\Actions\Action The created button component
+     */
+    protected function createButtonField(array $field): \Filament\Actions\Action
 	{
 		$component = $this->createActionField($field);
 		$component->button();
@@ -904,12 +907,12 @@ class JsonSchemaToFilamentForm
 	}
 
 	/**
-	 * Create link component
-	 * 
-	 * @param array $field The field definition
-	 * @return Action The created link component
-	 */
-	protected function createLinkField(array $field): Action
+     * Create link component
+     *
+     * @param array $field The field definition
+     * @return \Filament\Actions\Action The created link component
+     */
+    protected function createLinkField(array $field): \Filament\Actions\Action
 	{
 		$component = $this->createActionField($field);
 		$component->link();
@@ -953,14 +956,14 @@ class JsonSchemaToFilamentForm
 	}
 
 	/**
-	 * Apply common field properties to a component
-	 * 
-	 * @param \Filament\Forms\Components\Field $component The component to modify
-	 * @param array $field The field definition containing properties
-	 * @return void
-	 */
-	protected function applyCommonFieldProperties(
-		\Filament\Forms\Components\Field $component,
+     * Apply common field properties to a component
+     *
+     * @param Field $component The component to modify
+     * @param array $field The field definition containing properties
+     * @return void
+     */
+    protected function applyCommonFieldProperties(
+		Field $component,
 		array $field
 	): void {
 		if (isset($field['placeholder'])) {
@@ -1003,7 +1006,7 @@ class JsonSchemaToFilamentForm
 			$component->columnSpan($field['columnSpan']);
 		}
 
-		if (isset($field['columns']) && $component instanceof \Filament\Forms\Components\Concerns\HasColumns) {
+		if (isset($field['columns']) && $component instanceof HasColumns) {
 			$component->columns($field['columns']);
 		}
 

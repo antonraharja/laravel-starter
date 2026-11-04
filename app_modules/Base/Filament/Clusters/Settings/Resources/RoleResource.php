@@ -2,13 +2,15 @@
 
 namespace Base\Filament\Clusters\Settings\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
+use Base\Filament\Clusters\Settings\Resources\RoleResource\Pages\ListRoles;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Base\ACL\Models\Role;
 use Filament\Resources\Resource;
 use Base\Filament\Clusters\Settings;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Base\Filament\Clusters\Settings\Resources\RoleResource\Pages;
 
@@ -16,14 +18,14 @@ class RoleResource extends Resource
 {
 	protected static ?string $model = Role::class;
 
-	protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+	protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-credit-card';
 
 	protected static ?string $cluster = Settings::class;
 
-	public static function form(Form $form): Form
+	public static function form(Schema $schema): Schema
 	{
-		return $form
-			->schema([
+		return $schema
+			->components([
 				Section::make('Role')
 					->description(__('Select permissions belongs to the role'))
 					->aside()
@@ -35,7 +37,7 @@ class RoleResource extends Resource
 							->minLength(3)
 							->maxLength(30)
 							->lazy()
-							->afterStateUpdated(fn($state, Forms\Set $set) => $set('name', preg_replace('/\s+/', '_', strtoupper((string) $state))))
+							->afterStateUpdated(fn($state, Set $set) => $set('name', preg_replace('/\s+/', '_', strtoupper((string) $state))))
 							->hint(__('Max. 30 chars')),
 						TextInput::make('description'),
 						Select::make('permissions.name')
@@ -59,7 +61,7 @@ class RoleResource extends Resource
 	public static function getPages(): array
 	{
 		return [
-			'index' => Pages\ListRoles::route('/'),
+			'index' => ListRoles::route('/'),
 			// 'create' => Pages\CreateRole::route('/create'),
 			// 'edit' => Pages\EditRole::route('/{record}/edit'),
 		];

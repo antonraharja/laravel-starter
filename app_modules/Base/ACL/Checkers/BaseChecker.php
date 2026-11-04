@@ -2,6 +2,7 @@
 
 namespace Base\ACL\Checkers;
 
+use Filament\Forms\Components\TagsInput;
 use Closure;
 use Filament\Forms;
 use Base\ACL\Config;
@@ -79,7 +80,7 @@ class BaseChecker implements BaseCheckerInterface
 	public function getPermissionContentForm(): array
 	{
 		return [
-			Forms\Components\TagsInput::make('content')
+			TagsInput::make('content')
 				->label(__('Content'))
 				->reorderable()
 				->placeholder(__('Enter permission content'))

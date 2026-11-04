@@ -2,6 +2,7 @@
 
 namespace Base\ACL\Checkers;
 
+use Filament\Forms\Components\Select;
 use Closure;
 use Filament\Forms;
 
@@ -29,7 +30,7 @@ class Method extends BaseChecker
 	public function getPermissionContentForm(): array
 	{
 		return [
-			Forms\Components\Select::make('content')
+			Select::make('content')
 				->label(__('Content'))
 				->multiple()
 				->options(function () {

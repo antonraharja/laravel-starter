@@ -2,7 +2,7 @@
 
 namespace Base\Filament\Pages\Auth\PasswordReset;
 
-use Filament\Pages\Auth\PasswordReset\RequestPasswordReset;
+use Filament\Auth\Pages\PasswordReset\RequestPasswordReset;
 
 class CustomRequestPasswordReset extends RequestPasswordReset
 {

@@ -2,19 +2,20 @@
 
 namespace Base\Filament\Pages\Auth;
 
-use Filament\Forms\Form;
+use Filament\Auth\Pages\Register;
+use Filament\Schemas\Schema;
+use Exception;
 use Base\ACL\Models\Role;
 use Base\General\Facades\General;
-use Filament\Pages\Auth\Register;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 
 class CustomRegister extends Register
 {
-	public function form(Form $form): Form
+	public function form(Schema $schema): Schema
 	{
-		return $form
-			->schema([
+		return $schema
+			->components([
 				TextInput::make('username')
 					->label(__('Username'))
 					->required()
@@ -41,7 +42,7 @@ class CustomRegister extends Register
 			}
 
 			return $user;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			abort(500, $e->getMessage());
 		}
 	}

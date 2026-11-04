@@ -2,10 +2,12 @@
 
 namespace Base\Filament\Clusters\Settings\Resources\PermissionResource\Pages;
 
+use Filament\Actions\DeleteAction;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Forms;
 use Base\ACL\Helper;
 use Filament\Actions;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Forms\Components\Placeholder;
@@ -19,7 +21,7 @@ class EditPermission extends EditRecord
 	{
 		return [
 			// Actions\ViewAction::make(),
-			Actions\DeleteAction::make(),
+			DeleteAction::make(),
 		];
 	}
 
@@ -48,7 +50,7 @@ class EditPermission extends EditRecord
 								->minLength(3)
 								->maxLength(30)
 								->lazy()
-								->afterStateUpdated(fn($state, Forms\Set $set) => $set('name', preg_replace('/\s+/', '_', strtoupper((string) $state))))
+								->afterStateUpdated(fn($state, Set $set) => $set('name', preg_replace('/\s+/', '_', strtoupper((string) $state))))
 								->hint(__('Max. 30 chars')),
 							TextInput::make('description'),
 							Placeholder::make('type')

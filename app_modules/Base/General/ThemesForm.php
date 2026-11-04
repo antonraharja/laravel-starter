@@ -2,13 +2,13 @@
 
 namespace Base\General;
 
-use Filament\Forms\Set;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Flex;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Utilities\Set;
 use Base\General\Facades\General;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Split;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\ColorPicker;
@@ -23,8 +23,8 @@ class ThemesForm
 				->aside()
 				->schema([
 					Group::make([
-						Split::make([
-							Grid::make('')
+						Flex::make([
+							Grid::make(1)
 								->schema([
 									TextInput::make('brand_name')
 										->label(__('Brand name'))
@@ -35,20 +35,20 @@ class ThemesForm
 										->label(__('Brand logo'))
 										->previewable()
 										->image()
-										->disk('local')
+										->disk('public')
 										->directory('logo'),
 									FileUpload::make('favico')
 										->label(__('Favico'))
 										->previewable()
 										->image()
-										->disk('local')
+										->disk('public')
 										->directory('favico'),
 									Toggle::make('disable_top_navigation')
 										->label(__('Disable top navigation')),
 									Toggle::make('revealable_passwords')
 										->label(__('Reveal passwords on password prompts')),
 								]),
-							Grid::make('')
+							Grid::make(1)
 								->schema([
 									ColorPicker::make('primary_color_scheme')
 										->label(__('Primary color scheme'))

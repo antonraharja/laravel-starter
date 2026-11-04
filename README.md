@@ -2,7 +2,7 @@
 
 ## About
 
-This project contains **Laravel 12**, **Filament 3.3** and codes serving features such as Role and Permission management, User management and API Tokens managements.
+This project contains **Laravel 13**, **Filament 5** and codes serving features such as Role and Permission management, User management and API Tokens managements.
 
 ## Current Features
 
@@ -54,7 +54,12 @@ This project contains **Laravel 12**, **Filament 3.3** and codes serving feature
    php artisan migrate:fresh --seed
    ```
 
-8. Depend on your installation you may need below actions
+8. Link public storage, required to serve the uploaded brand logo, favicon and user avatars
+   ```
+   php artisan storage:link
+   ```
+
+9. Depend on your installation you may need below actions
 
    Adjust storage file permissions:
    ```

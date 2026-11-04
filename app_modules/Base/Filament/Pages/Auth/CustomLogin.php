@@ -2,17 +2,17 @@
 
 namespace Base\Filament\Pages\Auth;
 
-use Filament\Forms\Form;
-use Filament\Pages\Auth\Login;
+use Filament\Auth\Pages\Login;
+use Filament\Schemas\Schema;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Validation\ValidationException;
 
 class CustomLogin extends Login
 {
-	public function form(Form $form): Form
+	public function form(Schema $schema): Schema
 	{
-		return $form
-			->schema([
+		return $schema
+			->components([
 				TextInput::make('login')
 					->label(__('Login'))
 					->required()
@@ -39,7 +39,7 @@ class CustomLogin extends Login
 	protected function throwFailureValidationException(): never
 	{
 		throw ValidationException::withMessages([
-			'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
+			'data.login' => __('filament-panels::auth/pages/login.messages.failed'),
 		]);
 	}
 }
